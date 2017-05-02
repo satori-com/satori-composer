@@ -1,0 +1,47 @@
+{
+  "stats": {
+    "period": 1000, // in ms., 1 sec.
+    "console": {
+      "period": 10000
+    }
+  },
+  "mods": {
+    "poller": {
+      "type": "com.satori.mods.suite.HttpPollMod",
+      "settings": {
+        "delay": 1000, // in ms., 1 sec.
+        "format": "binary",
+        "host": "alerts.weather.gov",
+        "path": "/cap/us.atom",
+        "ssl": true
+      }
+    },
+    "converter": {
+      "type": "com.satori.mods.suite.XsltMod",
+      "connectors": "poller",
+      "settings": {
+        "xslt": "transform.xslt"
+      }
+    },
+    "filter": {
+      "type": "com.satori.mods.suite.DedupMod",
+      "connectors": "converter",
+      "settings": {
+        "expiration-interval": 60000,
+        "key-selector": "/id"
+      }
+    },
+    "publisher": {
+      "type": "com.satori.mods.suite.RtmPublishMod",
+      "connectors": "filter",
+      "settings": {
+        "channel": "nws-usa-alerts",
+        "host": "he3rv0pp.api.satori.com", //just host, no wss scheme
+        "ssl": true,
+        "args": {"appkey": "dFDa4104a3913EE4DbdDedd257ea54F1"},
+        "auth": {"role": "demo", "secret": "dBdaE8021926Ac602EdD4c184e25d09E"}
+      }
+    }
+  }
+}
+

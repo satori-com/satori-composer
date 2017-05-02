@@ -1,0 +1,151 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+if (rootProject.file(".gradle/publishing.gradle").exists()) {
+  apply from: rootProject.file(".gradle/publishing.gradle")
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  group 'publishing'
+  classifier 'sources'
+  from sourceSets.main.allJava
+}
+
+if (signing.signatory) {
+  task signArchives(type: Sign, dependsOn: sourcesJar) {
+    group 'publishing'
+    sign configurations.archives
+  }
+
+  task signSources(type: Sign, dependsOn: sourcesJar) {
+    group 'publishing'
+    sign sourcesJar
+  }
+
+  task signJarPom(type: Sign) {
+    group 'publishing'
+    sign new File("${buildDir}/publications/jar/pom-default.xml")
+  }
+}
+
+publishing {
+  publications {
+    jar(MavenPublication) {
+      groupId group
+      artifactId "satori-${project.name}"
+      version project.version
+      pom.withXml {
+        asNode().children().last() + {
+          resolveStrategy = Closure.DELEGATE_FIRST
+
+          url 'https://github.com/satori-com/satori-composer'
+          name "satori-${project.name}"
+          description 'satori composer'
+          //packaging 'jar'
+
+          scm {
+            url 'https://github.com/satori-com/satori-composer'
+            connection 'scm:git@github.com:satori-com/satori-composer.git'
+            developerConnection 'scm:git@github.com:satori-com/satori-composer.git'
+          }
+
+          licenses {
+            license {
+              name 'The BSD 3-Clause License (with patent grant)'
+              url 'https://raw.githubusercontent.com/satori-com/satori-composer/master/license.txt'
+              distribution 'repo'
+            }
+          }
+
+          developers {
+            developer {
+              id 'satorisdk'
+              organization 'Satori Worldwide, Inc.'
+              organizationUrl 'https://www.satori.com'
+              roles { role 'developer' }
+            }
+          }
+        }
+      }
+      from components.java
+      artifact sourcesJar
+
+      if (signing.signatory) {
+        artifact(signJarPom.singleSignature) {
+          classifier = null
+          extension = 'pom.asc'
+        }
+        artifact(signArchives.singleSignature) {
+          classifier = null
+          extension = 'jar.asc'
+        }
+        artifact(signSources.singleSignature) {
+          classifier = 'sources'
+          extension = 'jar.asc'
+        }
+
+      }
+
+    }
+  }
+  repositories {
+    maven {
+      name = 'root'
+      url rootProject.file('.repo')
+    }
+    maven {
+      name = 'snapshots'
+      url 'https://oss.sonatype.org/content/repositories/snapshots/'
+      if (project.hasProperty('nexusUsername') && project.hasProperty('nexusPassword')) {
+        //println "nexus credentials: $nexusUsername/$nexusPassword"
+        credentials {
+          username = nexusUsername
+          password = nexusPassword
+        }
+      }
+    }
+    maven {
+      name = 'releases'
+      url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+      if (project.hasProperty('nexusUsername') && project.hasProperty('nexusPassword')) {
+        //println "nexus credentials: $nexusUsername/$nexusPassword"
+        credentials {
+          username = nexusUsername
+          password = nexusPassword
+        }
+      }
+    }
+  }
+}
+
+model {
+
+  tasks.publishJarPublicationToSnapshotsRepository {
+    if (signing.signatory) {
+      dependsOn(project.tasks.signArchives)
+    }
+  }
+
+  tasks.publishJarPublicationToReleasesRepository {
+    if (signing.signatory) {
+      dependsOn(project.tasks.signArchives)
+    }
+  }
+
+  tasks.publishJarPublicationToRootRepository {
+    if (signing.signatory) {
+      dependsOn(project.tasks.signArchives)
+    }
+  }
+
+  tasks.generatePomFileForJarPublication {
+    if (signing.signatory) {
+      tasks.signJarPom.dependsOn(it)
+    }
+  }
+}
+
+
+
+
+

@@ -1,0 +1,44 @@
+apply plugin: 'idea'
+
+idea {
+  project {
+    jdkName = '1.8'
+    languageLevel = '1.8'
+  }
+}
+
+subprojects {
+  group 'com.satori'
+  version '0.0.15'
+
+  apply plugin: 'java'
+
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+
+  //tasks.withType(Javadoc).all { enabled = false }
+
+  buildDir = '.out'
+  sourceSets.main.java.srcDirs = ['src']
+  sourceSets.main.resources.srcDirs = ['res']
+  sourceSets.test.java.srcDirs = ['tests/src']
+  sourceSets.test.resources.srcDirs = ['tests/res']
+
+  compileJava.options.compilerArgs << "-Xlint:unchecked"
+  compileJava.options.compilerArgs << "-Xlint:deprecation"
+
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+  }
+}
+
+project("composer"){
+  apply from: rootProject.file('publishing.gradle')
+}
+
+project("mods"){
+  apply from: rootProject.file('publishing.gradle')
+}
