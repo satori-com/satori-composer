@@ -1,0 +1,7 @@
+{
+  "channel": "hello-world",
+  "host": "he3rv0pp.api.satori.com",
+  "ssl": true,
+  "args": {"appkey": "dFDa4104a3913EE4DbdDedd257ea54F1"},
+  "auth": {"role": "demo", "secret": "dBdaE8021926Ac602EdD4c184e25d09E"}
+}

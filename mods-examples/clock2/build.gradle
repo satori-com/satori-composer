@@ -1,0 +1,21 @@
+apply plugin: 'application'
+apply from: '../examples.gradle'
+
+mainClassName = 'com.satori.mods.examples.ClocksApp2'
+applicationName = projectDir.name
+
+dependencies {
+  compile project(':composer')
+
+  compile 'org.slf4j:slf4j-api:1.8.+'
+  compile 'org.slf4j:slf4j-jdk14:1.8.+'
+
+  compile 'com.fasterxml.jackson.core:jackson-core:2.9.+'
+  compile 'com.fasterxml.jackson.core:jackson-databind:2.9.+'
+  compile 'com.fasterxml.jackson.module:jackson-module-afterburner:2.9.+'
+  compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.+'
+
+  testCompile 'junit:junit:4.+'
+}
+
+

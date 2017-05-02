@@ -1,0 +1,8 @@
+include 'mods'
+include 'composer'
+
+include 'mods-examples/big-blue-bus'
+include 'mods-examples/nws-usa-alerts'
+include 'mods-examples/hello-world'
+include 'mods-examples/clock'
+include 'mods-examples/clock2'

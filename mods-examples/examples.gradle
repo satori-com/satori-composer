@@ -1,0 +1,108 @@
+import groovy.text.*
+
+startScripts {
+  //applicationName = 'app'
+  defaultJvmOpts = ["-server", "-d64"]
+  optsEnvironmentVar = "APP_OPTS"
+}
+
+ext {
+  dockerImageName = "${project.name}"
+  dockerImageTag = "${dockerImageName}:${version}"
+}
+
+task generateReadme(type: TemplateTask) {
+  group 'codegen'
+  println projectDir.name
+  template new File(buildscript.sourceFile.parentFile, "readme.template.md")
+  output file("readme.md")
+}
+
+task generateLogProperties(type: TemplateTask) {
+  group 'codegen'
+  template = new File(buildscript.sourceFile.parentFile, "log.template.properties")
+  output = file("res/com/satori/mods/resources/log.properties")
+}
+
+task generateDockerFile(type: TemplateTask) {
+  group 'codegen'
+  template = new File(buildscript.sourceFile.parentFile, "dockerfile.template")
+  output = file("Dockerfile")
+}
+
+// copy docker file
+installDist {
+  inputs.file 'Dockerfile'
+  outputs.file "$destinationDir/Dockerfile"
+  doLast {
+    copy {
+      from 'Dockerfile'
+      into destinationDir
+    }
+  }
+}
+
+task buildDockerImage() {
+  group 'docker'
+  dependsOn 'installDist'
+
+  doLast {
+    copy {
+      from 'Dockerfile'
+      into installDist.destinationDir
+    }
+    exec {
+      commandLine 'docker', 'build', '-t', dockerImageTag, installDist.destinationDir
+      println "building docker image '${dockerImageTag}'..."
+      println "> ${commandLine.join(' ')}"
+    }
+    exec {
+      commandLine 'docker', 'tag', dockerImageTag, dockerImageName
+      println "tagging docker image '${dockerImageTag}'..."
+      println "> ${commandLine.join(' ')}"
+    }
+    delete file("${installDist.destinationDir}/Dockerfile")
+    exec {
+      commandLine 'docker', 'images', dockerImageName
+      println "> ${commandLine.join(' ')}"
+    }
+  }
+}
+
+task runDockerContainer() {
+  group 'docker'
+  dependsOn 'buildDockerImage'
+
+  doFirst {
+    exec {
+      commandLine 'docker', 'run', '--rm', '-ti', "${dockerImageTag}"
+      println "running docker container '${dockerImageTag}'..."
+      println "> ${commandLine.join(' ')}"
+    }
+    exec {
+      commandLine 'docker', 'images', '--rm', '-ti', "${dockerImageTag}"
+      println "running docker container '${dockerImageTag}'..."
+      println "> ${commandLine.join(' ')}"
+    }
+  }
+}
+
+class TemplateTask extends DefaultTask {
+  TemplateEngine engine = new GStringTemplateEngine()
+
+  @InputFile
+  File template
+
+  @OutputFile
+  File output
+
+  @TaskAction
+  def process() {
+    println "transforming '${template}'-> '${output}'..."
+    def writable = engine.createTemplate(template).make()
+    writable.setDelegate(project)
+    output.withWriter {
+      writable.writeTo(it)
+    }
+  }
+}

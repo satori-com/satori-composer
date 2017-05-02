@@ -1,0 +1,22 @@
+{
+  "mods": {
+    "clock": {
+      "type": "com.satori.mods.examples.ClockMod",
+      "settings": {
+        "tick": 2000 //2 sec, in msec
+      }
+    },
+    "publisher": {
+      "type": "com.satori.mods.suite.RtmPublishMod",
+      "connectors": "clock",
+      "settings": {
+        "channel": "YOUR_CHANNEL",
+        "host": "YOUR_HOST", //just host, no wss scheme
+        "ssl": true,
+        "args": {"appkey": "YOUR_APPKEY"}
+        //"auth": {"role": "YOUR_ROLE","secret": "YOUR_SECRET"}
+      }
+    }
+  }
+}
+
