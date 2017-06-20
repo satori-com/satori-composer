@@ -12,7 +12,7 @@ public class RtmSubscribePdu extends RtmPdu<RtmSubscribePdu.Body> {
     @JsonProperty("filter")
     public String filter;
     
-    @JsonProperty("next")
+    @JsonProperty("position")
     public String next;
     
     public Body(String channel, String next) {

@@ -11,7 +11,7 @@ public class RtmBaseConfig extends HttpRequestConfig {
   public final static int defaultMaxFrameSize = 10 * 1024 * 1024; // in bytes, 10 mb.
   public final static long defaultIdleTimeout = 10_000; // in ms, 10 sec.
   public final static long defaultConnectTimeout = 10_000; // in ms, 10 sec.
-  public final static String defaultPath = "/v1";
+  public final static String defaultPath = "/v2";
   
   public RtmBaseConfig() {
   }

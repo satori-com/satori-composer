@@ -1,7 +1,7 @@
 dependencies {
   compile project(':mods')
 
-  compile 'com.google.protobuf:protobuf-java:3.3.0'
+  compile 'com.google.protobuf:protobuf-java:3.3.1'
   compile 'org.freemarker:freemarker:2.3.26-incubating'
   compile 'net.sf.saxon:Saxon-HE:9.6.0-10'
   compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.0.pr3'
@@ -9,9 +9,10 @@ dependencies {
   compile 'org.slf4j:slf4j-api:1.7.25'
   compile 'io.vertx:vertx-core:3.4.1'
   compile 'io.vertx:vertx-web:3.4.1'
-  compile 'org.javassist:javassist:3.18.1-GA'
+  compile 'org.javassist:javassist:3.21.0-GA'
 
   testCompile 'junit:junit:4.+'
+  testCompile 'org.apache.commons:commons-jexl3:+'
 }
 
 

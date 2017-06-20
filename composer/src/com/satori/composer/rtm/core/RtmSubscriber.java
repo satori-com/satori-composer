@@ -133,7 +133,7 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
       
       if (pdu.action.equals("rtm/subscribe/ok")) {
         enterSubscribedState(
-          pdu.body != null ? pdu.body.get("next").asText() : null, unsubscribe
+          pdu.body != null ? pdu.body.get("position").asText() : null, unsubscribe
         );
         return true;
       } else if (pdu.action.equals("rtm/subscribe/error")) {
@@ -206,8 +206,8 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
   
   protected boolean onChannelData(RtmPdu<JsonNode> pdu) {
     
-    if (pdu.action.equals("rtm/channel/data")) {
-      if (!channel().equals(pdu.body.get("channel").textValue())) {
+    if (pdu.action.equals("rtm/subscription/data")) {
+      if (!channel().equals(pdu.body.get("subscription_id").textValue())) {
         return false;
       }
       //timestamp = Stopwatch.timestamp();
@@ -222,8 +222,8 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
       return true;
     }
     
-    if (pdu.action.equals("rtm/channel/error")) {
-      if (!channel().equals(pdu.body.get("channel").textValue())) {
+    if (pdu.action.equals("rtm/subscription/error")) {
+      if (!channel().equals(pdu.body.get("subscription_id").textValue())) {
         return false;
       }
       
@@ -296,7 +296,7 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
       
       if (pdu.action.equals("rtm/unsubscribe/ok")) {
         enterUnsubscribedState(
-          pdu.body != null ? pdu.body.get("next").asText() : (String) null, resubscribe
+          pdu.body != null ? pdu.body.get("position").asText() : (String) null, resubscribe
         );
         return true;
       } else if (pdu.action.equals("rtm/unsubscribe/error")) {

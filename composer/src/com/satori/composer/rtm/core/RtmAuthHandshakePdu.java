@@ -17,7 +17,7 @@ public class RtmAuthHandshakePdu extends RtmPdu<RtmAuthHandshakePdu.Body> {
   
   public static class Body extends RtmJsonExt {
     @JsonProperty("method")
-    public String method = "role_key";
+    public String method = "role_secret";
     
     @JsonProperty("data")
     public Data data;

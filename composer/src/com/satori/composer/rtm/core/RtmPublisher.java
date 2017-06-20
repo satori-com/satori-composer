@@ -63,7 +63,7 @@ public class RtmPublisher extends RtmPduInterceptor<IRtmContext> {
       if (pdu.action.equals("rtm/publish/ok")) {
         String next = null;
         try {
-          next = pdu.body.get("next").asText();
+          next = pdu.body.get("position").asText();
         } catch (Exception cause) {
           log().warn("unexpected payload", cause);
         }
