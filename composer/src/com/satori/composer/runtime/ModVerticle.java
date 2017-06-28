@@ -90,6 +90,7 @@ public class ModVerticle extends AbstractVerticle implements IModContext, IModRu
   
   public void onStats(StatsCycle cycle) throws Exception {
     mod.onStats(cycle, statsForwarder);
+    statsForwarder.sum("pulse", 1);
   }
   
   private void pulse(long timer) {
