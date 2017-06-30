@@ -21,21 +21,23 @@ public class RtmSubscribeMod extends Mod {
   public static final Logger log = LoggerFactory.getLogger(RtmSubscribeMod.class);
   
   private final RtmSubscribeModStats stats = new RtmSubscribeModStats();
-  private final RtmDriverConfig config;
+  private final RtmSubscribeModSettings config;
   
-  public static final int defaultWindowMaxSize = 1024 * 1024;
-  private int windowMaxSize = defaultWindowMaxSize;
+  private final int pauseThreshold;
+  private final int resumeThreshold;
   private int unconsumedMessages = 0;
   private Vertx vertx;
   
   private RtmChannelSubscriber rtm;
   
   public RtmSubscribeMod(JsonNode userData) throws Exception {
-    this(Config.parseAndValidate(userData, RtmDriverConfig.class));
+    this(Config.parseAndValidate(userData, RtmSubscribeModSettings.class));
   }
   
-  public RtmSubscribeMod(RtmDriverConfig config) throws Exception {
+  public RtmSubscribeMod(RtmSubscribeModSettings config) throws Exception {
     this.config = config;
+    pauseThreshold = config.windowMaxSize;
+    resumeThreshold = config.windowMaxSize / 2;
     log.info("created");
   }
   
@@ -84,6 +86,7 @@ public class RtmSubscribeMod extends Mod {
     if (rtm != null) {
       rtm.onPulse(Stopwatch.timestamp());
     }
+    stats.infly.aggregate(unconsumedMessages);
   }
   
   // private methods
@@ -91,9 +94,10 @@ public class RtmSubscribeMod extends Mod {
   private void onChannelData(JsonNode msg) {
     stats.recv += 1;
     unconsumedMessages += 1;
-    if (unconsumedMessages > windowMaxSize) {
+    if (unconsumedMessages > pauseThreshold) {
       rtm.unsubscribe();
     }
+    stats.sent += 1;
     IAsyncHandler cont = AsyncPromise.from(this::onMessageConsumed);
     try {
       yield(msg, cont);
@@ -110,7 +114,7 @@ public class RtmSubscribeMod extends Mod {
     } else {
       stats.succeeded += 1;
     }
-    if (unconsumedMessages < windowMaxSize / 2) {
+    if (unconsumedMessages < resumeThreshold) {
       if (rtm != null) {
         rtm.subscribe();
       }
