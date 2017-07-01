@@ -11,6 +11,9 @@ public class StatsJsonMessage extends StatsJsonExt {
   @JsonProperty("prefix")
   public String prefix = null;
   
+  @JsonProperty("tags")
+  public HashMap<String, String> tags = null;
+  
   @JsonProperty("metrics")
   public ArrayList<StatsJsonMetric> records = new ArrayList<>();
   

@@ -19,6 +19,9 @@ public class StatsRtmForwarderConfig extends RtmBaseConfig {
   @JsonProperty("prefix")
   public String prefix = null;
   
+  @JsonProperty("tags")
+  public HashMap<String, String> tags = null;
+  
   @JsonProperty("channel")
   public String channel = null;
   
