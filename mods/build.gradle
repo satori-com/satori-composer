@@ -1,9 +1,9 @@
 dependencies {
 
-  compile 'com.fasterxml.jackson.core:jackson-core:2.9.0.pr3'
-  compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0.pr3'
-  compile 'com.fasterxml.jackson.module:jackson-module-afterburner:2.9.0.pr3'
-  compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.0.pr3'
+  compile 'com.fasterxml.jackson.core:jackson-core:2.9.0.pr4'
+  compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0.pr4'
+  compile 'com.fasterxml.jackson.module:jackson-module-afterburner:2.9.0.pr4'
+  compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.0.pr4'
 
   testCompile 'junit:junit:4.+'
 }

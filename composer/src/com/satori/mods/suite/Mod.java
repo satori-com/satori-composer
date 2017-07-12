@@ -70,6 +70,30 @@ public class Mod implements IMod, IModContext {
     return res;
   }
   
+  public IAsyncFuture yield(String data) throws Exception {
+    return yield(TextNode.valueOf(data));
+  }
+  
+  public IAsyncFuture yield(int data) throws Exception {
+    return yield(IntNode.valueOf(data));
+  }
+  
+  public IAsyncFuture yield(long data) throws Exception {
+    return yield(LongNode.valueOf(data));
+  }
+  
+  public IAsyncFuture yield(float data) throws Exception {
+    return yield(FloatNode.valueOf(data));
+  }
+  
+  public IAsyncFuture yield(double data) throws Exception {
+    return yield(DoubleNode.valueOf(data));
+  }
+  
+  public IAsyncFuture yield(Object data) throws Exception {
+    return yield(Config.mapper.valueToTree(data));
+  }
+  
   public void yield(String data, IAsyncHandler cont) throws Exception {
     yield(TextNode.valueOf(data), cont);
   }
