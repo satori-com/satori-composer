@@ -1,0 +1,32 @@
+package com.satori.mods.suite;
+
+import com.satori.mods.core.stats.*;
+
+import java.lang.management.*;
+
+import com.sun.management.OperatingSystemMXBean;
+import org.slf4j.*;
+
+public class StatsJvmMod extends Mod {
+  public static final Logger log = LoggerFactory.getLogger(StatsJvmMod.class);
+  public static final Runtime runtime = Runtime.getRuntime();
+  public static final OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+  public static final int coresNum = osBean.getAvailableProcessors();
+  
+  public StatsJvmMod() throws Exception {
+  }
+  
+  @Override
+  public void onStats(StatsCycle cycle, IStatsCollector collector) {
+    double memFree = runtime.freeMemory();
+    double memCommitted = runtime.totalMemory();
+    double memMax = runtime.maxMemory();
+    collector.avg("mem.free", memFree);
+    collector.avg("mem.committed", memCommitted);
+    collector.avg("mem.allocated", memCommitted - memFree);
+    collector.avg("mem.usage", (memCommitted - memFree) / memMax);
+    
+    collector.avg("cpu.usage", osBean.getProcessCpuLoad() * coresNum);
+  }
+  
+}
