@@ -35,26 +35,26 @@ public class StatsJvmMod extends Mod {
     collectCpuUsage(collector);
   }
   
-  private void collectCpuUsage(IStatsCollector collector){
+  private void collectCpuUsage(IStatsCollector collector) {
     long upTime = runBean.getUptime();
     long cpuTime = osBean.getProcessCpuTime();
-  
-    if(prevUpTime == Long.MIN_VALUE){
+    
+    if (prevUpTime == Long.MIN_VALUE) {
       prevUpTime = upTime;
       prevCpuTime = cpuTime;
       return;
     }
-  
-    long elapsedTime = upTime-prevUpTime;
-    if(elapsedTime <= 0){
+    
+    long elapsedTime = upTime - prevUpTime;
+    if (elapsedTime <= 0) {
       return;
     }
     
     collector.avg(
       "cpu.usage",
-      (cpuTime-prevCpuTime)/(TimeUnit.MILLISECONDS.toNanos(elapsedTime))
+      (cpuTime - prevCpuTime) / (TimeUnit.MILLISECONDS.toNanos(elapsedTime))
     );
-  
+    
     prevUpTime = upTime;
     prevCpuTime = cpuTime;
   }
