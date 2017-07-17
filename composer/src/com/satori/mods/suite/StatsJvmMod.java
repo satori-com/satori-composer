@@ -3,6 +3,7 @@ package com.satori.mods.suite;
 import com.satori.mods.core.stats.*;
 
 import java.lang.management.*;
+import java.util.concurrent.*;
 
 import com.sun.management.OperatingSystemMXBean;
 import org.slf4j.*;
@@ -49,7 +50,10 @@ public class StatsJvmMod extends Mod {
       return;
     }
     
-    collector.avg("cpu.usage", (cpuTime-prevCpuTime)/(elapsedTime*1000000.0));
+    collector.avg(
+      "cpu.usage",
+      (cpuTime-prevCpuTime)/(TimeUnit.MILLISECONDS.toNanos(elapsedTime))
+    );
   
     prevUpTime = upTime;
     prevCpuTime = cpuTime;
