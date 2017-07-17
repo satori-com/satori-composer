@@ -49,7 +49,7 @@ public class StatsJvmMod extends Mod {
       return;
     }
     
-    collector.avg("cpu.usage", (cpuTime-prevCpuTime)/(elapsedTime*10000.0));
+    collector.avg("cpu.usage", (cpuTime-prevCpuTime)/(elapsedTime*1000000.0));
   
     prevUpTime = upTime;
     prevCpuTime = cpuTime;
