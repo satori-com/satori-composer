@@ -8,12 +8,14 @@ import io.vertx.core.http.*;
 
 
 public abstract class RtmChannelSubscriber extends RtmChannel implements IRtmSubscriberContext {
-  RtmSubscriber subscriber = null;
-  final String channel;
+  private RtmSubscriber subscriber = null;
+  private final String channel;
+  private final String filter;
   
   public RtmChannelSubscriber(Vertx vertx, RtmDriverConfig config, String name) {
     super(vertx, config, name);
     channel = config.channel;
+    filter = config.filter;
   }
   
   @Override
@@ -38,9 +40,8 @@ public abstract class RtmChannelSubscriber extends RtmChannel implements IRtmSub
           parser = new RtmParser(ctx, subscriber);
         }
         final WsPinger pinger = new WsPinger(ctx, parser);
-        final WebSockAdapter adapter = new WebSockAdapter(ws, ctx, pinger);
-        
-        return adapter;
+  
+        return new WebSockAdapter(ws, ctx, pinger);
       }
     };
   }
@@ -48,6 +49,11 @@ public abstract class RtmChannelSubscriber extends RtmChannel implements IRtmSub
   @Override
   public String channel() {
     return channel;
+  }
+  
+  @Override
+  public String filter() {
+    return filter;
   }
   
   @Override

@@ -12,6 +12,9 @@ public class RtmDriverConfig extends RtmBaseConfig {
   @JsonProperty("channel")
   public String channel = null;
   
+  @JsonProperty("filter")
+  public String filter = null;
+  
   @JsonProperty("user-data")
   public JsonNode userData = null;
   
@@ -35,6 +38,9 @@ public class RtmDriverConfig extends RtmBaseConfig {
     }
     if (channel == null || channel.isEmpty()) {
       throw new InvalidConfigException("channel not specified");
+    }
+    if (filter != null && filter.isEmpty()) {
+      filter = null;
     }
   }
 }

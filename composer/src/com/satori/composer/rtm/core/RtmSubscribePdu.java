@@ -9,34 +9,42 @@ public class RtmSubscribePdu extends RtmPdu<RtmSubscribePdu.Body> {
     @JsonProperty("channel")
     public String channel;
     
+    @JsonProperty("subscription_id")
+    public String subscription;
+    
     @JsonProperty("filter")
     public String filter;
     
     @JsonProperty("position")
     public String next;
     
-    public Body(String channel, String next) {
-      this.channel = channel;
+    public Body(String channel, String filter, String next) {
+      if (filter != null && !filter.isEmpty()) {
+        this.filter = filter;
+        this.subscription = channel;
+      } else {
+        this.channel = channel;
+      }
       this.next = next;
     }
     
-    public Body(String channel) {
-      this(channel, null);
+    public Body(String channel, String filter) {
+      this(channel, filter, null);
     }
   }
   
-  public RtmSubscribePdu(String channel, String id, String next) {
+  public RtmSubscribePdu(String channel, String filter, String id, String next) {
     this.action = "rtm/subscribe";
-    this.body = new Body(channel, next);
+    this.body = new Body(channel, filter, next);
     this.id = id;
   }
   
-  public RtmSubscribePdu(String channel, String id) {
-    this(channel, id, null);
+  public RtmSubscribePdu(String channel, String filter, String id) {
+    this(channel, filter, id, null);
   }
   
-  public RtmSubscribePdu(String channel) {
-    this(channel, null, null);
+  public RtmSubscribePdu(String channel, String filter) {
+    this(channel, filter, null, null);
   }
   
   

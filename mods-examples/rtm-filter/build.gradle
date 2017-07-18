@@ -1,0 +1,13 @@
+apply plugin: 'application'
+apply from: '../examples.gradle'
+
+mainClassName = 'com.satori.mods.examples.NwsUsaAlerts'
+applicationName = projectDir.name
+
+dependencies {
+  compile project(':composer')
+
+  compileOnly 'org.slf4j:slf4j-api:1.8.+'
+
+  testCompile 'junit:junit:4.+'
+}

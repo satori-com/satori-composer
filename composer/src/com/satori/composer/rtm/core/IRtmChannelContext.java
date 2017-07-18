@@ -4,5 +4,7 @@ public interface IRtmChannelContext extends IRtmContext {
   
   String channel();
   
+  String filter();
+  
 }
     
