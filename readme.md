@@ -73,13 +73,28 @@
 - [Async support library](docs/async/readme.md)
 
 ### Maven
+##### releases:
 ```xml
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-composer</artifactId>
-    <version>0.0.6+</version>
+    <version>0.1.+</version>
 </dependency>
 ```
+##### snapshots:
+```xml
+<repository>
+  <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+</repository>
+```
+```xml
+<dependency>
+    <groupId>com.satori</groupId>
+    <artifactId>satori-composer</artifactId>
+    <version>0.1.+-SNAPSHOT</version>
+</dependency>
+```
+
 ### Download
 [Latest release](https://github.com/satori-com/satori-composer/releases/latest)
 
