@@ -7,7 +7,7 @@ applicationName = projectDir.name
 dependencies {
   compile project(':composer')
 
-  compileOnly 'org.slf4j:slf4j-api:1.8.+'
+  compile 'org.slf4j:slf4j-jdk14:1.8.+'
 
   testCompile 'junit:junit:4.+'
 }

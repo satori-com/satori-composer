@@ -32,7 +32,7 @@ public class Composition extends Mod {
   
   public Composition(HashMap<String, CompositionNodeConfig> mods) {
     mods.forEach((modName, modConf) -> {
-      IMod mod = ComposerRuntime.createMod(modConf.type, modConf.settings);
+      IMod mod = ModFactory.create(modConf.type, modConf.settings);
       addMod(modName, mod, modConf.connectors);
     });
   }

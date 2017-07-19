@@ -24,16 +24,23 @@ public abstract class Config {
   }
   
   public static <T extends Config> T parseAndValidate(InputStream stream, Class<T> cls) throws Exception {
+    if(stream == null){
+      return null;
+    }
     T result = parse(stream, cls);
     result.validate();
     return result;
   }
   
   public static <T extends Config> T parseAndValidate(JsonNode tree, Class<T> cls) throws Exception {
+    if(tree == null){
+      return null;
+    }
     T result = mapper.treeToValue(tree, cls);
     result.validate();
     return result;
   }
+  
   
   @Override
   public String toString() {
