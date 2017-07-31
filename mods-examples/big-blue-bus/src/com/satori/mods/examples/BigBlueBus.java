@@ -15,9 +15,9 @@ public class BigBlueBus {
     try (final InputStream is = ModResourceLoader.loadAsStream("log.properties")) {
       LogManager.getLogManager().readConfiguration(is);
     }
-    ComposerRuntimeConfig config = ComposerRuntime.loadConfig("config.json");
-    config.validate();
-    ComposerRuntime.start(config);
+    ComposerRuntime.start(ModResourceLoader.loadAsConfigAndValidate(
+      "config.json", ComposerRuntimeConfig.class
+    ));
   }
 }
 

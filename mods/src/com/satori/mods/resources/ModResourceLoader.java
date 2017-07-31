@@ -10,7 +10,11 @@ import com.fasterxml.jackson.databind.*;
 
 public class ModResourceLoader {
   
-  public static InputStream tryLoadAsStream(String resourceName) throws ModResourceNotFoundException {
+  public static InputStream tryLoadAsStream(String resourceName) {
+    
+    if (resourceName == null || resourceName.trim().isEmpty()) {
+      return null;
+    }
     
     // first try to get specified resource using file system
     
@@ -54,7 +58,7 @@ public class ModResourceLoader {
     }
   }
   
-  public static <T extends Config> T tryLoadConfig(String resourceName, Class<T> cls) throws Exception {
+  public static <T extends Config> T tryLoadAsConfig(String resourceName, Class<T> cls) throws Exception {
     try (final InputStream inputStream = loadAsStream(resourceName)) {
       if (inputStream == null) {
         return null;
@@ -72,7 +76,7 @@ public class ModResourceLoader {
   }
   
   public static String loadAsString(String resourceName) throws Exception {
-    final String res = loadAsString(resourceName);
+    final String res = tryLoadAsString(resourceName);
     if (res == null) {
       throw new ModResourceNotFoundException(resourceName);
     }
@@ -81,18 +85,24 @@ public class ModResourceLoader {
   
   
   public static JsonNode loadAsJson(String resourceName) throws Exception {
-    final JsonNode res = loadAsJson(resourceName);
+    final JsonNode res = tryLoadAsJson(resourceName);
     if (res == null) {
       throw new ModResourceNotFoundException(resourceName);
     }
     return res;
   }
   
-  public static <T extends Config> T loadConfig(String resourceName, Class<T> cls) throws Exception {
-    final T res = loadConfig(resourceName, cls);
+  public static <T extends Config> T loadAsConfig(String resourceName, Class<T> cls) throws Exception {
+    final T res = tryLoadAsConfig(resourceName, cls);
     if (res == null) {
       throw new ModResourceNotFoundException(resourceName);
     }
+    return res;
+  }
+  
+  public static <T extends Config> T loadAsConfigAndValidate(String resourceName, Class<T> cls) throws Exception {
+    final T res = loadAsConfig(resourceName, cls);
+    res.validate();
     return res;
   }
 }

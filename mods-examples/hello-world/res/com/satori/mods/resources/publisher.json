@@ -1,7 +1,8 @@
 {
-  "channel": "hello-world",
-  "host": "he3rv0pp.api.satori.com",
+  "channel": "YOUR_CHANNEL",
+  "host": "YOU_HOST", //no wss scheme, just host: x.satori.com
   "ssl": true,
-  "args": {"appkey": "dFDa4104a3913EE4DbdDedd257ea54F1"},
-  "auth": {"role": "demo", "secret": "dBdaE8021926Ac602EdD4c184e25d09E"}
+  "args": {"appkey": "YOU_APPKEY"} //,
+  // enable if your permission needs auth
+  //"auth": {"role": "YOUR_ROLE","secret": "YOUR_SECRET"}
 }
