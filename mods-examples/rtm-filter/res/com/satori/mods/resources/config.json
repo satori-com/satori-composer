@@ -3,12 +3,12 @@
     "subscriber": {
       "type": "com.satori.mods.suite.RtmSubscribeMod",
       "settings": {
-        "channel": "vehicles",
-        "filter": "SELECT * FROM `stream.vehicles` WHERE vehicle.agency = \"ritchies\"",
-        "host": "xe9k0020.api.satori.com",
+        "channel": "YOUR_CHANNEL",
+        "host": "YOU_HOST", //no wss scheme, just host: x.satori.com
         "ssl": true,
-        "args": {"appkey": "Fdcc4a0d84cE75314B069F20E787d6f8"},
-        "auth": {"role": "client", "secret": "ADa6EbC63A9e7B73bFEdffBCC4C5B6e0"}
+        "args": {"appkey": "YOU_APPKEY"} //,
+        // enable if your permission needs auth
+        //"auth": {"role": "YOUR_ROLE","secret": "YOUR_SECRET"}
       }
     },
     "printer": {
