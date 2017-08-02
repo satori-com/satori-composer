@@ -13,7 +13,7 @@ public class LogRtmRecord extends JsonExt {
   public static final String LEVEL_ERROR = "ERROR";
   public static final String LEVEL_WARN = "WARN";
   public static final String LEVEL_INFO = "INFO";
-  public static final String LEVEL_SUCCESS = "DEBUG";
+  public static final String LEVEL_DEBUG = "DEBUG";
   
   @JsonProperty("message")
   public String message = null;
