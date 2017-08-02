@@ -10,10 +10,10 @@ import org.slf4j.event.*;
 public class LogRtmRecord extends JsonExt {
   public static final long INVALID_TIMESTAMP = Long.MIN_VALUE;
   
-  public static String LEVEL_ERROR = "ERROR";
-  public static String LEVEL_WARN = "WARN";
-  public static String LEVEL_INFO = "INFO";
-  public static String LEVEL_SUCCESS = "DEBUG";
+  public static final String LEVEL_ERROR = "ERROR";
+  public static final String LEVEL_WARN = "WARN";
+  public static final String LEVEL_INFO = "INFO";
+  public static final String LEVEL_SUCCESS = "DEBUG";
   
   @JsonProperty("message")
   public String message = null;
