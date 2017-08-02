@@ -18,6 +18,9 @@ public class LogRtmRecord extends JsonExt {
   @JsonProperty("message")
   public String message = null;
   
+  @JsonProperty("args")
+  public String[] args = null;
+  
   @JsonProperty("source")
   public String source = null;
   
@@ -57,6 +60,7 @@ public class LogRtmRecord extends JsonExt {
     if(throwable != null){
       LogRtmError err = new LogRtmError();
       err.message = throwable.getMessage();
+      err.type = throwable.getClass().getCanonicalName();
       StackTraceElement[] stackTrace = throwable.getStackTrace();
       if(stackTrace != null && stackTrace.length >0){
         String[] stack = new String[stackTrace.length];
