@@ -44,7 +44,7 @@ public class CompositionPin implements IModOutput {
       }
       try {
         doYieldLoop(itor, msg, cont);
-      } catch (Exception e) {
+      } catch (Throwable e) {
         cont.fail(e);
       }
     });
@@ -58,7 +58,7 @@ public class CompositionPin implements IModOutput {
     linkOutput((data, cont) -> {
       try {
         mod.onInput(inputName, data, cont);
-      } catch (Exception e) {
+      } catch (Throwable e) {
         cont.fail(e);
       }
     });
