@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DdogEvent extends DdogExt {
+  public static String ALERT_TYPE_ERROR = "error";
+  public static String ALERT_TYPE_WARN = "warning";
+  public static String ALERT_TYPE_INFO = "info";
+  public static String ALERT_TYPE_SUCCESS = "success";
   
   public DdogEvent() {
   }
