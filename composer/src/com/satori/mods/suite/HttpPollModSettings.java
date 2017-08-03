@@ -38,6 +38,13 @@ public class HttpPollModSettings extends HttpRequestConfig {
   @JsonProperty("disable-last-modified")
   public boolean disableLastModified = false;
   
+  
+  @JsonProperty("keep-alive")
+  public boolean keepAlive = true;
+  
+  @JsonProperty("pipelining")
+  public boolean pipelining = true;
+
   public HttpPollModSettings() {
   }
   
