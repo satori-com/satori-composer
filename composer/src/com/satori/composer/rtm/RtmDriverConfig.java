@@ -3,6 +3,8 @@ package com.satori.composer.rtm;
 import com.satori.composer.rtm.core.*;
 import com.satori.mods.core.config.*;
 
+import java.util.*;
+
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 
@@ -14,6 +16,9 @@ public class RtmDriverConfig extends RtmBaseConfig {
   
   @JsonProperty("filter")
   public String filter = null;
+  
+  @JsonProperty("history")
+  public Map history = null;
   
   @JsonProperty("user-data")
   public JsonNode userData = null;

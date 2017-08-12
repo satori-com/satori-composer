@@ -118,7 +118,7 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
           }
         }
       };
-      RtmSubscribePdu pdu = new RtmSubscribePdu(channel(), filter(), id);
+      RtmSubscribePdu pdu = new RtmSubscribePdu(channel(), filter(), id, null, history());
       master.send(pdu);
     } catch (Throwable cause) {
       fail(cause);
@@ -360,6 +360,10 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
   
   String filter() {
     return ctx.filter();
+  }
+  
+  Map history() {
+    return this.ctx.history();
   }
   
   interface IPduProcessor {
