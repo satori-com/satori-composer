@@ -1,5 +1,7 @@
 package com.satori.composer.rtm.core;
 
+import java.util.*;
+
 import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
@@ -17,8 +19,11 @@ public class RtmSubscribePdu extends RtmPdu<RtmSubscribePdu.Body> {
     
     @JsonProperty("position")
     public String next;
+  
+    @JsonProperty("history")
+    public Map history;
     
-    public Body(String channel, String filter, String next) {
+    public Body(String channel, String filter, String next, Map history) {
       if (filter != null && !filter.isEmpty()) {
         this.filter = filter;
         this.subscription = channel;
@@ -26,17 +31,22 @@ public class RtmSubscribePdu extends RtmPdu<RtmSubscribePdu.Body> {
         this.channel = channel;
       }
       this.next = next;
+      this.history = history;
     }
     
     public Body(String channel, String filter) {
-      this(channel, filter, null);
+      this(channel, filter, null, null);
     }
   }
   
-  public RtmSubscribePdu(String channel, String filter, String id, String next) {
+  public RtmSubscribePdu(String channel, String filter, String id, String next, Map history) {
     this.action = "rtm/subscribe";
-    this.body = new Body(channel, filter, next);
+    this.body = new Body(channel, filter, next, history);
     this.id = id;
+  }
+  
+  public RtmSubscribePdu(String channel, String filter, String id, String next) {
+    this(channel, filter, id, next, null);
   }
   
   public RtmSubscribePdu(String channel, String filter, String id) {

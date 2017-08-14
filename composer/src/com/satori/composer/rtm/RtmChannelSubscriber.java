@@ -2,6 +2,8 @@ package com.satori.composer.rtm;
 
 import com.satori.composer.rtm.core.*;
 
+import java.util.*;
+
 import com.fasterxml.jackson.databind.*;
 import io.vertx.core.*;
 import io.vertx.core.http.*;
@@ -11,11 +13,13 @@ public abstract class RtmChannelSubscriber extends RtmChannel implements IRtmSub
   private RtmSubscriber subscriber = null;
   private final String channel;
   private final String filter;
+  private final Map history;
   
   public RtmChannelSubscriber(Vertx vertx, RtmDriverConfig config, String name) {
     super(vertx, config, name);
     channel = config.channel;
     filter = config.filter;
+    history = config.history;
   }
   
   @Override
@@ -54,6 +58,11 @@ public abstract class RtmChannelSubscriber extends RtmChannel implements IRtmSub
   @Override
   public String filter() {
     return filter;
+  }
+  
+  @Override
+  public Map history() {
+    return history;
   }
   
   @Override
