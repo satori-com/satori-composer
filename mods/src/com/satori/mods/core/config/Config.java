@@ -13,6 +13,7 @@ public abstract class Config {
     .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
     .configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true)
     .configure(JsonParser.Feature.ALLOW_TRAILING_COMMA, true)
+    .disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET)
     .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     .registerModule(new AfterburnerModule())
     .registerModule(new Jdk8Module());
