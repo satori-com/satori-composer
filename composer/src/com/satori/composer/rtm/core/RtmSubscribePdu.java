@@ -19,7 +19,7 @@ public class RtmSubscribePdu extends RtmPdu<RtmSubscribePdu.Body> {
     
     @JsonProperty("position")
     public String next;
-  
+
     @JsonProperty("history")
     public Map history;
     

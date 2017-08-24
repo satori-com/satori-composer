@@ -23,28 +23,28 @@ public class ResourceConfigLoader implements ConfigLoader {
   public ResourceConfigLoader(Supplier<String> resourceName) {
     this(resourceName.get());
   }
-
+  
   public ResourceConfigLoader(ClassLoader classLoader, String resourceName) {
     this.resourceName = resourceName;
     this.classLoader = classLoader;
   }
   
   public ResourceConfigLoader(ClassLoader classLoader, Supplier<String> resourceName) {
-   this(classLoader, resourceName.get());
+    this(classLoader, resourceName.get());
   }
   
   @Override
   public JsonNode tryLoad() throws ConfigParsingException {
-    if(resourceName == null || resourceName.isEmpty()){
+    if (resourceName == null || resourceName.isEmpty()) {
       return null;
     }
-  
+    
     try (final InputStream inputStream = classLoader.getResourceAsStream(resourceName)) {
       if (inputStream == null) {
         return null;
       }
       return Config.mapper.readTree(inputStream);
-    } catch (Exception e){
+    } catch (Exception e) {
       throw new ConfigParsingException(e);
     }
   }

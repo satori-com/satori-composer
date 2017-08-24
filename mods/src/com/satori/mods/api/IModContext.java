@@ -2,13 +2,14 @@ package com.satori.mods.api;
 
 import com.satori.mods.core.async.*;
 
-import java.io.*;
+import java.io.Closeable;
 
 import com.fasterxml.jackson.databind.*;
+import io.vertx.core.*;
 
 public interface IModContext extends IModOutput {
   
-  IModRuntime runtime();
+  Vertx vertx();
   
   default IModOutput output() {
     return null;

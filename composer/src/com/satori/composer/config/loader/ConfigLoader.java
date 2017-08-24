@@ -11,16 +11,16 @@ public interface ConfigLoader {
   
   JsonNode tryLoad() throws ConfigParsingException;
   
-  default JsonNode load() throws Exception{
+  default JsonNode load() throws Exception {
     JsonNode result = tryLoad();
-    if(result != null){
+    if (result != null) {
       return result;
     }
     throw new Exception("not found");
   }
   
-  static ConfigLoader fromFile(Path path){
-    return ()->{
+  static ConfigLoader fromFile(Path path) {
+    return () -> {
       if (path == null) {
         return null;
       }

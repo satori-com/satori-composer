@@ -21,7 +21,7 @@ public class FileConfigLoader implements ConfigLoader {
       return null;
     }
     File file = path.toFile();
-    if(!file.exists() || !file.isFile()){
+    if (!file.exists() || !file.isFile()) {
       return null;
     }
     try (final Reader reader = Files.newBufferedReader(path)) {

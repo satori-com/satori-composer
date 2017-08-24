@@ -4,10 +4,11 @@ import com.satori.mods.api.*;
 import com.satori.mods.core.async.*;
 import com.satori.mods.core.config.*;
 
-import java.io.*;
+import java.io.Closeable;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
+import io.vertx.core.*;
 
 public class Mod implements IMod, IModContext {
   private IModContext context = null;
@@ -39,8 +40,8 @@ public class Mod implements IMod, IModContext {
   }
   
   @Override
-  public IModRuntime runtime() {
-    return context.runtime();
+  public Vertx vertx() {
+    return context.vertx();
   }
   
   @Override

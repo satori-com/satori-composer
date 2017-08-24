@@ -5,7 +5,7 @@ mainClassName = 'com.satori.mods.examples.ClockApp'
 applicationName = projectDir.name
 
 dependencies {
-  compile project(':composer')
+  compile project(':mods-suite')
 
   compile 'org.slf4j:slf4j-jdk14:1.8.+'
 

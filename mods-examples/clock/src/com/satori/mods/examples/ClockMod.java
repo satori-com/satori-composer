@@ -17,23 +17,23 @@ public class ClockMod extends Mod {
   public ClockMod() {
     this(defaultTick);
   }
-
+  
   public ClockMod(JsonNode settings) throws Exception {
     this(settings != null ? Config.parseAndValidate(settings, ClockModSettings.class) : null);
   }
-
+  
   public ClockMod(ClockModSettings settings) {
     if (settings != null) {
       tick = settings.tick;
     }
     log.info("created with tick {}", tick);
   }
-
+  
   public ClockMod(long tick) {
     this.tick = tick;
   }
-
-
+  
+  
   @Override
   public void init(IModContext context) throws Exception {
     super.init(context);

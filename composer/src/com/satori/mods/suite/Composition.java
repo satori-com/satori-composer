@@ -63,7 +63,7 @@ public class Composition extends Mod {
     }
     log.info("stopped");
   }
-
+  
   @Override
   public void dispose() throws Exception {
     super.dispose();

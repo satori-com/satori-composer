@@ -44,7 +44,7 @@ public class HttpPollModSettings extends HttpRequestConfig {
   
   @JsonProperty("pipelining")
   public boolean pipelining = true;
-
+  
   public HttpPollModSettings() {
   }
   

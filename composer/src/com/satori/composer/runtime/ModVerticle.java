@@ -14,7 +14,7 @@ import java.io.Closeable;
 import io.vertx.core.*;
 import org.slf4j.*;
 
-public class ModVerticle extends AbstractVerticle implements IModContext, IModRuntime {
+public class ModVerticle extends AbstractVerticle implements IModContext {
   public static final int INVALID_TIMER = -1;
   public static final int PULSE_INTERVAL = 1000;
   public static final Logger log = LoggerFactory.getLogger(ModVerticle.class);
@@ -138,10 +138,9 @@ public class ModVerticle extends AbstractVerticle implements IModContext, IModRu
   
   // IModContext
   
-  
   @Override
-  public IModRuntime runtime() {
-    return this;
+  public Vertx vertx() {
+    return super.getVertx();
   }
   
   @Override

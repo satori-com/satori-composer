@@ -1,4 +1,5 @@
 include 'mods'
+include 'mods-suite'
 include 'composer'
 
 include 'mods-examples/big-blue-bus'

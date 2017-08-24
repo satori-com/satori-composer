@@ -26,7 +26,6 @@ public class HttpPollMod extends Mod {
   private HttpClient http = null;
   private final HttpPollModSettings config;
   private final String path;
-  private Vertx vertx;
   private final long pollDelay;
   private final long errorDelay;
   private String lastEtag;
@@ -77,7 +76,6 @@ public class HttpPollMod extends Mod {
   @Override
   public void init(IModContext context) throws Exception {
     super.init(context);
-    this.vertx = ((Verticle) context.runtime()).getVertx();
     
     this.http = createHttpClient();
     switch (state) {
@@ -105,8 +103,6 @@ public class HttpPollMod extends Mod {
   @Override
   public void dispose() throws Exception {
     super.dispose();
-    Vertx vertx = this.vertx;
-    this.vertx = null;
     
     if (http != null) {
       http.close();
@@ -119,7 +115,7 @@ public class HttpPollMod extends Mod {
       if (state != State.idle) {
         log.error("timer scheduled in invalid state: {}", state);
       }
-      vertx.cancelTimer(timer);
+      vertx().cancelTimer(timer);
       timer = INVALID_TIMER;
     }
     switch (state) {
@@ -210,7 +206,7 @@ public class HttpPollMod extends Mod {
     switch (state) {
       case polling:
         state = State.idle;
-        timer = vertx.setTimer(delay, ar -> {
+        timer = vertx().setTimer(delay, ar -> {
           timer = INVALID_TIMER;
           doPolling();
         });
@@ -344,7 +340,7 @@ public class HttpPollMod extends Mod {
   }
   
   private HttpClient createHttpClient() {
-    return vertx.createHttpClient(new HttpClientOptions()
+    return vertx().createHttpClient(new HttpClientOptions()
       .setTryUseCompression(config.compression)
       .setMaxPoolSize(config.maxPoolSize)
       .setIdleTimeout(config.idleTimeout)

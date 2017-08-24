@@ -1,11 +1,9 @@
 package com.satori.mods.suite;
 
 import com.satori.composer.rtm.*;
-import com.satori.composer.rtm.core.*;
 import com.satori.mods.core.config.*;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.*;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class RtmSubscribeModSettings extends RtmDriverConfig {

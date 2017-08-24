@@ -1,7 +1,7 @@
 package com.satori.mods.core.async;
 
 public class AsyncFuture<T> implements IAsyncFuture<T>, IAsyncPromise<T> {
-
+  
   private boolean completed;
   private IAsyncResult<T> result;
   private IAsyncHandler<T> onCompleted;

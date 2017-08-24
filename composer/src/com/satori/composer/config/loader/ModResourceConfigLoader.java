@@ -23,7 +23,7 @@ public class ModResourceConfigLoader implements ConfigLoader {
   
   @Override
   public JsonNode tryLoad() throws ConfigParsingException {
-    if(resourceName == null || resourceName.isEmpty()){
+    if (resourceName == null || resourceName.isEmpty()) {
       return null;
     }
     try {

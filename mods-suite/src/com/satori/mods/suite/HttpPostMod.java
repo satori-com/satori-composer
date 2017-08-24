@@ -160,7 +160,7 @@ public class HttpPostMod extends Mod {
   }
   
   private HttpClient createHttpClient() {
-    return ((Verticle) runtime()).getVertx().createHttpClient(new HttpClientOptions()
+    return vertx().createHttpClient(new HttpClientOptions()
       .setTryUseCompression(config.compression)
       .setMaxPoolSize(config.maxPoolSize)
       .setIdleTimeout(config.idleTimeout)

@@ -25,7 +25,7 @@ public class HelloWorldMod extends Mod {
           log.error("failure", cause);
         }
       ));
-    } catch (Exception e) {
+    } catch (Throwable e) {
       log.error("failure", e);
     }
   }

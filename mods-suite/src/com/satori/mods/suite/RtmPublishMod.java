@@ -16,7 +16,6 @@ public class RtmPublishMod extends Mod {
   
   private final RtmPublishModStats stats = new RtmPublishModStats();
   private final RtmPublishModSettings config;
-  private Vertx vertx;
   
   private RtmChannel rtm;
   
@@ -34,8 +33,7 @@ public class RtmPublishMod extends Mod {
   @Override
   public void init(final IModContext context) throws Exception {
     super.init(context);
-    this.vertx = ((Verticle) context.runtime()).getVertx();
-    rtm = new RtmChannel(vertx, config, config.channel);
+    rtm = new RtmChannel(vertx(), config, config.channel);
     rtm.start();
     stats.reset();
     log.info("initialized");
@@ -44,7 +42,6 @@ public class RtmPublishMod extends Mod {
   @Override
   public void dispose() throws Exception {
     super.dispose();
-    this.vertx = null;
     if (rtm != null) {
       try {
         rtm.stop();

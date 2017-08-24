@@ -26,7 +26,6 @@ public class RtmSubscribeMod extends Mod {
   private final int pauseThreshold;
   private final int resumeThreshold;
   private int unconsumedMessages = 0;
-  private Vertx vertx;
   
   private RtmChannelSubscriber rtm;
   
@@ -46,8 +45,7 @@ public class RtmSubscribeMod extends Mod {
   @Override
   public void init(final IModContext context) throws Exception {
     super.init(context);
-    this.vertx = ((Verticle) context.runtime()).getVertx();
-    rtm = new RtmChannelSubscriber(vertx, config, config.channel) {
+    rtm = new RtmChannelSubscriber(vertx(), config, config.channel) {
       @Override
       public void onChannelData(JsonNode msg) {
         RtmSubscribeMod.this.onChannelData(msg);
@@ -61,7 +59,6 @@ public class RtmSubscribeMod extends Mod {
   @Override
   public void dispose() throws Exception {
     super.dispose();
-    this.vertx = null;
     if (rtm != null) {
       try {
         rtm.stop();

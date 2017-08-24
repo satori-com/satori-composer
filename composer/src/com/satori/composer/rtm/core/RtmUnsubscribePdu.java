@@ -8,10 +8,10 @@ public class RtmUnsubscribePdu extends RtmPdu<RtmUnsubscribePdu.Body> {
   public static class Body {
     @JsonProperty("subscription_id")
     public String subscription;
-  
+
     public Body() {
     }
-  
+
     public Body(String subscription) {
       this.subscription = subscription;
     }

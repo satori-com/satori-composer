@@ -28,14 +28,14 @@ public class CompositeConfigLoader implements ConfigLoader {
    * Load configuration trying all supplied configuration sources in turn.
    */
   public static JsonNode tryLoad(ConfigLoader... loaders) throws ConfigParsingException {
-    if(loaders == null){
+    if (loaders == null) {
       return null;
     }
     return tryLoad(Arrays.stream(loaders)::iterator);
   }
   
   public static JsonNode tryLoad(Iterable<ConfigLoader> loaders) throws ConfigParsingException {
-    if(loaders == null){
+    if (loaders == null) {
       return null;
     }
     for (ConfigLoader l : loaders) {
@@ -52,7 +52,7 @@ public class CompositeConfigLoader implements ConfigLoader {
   
   public static JsonNode load(ConfigLoader... loaders) throws Exception {
     JsonNode result = tryLoad(loaders);
-    if(result != null){
+    if (result != null) {
       return result;
     }
     throw new Exception("not found");
@@ -60,7 +60,7 @@ public class CompositeConfigLoader implements ConfigLoader {
   
   public static JsonNode load(Iterable<ConfigLoader> loaders) throws Exception {
     JsonNode result = tryLoad(loaders);
-    if(result != null){
+    if (result != null) {
       return result;
     }
     throw new Exception("not found");

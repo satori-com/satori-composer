@@ -44,28 +44,28 @@ public class LogRtmRecord extends JsonExt {
     );
   }
   
-  public static LogRtmRecord from(LoggingEvent event){
+  public static LogRtmRecord from(LoggingEvent event) {
     LogRtmRecord rec = new LogRtmRecord();
     rec.source = event.getLoggerName();
     rec.level = event.getLevel().toString();
-    try{
+    try {
       rec.message = event.getMessage();
-    }catch (Exception t){
+    } catch (Exception t) {
       rec.message = event.getMessage();
     }
-  
+    
     rec.timestamp = event.getTimeStamp();
     rec.thread = event.getThreadName();
     Throwable throwable = event.getThrowable();
-    if(throwable != null){
+    if (throwable != null) {
       LogRtmError err = new LogRtmError();
       err.message = throwable.getMessage();
       err.type = throwable.getClass().getCanonicalName();
       StackTraceElement[] stackTrace = throwable.getStackTrace();
-      if(stackTrace != null && stackTrace.length >0){
+      if (stackTrace != null && stackTrace.length > 0) {
         String[] stack = new String[stackTrace.length];
-        for(int j=0; j< stackTrace.length; j+=1){
-          stack[j]=stackTrace[j].toString();
+        for (int j = 0; j < stackTrace.length; j += 1) {
+          stack[j] = stackTrace[j].toString();
         }
         err.stack = stack;
       }

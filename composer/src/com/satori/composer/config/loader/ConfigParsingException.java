@@ -18,11 +18,11 @@ public class ConfigParsingException extends Exception {
     super(createErrorMessage(null), cause);
   }
   
-  private static String createErrorMessage(String config){
-    if(config != null){
+  private static String createErrorMessage(String config) {
+    if (config != null) {
       return String.format("Can't parse configuration: '%s'", config);
     }
-  
+    
     return "Can't parse configuration";
   }
 }

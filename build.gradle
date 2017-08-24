@@ -9,7 +9,7 @@ idea {
 
 subprojects {
   group 'com.satori'
-  version '0.1.17-SNAPSHOT'
+  version '0.2.0-SNAPSHOT'
 
   apply plugin: 'java'
 
@@ -35,10 +35,6 @@ subprojects {
   }
 }
 
-project("composer"){
-  apply from: rootProject.file('publishing.gradle')
-}
-
-project("mods"){
+configure([project(':composer'), project(':mods'), project(':mods-suite')]) {
   apply from: rootProject.file('publishing.gradle')
 }

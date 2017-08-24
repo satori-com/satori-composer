@@ -44,7 +44,7 @@ public abstract class RtmChannelSubscriber extends RtmChannel implements IRtmSub
           parser = new RtmParser(ctx, subscriber);
         }
         final WsPinger pinger = new WsPinger(ctx, parser);
-  
+        
         return new WebSockAdapter(ws, ctx, pinger);
       }
     };

@@ -18,6 +18,6 @@ public class RtmFilterApp {
     ComposerRuntime.start(ModResourceLoader.loadAsConfigAndValidate(
       "config.json", ComposerRuntimeConfig.class
     ));
-  
+
   }
 }

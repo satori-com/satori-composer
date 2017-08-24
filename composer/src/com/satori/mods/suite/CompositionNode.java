@@ -4,9 +4,10 @@ import com.satori.mods.api.*;
 import com.satori.mods.core.async.*;
 import com.satori.mods.core.stats.*;
 
-import java.io.*;
+import java.io.Closeable;
 
 import com.fasterxml.jackson.databind.*;
+import io.vertx.core.*;
 
 public class CompositionNode implements IMod, IModContext {
   public final String name;
@@ -26,8 +27,8 @@ public class CompositionNode implements IMod, IModContext {
   }
   
   @Override
-  public IModRuntime runtime() {
-    return context.runtime();
+  public Vertx vertx() {
+    return context.vertx();
   }
   
   // IMod implementation

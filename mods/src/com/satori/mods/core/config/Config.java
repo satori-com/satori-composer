@@ -24,7 +24,7 @@ public abstract class Config {
   }
   
   public static <T extends Config> T parseAndValidate(InputStream stream, Class<T> cls) throws Exception {
-    if(stream == null){
+    if (stream == null) {
       return null;
     }
     T result = parse(stream, cls);
@@ -33,7 +33,7 @@ public abstract class Config {
   }
   
   public static <T extends Config> T parseAndValidate(JsonNode tree, Class<T> cls) throws Exception {
-    if(tree == null){
+    if (tree == null) {
       return null;
     }
     T result = mapper.treeToValue(tree, cls);

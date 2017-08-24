@@ -10,7 +10,6 @@ import java.util.*;
 
 import com.fasterxml.jackson.databind.*;
 import io.netty.handler.codec.http.*;
-import io.vertx.core.*;
 import io.vertx.core.buffer.*;
 import io.vertx.core.http.*;
 import io.vertx.core.http.impl.*;
@@ -27,7 +26,6 @@ public class WsSubscribeMod extends Mod {
   private final String path;
   private final long idleTimeout;
   private final long errorDelay;
-  private Vertx vertx;
   private final CaseInsensitiveHeaders headers = new CaseInsensitiveHeaders();
   private final IBufferParser bufferParser;
   private long timer = INVALID_TIMER;
@@ -80,7 +78,6 @@ public class WsSubscribeMod extends Mod {
   @Override
   public void init(final IModContext context) throws Exception {
     super.init(context);
-    this.vertx = ((Verticle) context.runtime()).getVertx();
     stats.reset();
     log.info("ws-subscriber mod initialized ({})", path);
     nextIdleTimeout = Long.MAX_VALUE;
@@ -89,18 +86,17 @@ public class WsSubscribeMod extends Mod {
   
   @Override
   public void dispose() throws Exception {
-    super.dispose();
-    this.vertx = null;
+    if (timer != INVALID_TIMER) {
+      vertx().cancelTimer(timer);
+      timer = INVALID_TIMER;
+    }
     stats.reset();
     nextIdleTimeout = Long.MAX_VALUE;
     if (ws != null) {
       ws.close();
     }
-    if (timer != INVALID_TIMER) {
-      vertx.cancelTimer(timer);
-      timer = INVALID_TIMER;
-    }
     log.info("ws-subscriber mod terminated ({})", path);
+    super.dispose();
   }
   
   @Override
@@ -167,7 +163,7 @@ public class WsSubscribeMod extends Mod {
       return;
     }
     nextIdleTimeout = Long.MAX_VALUE;
-    timer = vertx.setTimer(
+    timer = vertx().setTimer(
       errorDelay, this::onReconnect
     );
   }
@@ -206,7 +202,7 @@ public class WsSubscribeMod extends Mod {
       connect();
       return;
     }
-    timer = vertx.setTimer(
+    timer = vertx().setTimer(
       config.errorDelay, this::onReconnect
     );
   }
@@ -239,7 +235,7 @@ public class WsSubscribeMod extends Mod {
     }
     if (timer != INVALID_TIMER) {
       log.error("timer != INVALID_TIMER", new CheckFailedException());
-      vertx.cancelTimer(timer);
+      vertx().cancelTimer(timer);
       timer = INVALID_TIMER;
     }
     return true;
@@ -267,7 +263,7 @@ public class WsSubscribeMod extends Mod {
   }
   
   private HttpClient createHttpClient() {
-    return vertx.createHttpClient(new HttpClientOptions()
+    return vertx().createHttpClient(new HttpClientOptions()
       .setTryUseCompression(config.compression)
       .setMaxPoolSize(1)
       .setIdleTimeout(config.idleTimeout)
