@@ -6,7 +6,7 @@
     }
   },
   "mods": {
-    "poller-vehicle-positions": {
+    "positions": {
       "type": "com.satori.mods.suite.HttpPollMod",
       "settings": {
         "delay": 1000, // in ms., 1 sec.
@@ -17,7 +17,7 @@
         "path": "/vehiclepositions.bin"
       }
     },
-    "poller-trip-updates": {
+    "trips": {
       "type": "com.satori.mods.suite.HttpPollMod",
       "settings": {
         "delay": 1000, // in ms., 1 sec.
@@ -30,31 +30,28 @@
     },
     "converter": {
       "type": "com.satori.mods.suite.GtfsProtoBufToJsonMod",
-      "connectors": ["poller-vehicle-positions", "poller-trip-updates"],
+      "connectors": ["positions", "trips"],
       "settings": {
         "user-data": "auckland"
       }
     },
-    "dedup-filter": {
-      "type": "com.satori.mods.suite.DedupMod",
+    "unwrapper": {
+      "type": "com.satori.mods.suite.ArrayUnwrapperMod",
       "connectors": "converter",
+      "settings": "/entity"
+    },
+    "dedup": {
+      "type": "com.satori.mods.suite.DedupMod",
+      "connectors": "unwrapper",
       "settings": {
         "expiration-interval": 600000,
-        "override": false,
-        "key-selector": "/entity"
+        "override": false
+        //"key-selector": "/entity"
       }
     },
-    "publisher": {
-      "type": "com.satori.mods.suite.RtmPublishMod",
-      "connectors": "dedup-filter",
-      "settings": {
-        "channel": "YOUR_CHANNEL",
-        "host": "YOU_HOST", //no wss scheme, just host: x.satori.com
-        "ssl": true,
-        "args": {"appkey": "YOU_APPKEY"} //,
-        // enable if your publish permission needs auth
-        //"auth": {"role": "YOUR_ROLE","secret": "YOUR_SECRET"}
-      }
+    "printer": {
+      "type": "com.satori.mods.suite.PrinterMod",
+      "connectors": "dedup"
     }
   }
 }
