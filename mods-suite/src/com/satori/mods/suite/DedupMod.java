@@ -83,6 +83,19 @@ public class DedupMod extends Mod {
     yield(data, cont);
   }
   
+  @Override
+  public IAsyncFuture onInput(String inputName, JsonNode data) throws Exception {
+    stats.recv += 1;
+    final long expired = timestamp() + expirationInterval;
+    if (cache(data, expired) != null) {
+      // filter out repeated entity
+      stats.filtered += 1;
+      return AsyncResults.succeededNull;
+    }
+    stats.sent += 1;
+    return yield(data);
+  }
+  
   // private methods
   
   private Long cache(JsonNode msg, Long expired) {
