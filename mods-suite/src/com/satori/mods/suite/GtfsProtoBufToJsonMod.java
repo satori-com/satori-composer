@@ -102,9 +102,8 @@ public class GtfsProtoBufToJsonMod extends Mod {
       }
       // operation was completed immediately
       if (future.isFailed()) {
-        // abort loop with failure
-        cont.fail(future.getError());
-        return;
+        // log error if processing failed
+        log.warn("failed to process entity", future.getError());
       }
     }
   }
