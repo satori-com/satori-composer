@@ -91,6 +91,11 @@ public class CompositionNode implements IMod, IModContext {
   }
   
   @Override
+  public IAsyncFuture yield(JsonNode data) throws Exception {
+    return outputPin.yield(data);
+  }
+  
+  @Override
   public void exec(Runnable action) throws Exception {
     context.exec(action);
   }

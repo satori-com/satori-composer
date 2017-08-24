@@ -26,4 +26,10 @@ public interface IMod {
   }
   
   void onInput(String inputName, JsonNode data, IAsyncHandler cont) throws Exception;
+  
+  default IAsyncFuture onInput(String inputName, JsonNode data) throws Exception{
+    AsyncFuture future = new AsyncFuture();
+    onInput(inputName, data, future);
+    return future;
+  }
 }

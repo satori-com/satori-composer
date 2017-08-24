@@ -35,9 +35,16 @@ public class Mod implements IMod, IModContext {
   
   // IModContext implementation
   
+  @Override
   public void yield(JsonNode data, IAsyncHandler cont) throws Exception {
     context.yield(data, cont);
   }
+  
+  @Override
+  public IAsyncFuture yield(JsonNode data) throws Exception {
+    return context.yield(data);
+  }
+  
   
   @Override
   public Vertx vertx() {
@@ -63,12 +70,6 @@ public class Mod implements IMod, IModContext {
   
   public IModContext context() {
     return context;
-  }
-  
-  public IAsyncFuture yield(JsonNode data) throws Exception {
-    AsyncFuture res = new AsyncFuture();
-    yield(data, res);
-    return res;
   }
   
   public IAsyncFuture yield(String data) throws Exception {

@@ -24,6 +24,14 @@ public interface IModContext extends IModOutput {
     output.yield(data, cont);
   }
   
+  default IAsyncFuture yield(JsonNode data) throws Exception {
+    IModOutput output = output();
+    if (output == null) {
+      return AsyncResults.failed(new Exception("not defined"));
+    }
+    return output.yield(data);
+  }
+  
   void exec(Runnable action) throws Exception;
   
   Closeable timer(long delay, Runnable action);

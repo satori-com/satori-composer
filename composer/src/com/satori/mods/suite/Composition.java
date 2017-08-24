@@ -97,22 +97,28 @@ public class Composition extends Mod {
   
   public void linkOutput(String pinRef) {
     CompositionPin pin = pins.computeIfAbsent(pinRef, k -> new CompositionPin());
-    pin.linkOutput((msg, cont) -> {
-      try {
-        yield(msg, cont);
-      } catch (Exception e) {
-        cont.fail(e);
+    pin.linkOutput(new IModInput() {
+      @Override
+      public void process(JsonNode data, IAsyncHandler cont) throws Exception {
+        yield(data, cont);
+      }
+      @Override
+      public IAsyncFuture process(JsonNode data) throws Exception {
+        return yield(data);
       }
     });
   }
   
   public void linkModInput(IMod mod, String inputName, String pinRef) {
     CompositionPin pin = pins.computeIfAbsent(pinRef, k -> new CompositionPin());
-    pin.linkOutput((data, cont) -> {
-      try {
+    pin.linkOutput(new IModInput() {
+      @Override
+      public void process(JsonNode data, IAsyncHandler cont) throws Exception {
         mod.onInput(inputName, data, cont);
-      } catch (Throwable e) {
-        cont.fail(e);
+      }
+      @Override
+      public IAsyncFuture process(JsonNode data) throws Exception {
+        return mod.onInput(inputName, data);
       }
     });
   }
