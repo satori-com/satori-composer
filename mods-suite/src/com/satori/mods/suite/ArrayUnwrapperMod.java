@@ -6,8 +6,10 @@ import java.util.*;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
+import org.slf4j.*;
 
 public class ArrayUnwrapperMod extends Mod {
+  public static final Logger log = LoggerFactory.getLogger(ArrayUnwrapperMod.class);
   
   private final String path;
   
@@ -56,6 +58,36 @@ public class ArrayUnwrapperMod extends Mod {
     yieldLoop(deq, cont);
   }
   
+  @Override
+  public IAsyncFuture onInput(String inputName, JsonNode data) throws Exception {
+    if (data != null && path != null && !path.isEmpty()) {
+      data = data.at(path);
+    }
+    
+    if (data == null || data.isNull() || data.isMissingNode()) {
+      return AsyncResults.succeededNull;
+    }
+    
+    if (!data.isArray()) {
+      return yield(data);
+    }
+    
+    ArrayNode array = (ArrayNode) data;
+    if (array.size() <= 0) {
+      return AsyncResults.succeededNull;
+    } else if (array.size() == 1) {
+      return yield(array.get(0));
+    }
+    
+    ArrayDeque<JsonNode> deq = new ArrayDeque<>(array.size());
+    for (JsonNode node : array) {
+      deq.addLast(node);
+    }
+    AsyncFuture future = new AsyncFuture();
+    yieldLoop(deq, future);
+    return future;
+  }
+  
   // private methods
   
   public void yieldLoop(ArrayDeque<JsonNode> deq, IAsyncHandler cont) throws Exception {
@@ -87,9 +119,8 @@ public class ArrayUnwrapperMod extends Mod {
       
       // operation was completed immediately
       if (future.isFailed()) {
-        // abort loop with failure
-        cont.fail(future.getError());
-        return;
+        // log error if processing failed
+        log.warn("failed to process array element", future.getError());
       }
     }
   }
