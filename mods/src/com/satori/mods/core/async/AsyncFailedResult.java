@@ -1,6 +1,6 @@
 package com.satori.mods.core.async;
 
-public class AsyncFailedResult<T> implements IAsyncResult<T> {
+public class AsyncFailedResult<T> extends AsyncResult<T> {
   private final Throwable error;
   
   public AsyncFailedResult(Throwable error) {
@@ -15,6 +15,13 @@ public class AsyncFailedResult<T> implements IAsyncResult<T> {
     this.error = new Exception(message, inner);
   }
   
+  // AsyncResult implementation
+  
+  @Override
+  public Throwable getError() {
+    return error;
+  }
+
   @Override
   public T get() throws Throwable {
     throw error;
@@ -33,11 +40,6 @@ public class AsyncFailedResult<T> implements IAsyncResult<T> {
   @Override
   public boolean isFailed() {
     return true;
-  }
-  
-  @Override
-  public Throwable getError() {
-    return error;
   }
   
 }
