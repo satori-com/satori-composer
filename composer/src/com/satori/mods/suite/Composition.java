@@ -95,6 +95,15 @@ public class Composition extends Mod {
     pin.yield(data, cont);
   }
   
+  @Override
+  public IAsyncFuture onInput(String inputName, JsonNode data) throws Exception {
+    CompositionPin pin = pins.get(inputName);
+    if (pin == null) {
+      return AsyncResults.failed("connectors not found");
+    }
+    return pin.yield(data);
+  }
+  
   public void linkOutput(String pinRef) {
     CompositionPin pin = pins.computeIfAbsent(pinRef, k -> new CompositionPin());
     pin.linkOutput(new IModInput() {

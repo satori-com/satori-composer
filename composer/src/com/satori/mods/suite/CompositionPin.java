@@ -39,9 +39,7 @@ public class CompositionPin implements IModOutput {
     if (connectors.size() == 1) {
       return connectors.get(0).process(data);
     }
-    AsyncFuture future = new AsyncFuture();
-    doYieldLoop(connectors.iterator(), data, future);
-    return future;
+    return doYieldLoop(connectors.iterator(), data);
   }
   
 
@@ -97,6 +95,25 @@ public class CompositionPin implements IModOutput {
         return;
       }
     }
+  }
+  
+  @SuppressWarnings("unchecked")
+  public IAsyncFuture doYieldLoop(Iterator<IModInput> itor, JsonNode msg) throws Exception {
+    AsyncForkJoin forkJoin = new AsyncForkJoin();
+    while (itor.hasNext()) {
+      IModInput input = itor.next();
+      try {
+        IAsyncFuture future = input.process(msg);
+        if(!future.isCompleted()){
+          forkJoin.inc();
+          future.onCompleted(forkJoin);
+        }
+      }catch (Throwable e){
+        forkJoin.dec();
+      }
+    }
+    forkJoin.succeed();
+    return forkJoin;
   }
   
   public void linkOutput(IModInput output) {
