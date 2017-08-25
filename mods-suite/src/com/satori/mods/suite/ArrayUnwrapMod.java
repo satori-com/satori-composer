@@ -8,20 +8,20 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 import org.slf4j.*;
 
-public class ArrayUnwrapperMod extends Mod {
-  public static final Logger log = LoggerFactory.getLogger(ArrayUnwrapperMod.class);
+public class ArrayUnwrapMod extends Mod {
+  public static final Logger log = LoggerFactory.getLogger(ArrayUnwrapMod.class);
   
   private final String path;
   
-  public ArrayUnwrapperMod() {
+  public ArrayUnwrapMod() {
     this((String) null);
   }
   
-  public ArrayUnwrapperMod(JsonNode settings) {
+  public ArrayUnwrapMod(JsonNode settings) {
     this(settings.textValue());
   }
   
-  public ArrayUnwrapperMod(String path) {
+  public ArrayUnwrapMod(String path) {
     this.path = path;
   }
   

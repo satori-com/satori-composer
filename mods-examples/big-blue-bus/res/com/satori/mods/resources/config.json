@@ -7,7 +7,7 @@
   },
   "mods": {
     "positions": {
-      "type": "com.satori.mods.suite.HttpPollMod",
+      "type": "http-poll",
       "settings": {
         "delay": 1000, // in ms., 1 sec.
         "format": "binary",
@@ -18,7 +18,7 @@
       }
     },
     "trips": {
-      "type": "com.satori.mods.suite.HttpPollMod",
+      "type": "http-poll",
       "settings": {
         "delay": 1000, // in ms., 1 sec.
         "format": "binary",
@@ -29,19 +29,19 @@
       }
     },
     "converter": {
-      "type": "com.satori.mods.suite.GtfsProtoBufToJsonMod",
+      "type": "gtfs-proto-buf-to-json",
       "connectors": ["positions", "trips"],
       "settings": {
         "user-data": "auckland"
       }
     },
     "unwrapper": {
-      "type": "com.satori.mods.suite.ArrayUnwrapperMod",
+      "type": "array-unwrap",
       "connectors": "converter",
       "settings": "/entity"
     },
     "dedup": {
-      "type": "com.satori.mods.suite.DedupMod",
+      "type": "dedup",
       "connectors": "unwrapper",
       "settings": {
         "expiration-interval": 600000,
@@ -50,7 +50,11 @@
       }
     },
     "printer": {
-      "type": "com.satori.mods.suite.PrinterMod",
+      "type": "printer",
+      "connectors": "dedup"
+    },
+    "printer-2": {
+      "type": "printer",
       "connectors": "dedup"
     }
   }

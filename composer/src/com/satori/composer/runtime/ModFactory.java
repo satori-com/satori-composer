@@ -1,6 +1,7 @@
 package com.satori.composer.runtime;
 
 import com.satori.mods.api.*;
+import com.satori.mods.suite.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -10,8 +11,21 @@ import org.slf4j.*;
 
 public class ModFactory {
   private static final Logger log = LoggerFactory.getLogger(ModFactory.class);
+  private static final ServiceLoader<IWellKnownMods> wellKnownMods = ServiceLoader.load(IWellKnownMods.class);
+  
+  public static String resolve(String className){
+    for(IWellKnownMods provider: wellKnownMods){
+      String result = provider.resolve(className);
+      if(result != null){
+        return result;
+      }
+    }
+    return className;
+  }
   
   public static IMod create(String className, JsonNode config) {
+    
+    className = resolve(className);
     
     final Class<? extends IMod> modClass;
     try {
