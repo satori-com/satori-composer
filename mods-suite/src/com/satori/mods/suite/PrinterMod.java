@@ -12,11 +12,25 @@ public class PrinterMod extends Mod {
     jsonWriter = Config.mapper.writerWithDefaultPrettyPrinter();
   }
   
+  // IMod implementation
+  
   @Override
   public void onInput(String inputName, JsonNode data, IAsyncHandler cont) throws Exception {
+    processMessage(inputName, data);
+    cont.succeed();
+  }
+  
+  @Override
+  public IAsyncFuture onInput(String inputName, JsonNode data) throws Exception {
+    processMessage(inputName, data);
+    return AsyncResults.succeeded();
+  }
+  
+  // private logic
+  
+  private void processMessage(String inputName, JsonNode data) throws Exception {
     System.out.println("input '" + inputName + "':");
     jsonWriter.writeValue(System.out, data);
     System.out.println();
-    cont.succeed();
   }
 }
