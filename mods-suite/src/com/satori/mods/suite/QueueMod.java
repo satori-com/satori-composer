@@ -88,6 +88,7 @@ public class QueueMod extends Mod {
       return AsyncResults.succeeded();
     }
     if (resumeFuture == null) {
+      stats.paused += 1;
       resumeFuture = new AsyncFuture();
     }
     return resumeFuture;
@@ -109,6 +110,7 @@ public class QueueMod extends Mod {
     while (queue.size() > 0) {
       try {
         JsonNode data = queue.pollFirst();
+        stats.sent += 1;
         sendingFuture = yield(data);
         if (!sendingFuture.isCompleted()) {
           sendingFuture.onCompleted(this::onSendCompleted);
@@ -131,6 +133,7 @@ public class QueueMod extends Mod {
     if (resumeFuture != null && queue.size() <= resumeThreshold) {
       this.resumeFuture = null;
       resumeFuture.succeed();
+      stats.resumed += 1;
     }
   }
   
