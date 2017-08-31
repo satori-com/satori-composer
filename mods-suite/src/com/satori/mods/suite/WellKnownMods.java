@@ -20,6 +20,7 @@ public class WellKnownMods implements IWellKnownMods {
     records.put("ws-subscribe", WsSubscribeMod.class.getCanonicalName());
     records.put("xslt", XsltMod.class.getCanonicalName());
     records.put("queue", QueueMod.class.getCanonicalName());
+    records.put("barrier", BarrierMod.class.getCanonicalName());
   }
   
   // IWellKnownMods implementation
