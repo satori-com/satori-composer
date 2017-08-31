@@ -1,0 +1,27 @@
+{
+  "stats": {
+    "period": 1000, // in ms., 1 sec.
+    "console": {
+      "period": 10000
+    }
+  },
+  "mods": {
+    "source": {
+      "type": "com.satori.mods.examples.SourceMod",
+    },
+    "queue": {
+      "type": "queue",
+      "connectors": "source",
+      "settings":{}
+    },
+    "delayer": {
+      "type": "com.satori.mods.examples.DelayMod",
+      "connectors": "queue",
+      "settings":{}
+    },
+    "printer": {
+      "type": "printer",
+      "connectors": "delayer"
+    }
+  }
+}
