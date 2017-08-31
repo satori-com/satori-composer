@@ -9,7 +9,7 @@ idea {
 
 subprojects {
   group 'com.satori'
-  version '0.2.4-SNAPSHOT'
+  version '0.2.5-SNAPSHOT'
 
   apply plugin: 'java'
 

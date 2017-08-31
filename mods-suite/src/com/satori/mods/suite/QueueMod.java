@@ -70,6 +70,7 @@ public class QueueMod extends Mod {
     stats.drain(collector);
   }
   
+  @SuppressWarnings("unchecked")
   @Override
   public void onInput(String inputName, JsonNode data, IAsyncHandler cont) throws Exception {
     IAsyncFuture future = onInput(inputName, data);
@@ -103,7 +104,7 @@ public class QueueMod extends Mod {
     resumeIfNeeded();
   }
   
-  
+  @SuppressWarnings("unchecked")
   private void processQueue() {
     while (queue.size() > 0) {
       try {
