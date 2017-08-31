@@ -1,8 +1,0 @@
-{
-  "channel": "YOUR_CHANNEL",
-  "host": "YOU_HOST", //no wss scheme, just host: x.satori.com
-  "ssl": true,
-  "args": {"appkey": "YOU_APPKEY"} //,
-  // enable if your permission needs auth
-  //"auth": {"role": "YOUR_ROLE","secret": "YOUR_SECRET"}
-}

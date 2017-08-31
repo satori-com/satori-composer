@@ -21,12 +21,10 @@ public class HelloWorldApp {
     
     CompositionNode helloWorldNode = composition.addMod("hello-world", new HelloWorldMod());
     CompositionNode delayNode = composition.addMod("delay", new DelayMod());
-    CompositionNode publisherNode = composition.addMod("publisher", new RtmPublishMod(
-      ModResourceLoader.loadAsJson("publisher.json")
-    ));
+    CompositionNode printerNode = composition.addMod("printer", new PrinterMod());
     
     helloWorldNode.linkOutput(delayNode);
-    delayNode.linkOutput(publisherNode);
+    delayNode.linkOutput(printerNode);
     
     ComposerRuntime.start(composition);
   }
