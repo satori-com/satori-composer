@@ -1,11 +1,12 @@
 apply plugin: 'application'
 apply from: '../examples.gradle'
 
-mainClassName = 'com.satori.mods.examples.BigBlueBus'
+mainClassName = 'com.satori.mods.examples.App'
 applicationName = projectDir.name
 
 dependencies {
   compile project(':mods-suite')
+  compile project(':mods-examples/suite')
 
   compile 'org.slf4j:slf4j-jdk14:1.8.+'
 

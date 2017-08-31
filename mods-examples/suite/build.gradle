@@ -1,0 +1,9 @@
+apply plugin: 'application'
+
+dependencies {
+  compile project(':mods-suite')
+
+  testCompile 'junit:junit:4.+'
+}
+
+

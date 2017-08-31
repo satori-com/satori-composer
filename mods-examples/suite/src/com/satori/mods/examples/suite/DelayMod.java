@@ -1,4 +1,4 @@
-package com.satori.mods.examples;
+package com.satori.mods.examples.suite;
 
 
 import com.satori.mods.core.async.*;

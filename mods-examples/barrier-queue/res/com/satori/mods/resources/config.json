@@ -7,7 +7,7 @@
   },
   "mods": {
     "source": {
-      "type": "com.satori.mods.examples.SourceMod",
+      "type": "ex:clock",
     },
     "barrier": {
       "type": "barrier",
@@ -20,7 +20,7 @@
       "settings":{}
     },
     "delayer": {
-      "type": "com.satori.mods.examples.DelayMod",
+      "type": "ex:delay",
       "connectors": "queue",
       "settings":{}
     },

@@ -7,15 +7,17 @@
   },
   "mods": {
     "source": {
-      "type": "com.satori.mods.examples.SourceMod",
+      "type": "ex:clock"
     },
     "queue": {
       "type": "queue",
       "connectors": "source",
-      "settings":{}
+      "settings":{
+        "pause-threshold":10
+      }
     },
     "delayer": {
-      "type": "com.satori.mods.examples.DelayMod",
+      "type": "ex:delay",
       "connectors": "queue",
       "settings":{}
     },
