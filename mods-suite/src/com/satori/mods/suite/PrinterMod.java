@@ -3,6 +3,8 @@ package com.satori.mods.suite;
 import com.satori.mods.core.async.*;
 import com.satori.mods.core.config.*;
 
+import java.time.*;
+
 import com.fasterxml.jackson.databind.*;
 
 public class PrinterMod extends Mod {
@@ -29,7 +31,9 @@ public class PrinterMod extends Mod {
   // private logic
   
   private void processMessage(String inputName, JsonNode data) throws Exception {
-    System.out.println("input '" + inputName + "':");
+    System.out.print(String.format(
+      "%s [%s]: ", Instant.now(), inputName
+    ));
     jsonWriter.writeValue(System.out, data);
     System.out.println();
   }
