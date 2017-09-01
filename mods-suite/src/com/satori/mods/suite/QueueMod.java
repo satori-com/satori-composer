@@ -41,7 +41,7 @@ public class QueueMod extends Mod {
     this.pauseThreshold = pauseThreshold;
     this.resumeThreshold = resumeThreshold;
     queue = new ArrayDeque<>(pauseThreshold);
-    resumeFutures = new ArrayDeque<>(pauseThreshold);
+    resumeFutures = new ArrayDeque<>();
   }
   
   // IMod implementation

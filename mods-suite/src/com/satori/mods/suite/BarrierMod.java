@@ -4,6 +4,8 @@ import com.satori.mods.core.async.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.core.stats.*;
 
+import java.util.*;
+
 import com.fasterxml.jackson.databind.*;
 import org.slf4j.*;
 
@@ -15,7 +17,8 @@ public class BarrierMod extends Mod {
   private final int resumeThreshold;
   
   private int counter;
-  private AsyncFuture resumeFuture = null;
+  private boolean paused = false;
+  private final ArrayDeque<AsyncFuture> resumeFutures;
   
   public BarrierMod() throws Exception {
     this(
@@ -36,6 +39,7 @@ public class BarrierMod extends Mod {
     this.pauseThreshold = pauseThreshold;
     this.resumeThreshold = resumeThreshold;
     counter = 0;
+    resumeFutures = new ArrayDeque<>();
   }
   
   // IMod implementation
@@ -75,17 +79,18 @@ public class BarrierMod extends Mod {
   @Override
   public IAsyncFuture onInput(String inputName, JsonNode data) throws Exception {
     stats.recv += 1;
-    
-    if (resumeFuture == null && counter < pauseThreshold) {
-      processData(data);
-      return AsyncResults.succeeded();
-    }
-    if (resumeFuture == null) {
-      resumeFuture = new AsyncFuture();
+    processData(data);
+    if(!paused){
+      if(counter < pauseThreshold){
+        return AsyncResults.succeeded();
+      }
+      paused = true;
       stats.paused += 1;
     }
-    processData(data);
-    return resumeFuture;
+  
+    AsyncFuture future = new AsyncFuture();
+    resumeFutures.addLast(future);
+    return future;
   }
   
   // private methods
@@ -128,12 +133,23 @@ public class BarrierMod extends Mod {
   }
   
   private void resumeIfNeeded() {
-    AsyncFuture resumeFuture = this.resumeFuture;
-    if (resumeFuture != null && counter <= resumeThreshold) {
-      this.resumeFuture = null;
-      stats.resumed += 1;
-      resumeFuture.succeed();
+    while (true){
+      if(paused){
+        if(counter > resumeThreshold){
+          return;
+        }
+        paused = false;
+        stats.resumed += 1;
+      }
+      AsyncFuture future = resumeFutures.pollFirst();
+      if(future == null){
+        return;
+      }
+      try {
+        future.succeed();
+      } catch (Throwable e){
+        log.warn("continuation failure", e);
+      }
     }
   }
-  
 }
