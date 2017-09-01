@@ -12,12 +12,16 @@
     "barrier": {
       "type": "barrier",
       "connectors": "source",
-      "settings":{}
+      "settings":{
+        "pause-threshold": 5
+      }
     },
     "queue": {
       "type": "queue",
       "connectors": "barrier",
-      "settings":{}
+      "settings":{
+        "pause-threshold": 10
+      }
     },
     "delayer": {
       "type": "ex:delay",

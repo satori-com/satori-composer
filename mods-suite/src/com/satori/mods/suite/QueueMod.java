@@ -19,7 +19,8 @@ public class QueueMod extends Mod {
   private final int resumeThreshold;
   
   private IAsyncFuture sendingFuture = null;
-  private AsyncFuture resumeFuture = null;
+  private final ArrayDeque<AsyncFuture> resumeFutures;
+  private boolean paused = false;
   
   public QueueMod() throws Exception {
     this(
@@ -40,6 +41,7 @@ public class QueueMod extends Mod {
     this.pauseThreshold = pauseThreshold;
     this.resumeThreshold = resumeThreshold;
     queue = new ArrayDeque<>(pauseThreshold);
+    resumeFutures = new ArrayDeque<>(pauseThreshold);
   }
   
   // IMod implementation
@@ -81,17 +83,19 @@ public class QueueMod extends Mod {
   public IAsyncFuture onInput(String inputName, JsonNode data) throws Exception {
     stats.recv += 1;
     queue.addLast(data);
-    if (queue.size() < pauseThreshold) {
-      if (sendingFuture == null) {
-        processQueue();
+    if(!paused){
+      if(queue.size() < pauseThreshold){
+        if (sendingFuture == null) {
+          processQueue();
+        }
+        return AsyncResults.succeeded();
       }
-      return AsyncResults.succeeded();
-    }
-    if (resumeFuture == null) {
+      paused = true;
       stats.paused += 1;
-      resumeFuture = new AsyncFuture();
     }
-    return resumeFuture;
+    AsyncFuture future = new AsyncFuture();
+    resumeFutures.addLast(future);
+    return future;
   }
   
   // private methods
@@ -112,6 +116,12 @@ public class QueueMod extends Mod {
         JsonNode data = queue.pollFirst();
         stats.sent += 1;
         sendingFuture = yield(data);
+      } catch (Throwable e) {
+        sendingFuture = null;
+        log.warn("failed to process message", e);
+        continue;
+      }
+      try {
         if (!sendingFuture.isCompleted()) {
           sendingFuture.onCompleted(this::onSendCompleted);
           return;
@@ -120,20 +130,32 @@ public class QueueMod extends Mod {
         if (sendingFuture.isFailed()) {
           log.warn("failed to process message", sendingFuture.getError());
         }
-        sendingFuture = null;
       } catch (Throwable e) {
         log.warn("failed to process message", e);
       }
+      sendingFuture = null;
     }
   }
   
   
   private void resumeIfNeeded() {
-    AsyncFuture resumeFuture = this.resumeFuture;
-    if (resumeFuture != null && queue.size() <= resumeThreshold) {
-      this.resumeFuture = null;
-      resumeFuture.succeed();
-      stats.resumed += 1;
+    while (true){
+      if(paused && queue.size() > resumeThreshold){
+        return;
+      }
+      if(paused) {
+        stats.resumed += 1;
+        paused = false;
+      }
+      AsyncFuture future = resumeFutures.pollFirst();
+      if(future == null){
+        return;
+      }
+      try {
+        future.succeed();
+      } catch (Throwable e){
+        log.warn("continuation failure", e);
+      }
     }
   }
   

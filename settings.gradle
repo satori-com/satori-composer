@@ -2,6 +2,8 @@ include 'mods'
 include 'mods-suite'
 include 'composer'
 
+include 'mods-examples/suite'
+
 include 'mods-examples/barrier'
 include 'mods-examples/barrier-queue'
 include 'mods-examples/big-blue-bus'

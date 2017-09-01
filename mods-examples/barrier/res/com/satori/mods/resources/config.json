@@ -12,12 +12,15 @@
     "barrier": {
       "type": "barrier",
       "connectors": "source",
-      "settings":{}
+      "settings":{
+        "pause-threshold": 10
+      }
     },
     "delayer": {
       "type": "ex:delay",
       "connectors": "barrier",
-      "settings":{}
+      "settings":{
+      }
     },
     "printer": {
       "type": "printer",
