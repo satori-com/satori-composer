@@ -14,6 +14,9 @@ public class ModFactory {
   private static final ServiceLoader<IWellKnownMods> wellKnownMods = ServiceLoader.load(IWellKnownMods.class);
   
   public static String resolve(String className){
+    if("composition".equals(className)){
+      return Composition.class.getCanonicalName();
+    }
     for(IWellKnownMods provider: wellKnownMods){
       String result = provider.resolve(className);
       if(result != null){
