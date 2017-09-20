@@ -90,24 +90,32 @@ public class ArrayUnwrapMod extends Mod {
   
   // private methods
   
-  public void yieldLoop(ArrayDeque<JsonNode> deq, IAsyncHandler cont) throws Exception {
+  private void yieldLoop(ArrayDeque<JsonNode> deq, IAsyncHandler cont) {
     while (true) {
       
       JsonNode element = deq.pollFirst();
       if (deq.isEmpty()) {
         // this was the last element
-        yield(element, cont);
+        try {
+          yield(element, cont);
+        } catch (Throwable e) {
+          cont.fail(e);
+        }
         return;
       }
       
-      IAsyncFuture<?> future = yield(element);
+      final IAsyncFuture<?> future;
+      try {
+        future = yield(element);
+      } catch (Throwable e) {
+        // log error if processing failed
+        log.warn("failed to process array element", e);
+        continue;
+      }
+      
       if (!future.isCompleted()) {
         // operation still in progress, set continuation and exit
         future.onCompleted(ar -> {
-          if (!ar.isSucceeded()) {
-            cont.fail(ar.getError());
-            return;
-          }
           try {
             yieldLoop(deq, cont);
           } catch (Exception e) {
@@ -118,7 +126,7 @@ public class ArrayUnwrapMod extends Mod {
       }
       
       // operation was completed immediately
-      if (future.isFailed()) {
+      if (!future.isSucceeded()) {
         // log error if processing failed
         log.warn("failed to process array element", future.getError());
       }
