@@ -1,5 +1,8 @@
 apply plugin: 'idea'
 
+group 'com.satori'
+version '0.2.7-SNAPSHOT'
+
 idea {
   project {
     jdkName = '1.8'
@@ -7,9 +10,16 @@ idea {
   }
 }
 
+task generateReadme(type: TemplateTask) {
+  group 'codegen'
+  template = file('readme.template.md')
+  output = file('readme.md')
+  outputs.upToDateWhen { false }
+}
+
 subprojects {
-  group 'com.satori'
-  version '0.2.7-SNAPSHOT'
+  group rootProject.group
+  version rootProject.version
 
   apply plugin: 'java'
 
