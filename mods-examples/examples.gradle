@@ -16,6 +16,7 @@ task generateReadme(type: TemplateTask) {
   println projectDir.name
   template new File(buildscript.sourceFile.parentFile, "readme.template.md")
   output file("readme.md")
+  outputs.upToDateWhen { false }
 }
 
 task generateLogProperties(type: TemplateTask) {
@@ -87,6 +88,7 @@ task runDockerContainer() {
   }
 }
 
+/*
 class TemplateTask extends DefaultTask {
   TemplateEngine engine = new GStringTemplateEngine()
 
@@ -105,4 +107,4 @@ class TemplateTask extends DefaultTask {
       writable.writeTo(it)
     }
   }
-}
+}*/

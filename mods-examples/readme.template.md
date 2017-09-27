@@ -1,8 +1,8 @@
 <!-- generated, do not modify <% 
-def installDir = file(".").toPath().relativize(installDist.destinationDir.toPath()).toString().replace('\\','/')
+def installDir = project.file(".").toPath().relativize(project.installDist.destinationDir.toPath()).toString().replace('\\','/')
 def appDir = "${installDir}/bin"
-def appScript = startScripts.applicationName
-def appName = applicationName
+def appScript = project.startScripts.applicationName
+def appName = project.applicationName
 def projName = project.name
 %>-->
 ##### build app

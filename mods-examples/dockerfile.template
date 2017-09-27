@@ -1,5 +1,5 @@
 # generated, do not modify <%
-  def appName = applicationName
+  def appName = project.applicationName
 %>
 FROM centos:7
 
