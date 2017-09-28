@@ -2,7 +2,8 @@
 
 #### Example
 ![diagram](docs/files/big-blue-bus-composition.png)
-```yaml<%="" /*include.call("mods-examples/big-blue-bus/res/com/satori/mods/resources/config.json")*/%>
+```yaml
+<% /*include("mods-examples/big-blue-bus/res/com/satori/mods/resources/config.json")*/%>
 {
   "stats": {
     "period": 1000, // in ms., 1 sec.

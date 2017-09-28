@@ -3,6 +3,7 @@
 #### Example
 ![diagram](docs/files/big-blue-bus-composition.png)
 ```yaml
+
 {
   "stats": {
     "period": 1000, // in ms., 1 sec.
