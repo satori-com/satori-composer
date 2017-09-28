@@ -2,7 +2,7 @@
 
 #### Example
 ![diagram](docs/files/big-blue-bus-composition.png)
-```yaml
+```yaml<%="" /*include.call("mods-examples/big-blue-bus/res/com/satori/mods/resources/config.json")*/%>
 {
   "stats": {
     "period": 1000, // in ms., 1 sec.
@@ -72,8 +72,8 @@
 - [Building and Running](https://www.satori.com/docs/opensource/composer#building-and-running)
 - [Async support library](docs/async/readme.md)
 
-### Maven
-##### releases:
+<% if(!project.version.endsWith("-SNAPSHOT")) {%>
+### Maven (releases)
 ```xml
 <dependency>
     <groupId>com.satori</groupId>
@@ -81,7 +81,8 @@
     <version>${project.version}</version>
 </dependency>
 ```
-##### snapshots:
+<% } else {%>
+### Maven (snapshots)
 ```xml
 <repository>
   <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -94,6 +95,7 @@
     <version>${project.version}</version>
 </dependency>
 ```
+<% }%>
 
 ### Download
 [Latest release](https://github.com/satori-com/satori-composer/releases/latest)

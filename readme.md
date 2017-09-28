@@ -72,16 +72,8 @@
 - [Building and Running](https://www.satori.com/docs/opensource/composer#building-and-running)
 - [Async support library](docs/async/readme.md)
 
-### Maven
-##### releases:
-```xml
-<dependency>
-    <groupId>com.satori</groupId>
-    <artifactId>satori-composer</artifactId>
-    <version>0.2.7-SNAPSHOT</version>
-</dependency>
-```
-##### snapshots:
+
+### Maven (snapshots)
 ```xml
 <repository>
   <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -94,6 +86,7 @@
     <version>0.2.7-SNAPSHOT</version>
 </dependency>
 ```
+
 
 ### Download
 [Latest release](https://github.com/satori-com/satori-composer/releases/latest)
