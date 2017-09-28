@@ -61,6 +61,10 @@
           <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="0" />
           <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="0" />
         </GroovyCodeStyleSettings>
+        <JetCodeStyleSettings>
+          <option name="NAME_COUNT_TO_USE_STAR_IMPORT" value="1" />
+          <option name="NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS" value="1" />
+        </JetCodeStyleSettings>
         <codeStyleSettings language="Groovy">
           <indentOptions>
             <option name="INDENT_SIZE" value="2" />
@@ -74,6 +78,13 @@
             <option name="CONTINUATION_INDENT_SIZE" value="2" />
             <option name="TAB_SIZE" value="2" />
             <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="kotlin">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="2" />
+            <option name="TAB_SIZE" value="2" />
           </indentOptions>
         </codeStyleSettings>
       </value>
