@@ -54,7 +54,32 @@ public class ModFactory {
       }
     }
     if (defaultCtor == null) {
-      throw new RuntimeException("matching constructors for mod not found");
+      RuntimeException err = new RuntimeException("matching constructors for mod not found");
+      StringBuilder sb= new StringBuilder();
+      boolean firstCtor = true;
+      for(Constructor c: ctors){
+        if(firstCtor){
+          firstCtor = false;
+        } else {
+          sb.append(", ");
+        }
+        boolean firstParam = true;
+        sb.append(Modifier.toString(c.getModifiers()));
+        sb.append(' ');
+        sb.append(modClass.getSimpleName());
+        sb.append('(');
+        for(Class cls: c.getParameterTypes()){
+          if(firstParam){
+            firstParam = false;
+          } else {
+            sb.append(", ");
+          }
+          sb.append(cls.getSimpleName());
+        }
+        sb.append(')');
+      }
+      log.error("no matching constructors found among: {} ", sb.toString());
+      throw err;
     }
     
     try {
