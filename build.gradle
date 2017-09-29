@@ -1,12 +1,19 @@
+gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
+
 apply plugin: 'idea'
 
 group 'com.satori'
-version '0.2.7-SNAPSHOT'
+version '0.2.8-SNAPSHOT'
 
 idea {
   project {
     jdkName = '1.8'
     languageLevel = '1.8'
+  }
+  module {
+    inheritOutputDirs = false
+    outputDir = file(".out/idea")
+    testOutputDir = file(".out/idea-tests")
   }
 }
 
@@ -22,6 +29,7 @@ subprojects {
   version rootProject.version
 
   apply plugin: 'java'
+  apply plugin: 'idea'
 
   sourceCompatibility = 1.8
   targetCompatibility = 1.8
@@ -36,6 +44,14 @@ subprojects {
 
   compileJava.options.compilerArgs << "-Xlint:unchecked"
   compileJava.options.compilerArgs << "-Xlint:deprecation"
+
+  idea {
+    module {
+      inheritOutputDirs = false
+      outputDir = file(".out/idea")
+      testOutputDir = file(".out/idea-tests")
+    }
+  }
 
   repositories {
     mavenCentral()
