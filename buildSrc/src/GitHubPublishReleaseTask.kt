@@ -1,3 +1,4 @@
+import com.damnhandy.uri.template.*
 import com.fasterxml.jackson.annotation.*
 import org.gradle.api.*
 import org.gradle.api.file.*
@@ -75,29 +76,18 @@ open class GitHubPublishReleaseTask : GitHubTask() {
     println("publishing release to github... ")
 
     val createdRelease = post("releases", body).get()!!
-
-    //val uploadUrl = createdRelease!!["assets_url"].asText()
-    val uploadUrl ="https://uploads.github.com/repos/satori-com/satori-composer/releases/${createdRelease["id"].asText()}/assets"
+    val uploadUrl =createdRelease!!["upload_url"].asText()
 
     assets.forEach {
       println("uploading asset '${it.name}'")
       Files.newInputStream(it.toPath()).use { content->
+        val uri = UriTemplate.fromTemplate(uploadUrl)
+          .set("name", it.name)
+          .expand()
         upload(
-          "$uploadUrl?name=${urlEncode(it.name)}",
-          "application/zip",
-          content
+          uri, "application/zip", content
         )
       }
-      //println("${URL("https://uploads.github.com/repos/satori-com/satori-composer/releases/7936971/assets{?name,label}")}")
-      /*parameters.put("name", "Arnold")
-
-      val builder = UriBuilder.fromPath(template)
-      val output = builder.build(parameters)
-      parameters.put("name", "Arnold")
-
-      val builder = UriBuilder.fromPath(template)
-      val output = builder.build(parameters)*/
-      //POST https://<upload_url>/repos/:owner/:repo/releases/:id/assets?name=foo.zip
     }
   }
 }
