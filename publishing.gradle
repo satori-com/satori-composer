@@ -1,5 +1,9 @@
+//import org.gradle.api.publish.maven.*
+
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
+//apply plugin: 'publishing'
+
 
 if (rootProject.file(".gradle/publishing.gradle").exists()) {
   apply from: rootProject.file(".gradle/publishing.gradle")
@@ -12,19 +16,24 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 
 if (signing.signatory) {
-  task signArchives(type: Sign, dependsOn: sourcesJar) {
+  task signArchives(type: Sign, dependsOn: jar) {
     group 'publishing'
     sign configurations.archives
+    outputs.upToDateWhen {false}
   }
 
-  task signSources(type: Sign, dependsOn: sourcesJar) {
+  task signSources(type: Sign) {
     group 'publishing'
     sign sourcesJar
+    outputs.upToDateWhen {false}
   }
 
   task signJarPom(type: Sign) {
     group 'publishing'
-    sign new File("${buildDir}/publications/jar/pom-default.xml")
+
+    def fileToSign = new File("${buildDir}/publications/jar/pom-default.xml")
+    sign fileToSign
+    outputs.upToDateWhen {false}
   }
 }
 
@@ -90,6 +99,10 @@ publishing {
   }
   repositories {
     maven {
+      name = 'out'
+      url file('.out/repo')
+    }
+    maven {
       name = 'root'
       url rootProject.file('.repo')
     }
@@ -143,9 +156,35 @@ model {
       tasks.signJarPom.dependsOn(it)
     }
   }
+
+  tasks.publishJarPublicationToOutRepository {
+    dependsOn(project.tasks.signJarPom)
+    if (signing.signatory) {
+      dependsOn(project.tasks.signArchives)
+    }
+    doFirst {
+      println "deleting ${this.class}..."
+      delete repository.url
+    }
+  }
+  tasks.signJarPom {
+    dependsOn 'generatePomFileForJarPublication'
+  }
+
+  /*tasks.zipOutRepository {
+  }*/
+
 }
 
 
+task pulishToOutRepo(type: PublishToMavenRepository){
+  group 'publishing'
+  publication = publishing.publications.jar
+  repository = publishing.repositories["out"]
 
-
+  doFirst {
+    println "deleting ${repository.url}..."
+    delete repository.url
+  }
+}
 

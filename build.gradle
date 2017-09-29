@@ -4,6 +4,7 @@ apply plugin: 'idea'
 
 group 'com.satori'
 version '0.2.8-SNAPSHOT'
+buildDir = '.out'
 
 idea {
   project {
@@ -61,6 +62,77 @@ subprojects {
   }
 }
 
-configure([project(':composer'), project(':mods'), project(':mods-suite')]) {
+def publishingProjects = [':composer', ':mods', ':mods-suite'].collect{project(it)}
+
+configure(publishingProjects) {
   apply from: rootProject.file('publishing.gradle')
+
+  task zipOutRepository(type: Zip) {
+    group 'github'
+    dependsOn pulishToOutRepo
+    def groupId = pulishToOutRepo.publication.groupId
+    def artifactId = pulishToOutRepo.publication.artifactId
+    def version = pulishToOutRepo.publication.version
+
+    def relativeDir = "${groupId.replace('.','/')}/${artifactId.replace('.','/')}/${version}"
+    def srcDir =  file("${pulishToOutRepo.repository.url}/$relativeDir")
+
+    from(srcDir){
+      into relativeDir
+    }
+    archiveName "$artifactId v${version}.zip"
+    destinationDir buildDir
+    doFirst{
+      println "zipping $srcDir -> ${outputs.getFiles()*.path.join(',')}"
+    }
+  }
+}
+
+task mergeAllOutRepositories(type: Zip) {
+  group 'github'
+
+  publishingProjects.each {
+    dependsOn(it.zipOutRepository)
+    it.zipOutRepository.outputs.getFiles().each{
+      from(zipTree(it))
+    }
+  }
+
+  archiveName "satori-all v${project.version}.zip"
+  destinationDir buildDir
+}
+
+
+ext {
+  githubUrl = "https://api.github.com/repos/satori-com/satori-composer/"
+}
+
+if (rootProject.file(".gradle/github.gradle").exists()) {
+  apply from: rootProject.file(".gradle/github.gradle")
+}
+
+task githubListReleases(type: GitHubListReleasesTask){
+  url = githubUrl
+  authToken = githubAuthToken
+}
+
+task githubPublishRelease(type: GitHubPublishReleaseTask){
+  url = githubUrl
+  authToken = githubAuthToken
+  publishingProjects.each {
+    asset it.zipOutRepository
+  }
+
+  asset mergeAllOutRepositories
+}
+
+task info() {
+  group 'help'
+
+  println "publishing projects:"
+  publishingProjects.each{
+    println "  ${it.name}"
+  }
+
+  outputs.upToDateWhen{false}
 }
