@@ -3,7 +3,7 @@ gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 apply plugin: 'idea'
 
 group 'com.satori'
-version '0.2.8-SNAPSHOT'
+version '0.2.9-SNAPSHOT'
 buildDir = '.out'
 
 idea {
