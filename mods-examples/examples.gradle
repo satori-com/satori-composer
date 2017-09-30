@@ -11,7 +11,7 @@ ext {
   dockerImageTag = "${dockerImageName}:${version}"
 }
 
-task generateReadme(type: TemplateTask) {
+task generateReadme(type: TransformTask) {
   group 'codegen'
   println projectDir.name
   template new File(buildscript.sourceFile.parentFile, "readme.template.md")
@@ -19,13 +19,13 @@ task generateReadme(type: TemplateTask) {
   outputs.upToDateWhen { false }
 }
 
-task generateLogProperties(type: TemplateTask) {
+task generateLogProperties(type: TransformTask) {
   group 'codegen'
   template = new File(buildscript.sourceFile.parentFile, "log.template.properties")
   output = file("res/com/satori/mods/resources/log.properties")
 }
 
-task generateDockerFile(type: TemplateTask) {
+task generateDockerFile(type: TransformTask) {
   group 'codegen'
   template = new File(buildscript.sourceFile.parentFile, "dockerfile.template")
   output = file("Dockerfile")

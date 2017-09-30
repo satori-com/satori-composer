@@ -18,7 +18,7 @@ idea {
   }
 }
 
-task generateReadme(type: TemplateTask) {
+task generateReadme(type: TransformTask) {
   group 'codegen'
   template = file('readme.template.md')
   output = file('readme.md')
@@ -26,6 +26,14 @@ task generateReadme(type: TemplateTask) {
 }
 
 tasks.generateReadme.execute()
+
+void transform(Closure closure) {
+  def spec = new TransformSpec(project)
+  closure.delegate = spec
+  closure.resolveStrategy = Closure.DELEGATE_FIRST
+  closure()
+  Transform.execute(spec, project)
+}
 
 subprojects {
   group rootProject.group
@@ -62,35 +70,53 @@ subprojects {
 
   dependencies {
   }
+
+  task createDefaultProjectStructure {
+    group 'codegen'
+    doLast {
+      def groupDir = project.group.replace('.', '/')
+      def projDir = project.name.replace('-', '/')
+      file("src/$groupDir/$projDir").mkdirs()
+      file("res/$groupDir/$projDir").mkdirs()
+      file("tests/src/$groupDir/$projDir").mkdirs()
+      file("tests/res/$groupDir/$projDir").mkdirs()
+      if (!file("build.gradle").exists()) {
+        transform {
+          template = rootProject.file('build.template.gradle')
+          output = file('build.gradle')
+        }
+      }
+    }
+  }
 }
 
-def publishingProjects = [':composer', ':mods', ':mods-suite'].collect{project(it)}
+def publishingProjects = [':composer', ':mods', ':mods-suite'].collect { project(it) }
 
 configure(publishingProjects) {
   apply from: rootProject.file('publishing.gradle')
 
   afterEvaluate {
-    task zipOutRepository(type: Zip) { t->
+    task zipOutRepository(type: Zip) { t ->
       group 'github'
       dependsOn pulishToOutRepo
       def groupId = pulishToOutRepo.publication.groupId
       def artifactId = pulishToOutRepo.publication.artifactId
       def version = pulishToOutRepo.publication.version
 
-      def relativeDir = "${groupId.replace('.','/')}/${artifactId.replace('.','/')}/${version}"
-      def srcDir =  file("${pulishToOutRepo.repository.url}/$relativeDir")
+      def relativeDir = "${groupId.replace('.', '/')}/${artifactId.replace('.', '/')}/${version}"
+      def srcDir = file("${pulishToOutRepo.repository.url}/$relativeDir")
 
-      from(srcDir){
+      from(srcDir) {
         into relativeDir
       }
       archiveName "$artifactId v${version}.zip"
       destinationDir buildDir
-      doFirst{
+      doFirst {
         println "zipping $srcDir -> ${outputs.getFiles()*.path.join(',')}"
       }
 
       rootProject.mergeAllOutRepositories.dependsOn(t)
-      outputs.getFiles().each{
+      outputs.getFiles().each {
         rootProject.mergeAllOutRepositories.from(zipTree(it))
       }
 
@@ -115,12 +141,12 @@ if (rootProject.file(".gradle/github.gradle").exists()) {
   apply from: rootProject.file(".gradle/github.gradle")
 }
 
-task githubListReleases(type: GitHubListReleasesTask){
+task githubListReleases(type: GitHubListReleasesTask) {
   url = githubUrl
   authToken = githubAuthToken
 }
 
-task githubPublishRelease(type: GitHubPublishReleaseTask){
+task githubPublishRelease(type: GitHubPublishReleaseTask) {
   url = githubUrl
   authToken = githubAuthToken
   asset mergeAllOutRepositories
@@ -130,9 +156,9 @@ task info() {
   group 'help'
 
   println "publishing projects:"
-  publishingProjects.each{
+  publishingProjects.each {
     println "  ${it.name}"
   }
 
-  outputs.upToDateWhen{false}
+  outputs.upToDateWhen { false }
 }
