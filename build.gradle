@@ -3,7 +3,7 @@ gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 apply plugin: 'idea'
 
 group 'com.satori'
-version '0.2.10-SNAPSHOT'
+version '0.2.11-SNAPSHOT'
 buildDir = '.out'
 
 idea {
@@ -69,36 +69,38 @@ def publishingProjects = [':composer', ':mods', ':mods-suite'].collect{project(i
 configure(publishingProjects) {
   apply from: rootProject.file('publishing.gradle')
 
-  task zipOutRepository(type: Zip) {
-    group 'github'
-    dependsOn pulishToOutRepo
-    def groupId = pulishToOutRepo.publication.groupId
-    def artifactId = pulishToOutRepo.publication.artifactId
-    def version = pulishToOutRepo.publication.version
+  afterEvaluate {
+    task zipOutRepository(type: Zip) { t->
+      group 'github'
+      dependsOn pulishToOutRepo
+      def groupId = pulishToOutRepo.publication.groupId
+      def artifactId = pulishToOutRepo.publication.artifactId
+      def version = pulishToOutRepo.publication.version
 
-    def relativeDir = "${groupId.replace('.','/')}/${artifactId.replace('.','/')}/${version}"
-    def srcDir =  file("${pulishToOutRepo.repository.url}/$relativeDir")
+      def relativeDir = "${groupId.replace('.','/')}/${artifactId.replace('.','/')}/${version}"
+      def srcDir =  file("${pulishToOutRepo.repository.url}/$relativeDir")
 
-    from(srcDir){
-      into relativeDir
-    }
-    archiveName "$artifactId v${version}.zip"
-    destinationDir buildDir
-    doFirst{
-      println "zipping $srcDir -> ${outputs.getFiles()*.path.join(',')}"
+      from(srcDir){
+        into relativeDir
+      }
+      archiveName "$artifactId v${version}.zip"
+      destinationDir buildDir
+      doFirst{
+        println "zipping $srcDir -> ${outputs.getFiles()*.path.join(',')}"
+      }
+
+      rootProject.mergeAllOutRepositories.dependsOn(t)
+      outputs.getFiles().each{
+        rootProject.mergeAllOutRepositories.from(zipTree(it))
+      }
+
+      rootProject.githubPublishRelease.asset(t)
     }
   }
 }
 
 task mergeAllOutRepositories(type: Zip) {
   group 'github'
-
-  publishingProjects.each {
-    dependsOn(it.zipOutRepository)
-    it.zipOutRepository.outputs.getFiles().each{
-      from(zipTree(it))
-    }
-  }
 
   archiveName "satori-all v${project.version}.zip"
   destinationDir buildDir
@@ -121,10 +123,6 @@ task githubListReleases(type: GitHubListReleasesTask){
 task githubPublishRelease(type: GitHubPublishReleaseTask){
   url = githubUrl
   authToken = githubAuthToken
-  publishingProjects.each {
-    asset it.zipOutRepository
-  }
-
   asset mergeAllOutRepositories
 }
 

@@ -167,24 +167,27 @@ model {
       delete repository.url
     }
   }
+
+  /*
   tasks.signJarPom {
-    dependsOn 'generatePomFileForJarPublication'
   }
 
-  /*tasks.zipOutRepository {
-  }*/
+  tasks.zipOutRepository {
+  }
+  */
 
 }
 
+afterEvaluate {
+  task pulishToOutRepo(type: PublishToMavenRepository){
+    group 'publishing'
+    publication = publishing.publications.jar
+    repository = publishing.repositories["out"]
 
-task pulishToOutRepo(type: PublishToMavenRepository){
-  group 'publishing'
-  publication = publishing.publications.jar
-  repository = publishing.repositories["out"]
-
-  doFirst {
-    println "deleting ${repository.url}..."
-    delete repository.url
+    doFirst {
+      println "deleting ${repository.url}..."
+      delete repository.url
+    }
   }
 }
 
