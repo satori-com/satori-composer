@@ -14,7 +14,4 @@ public interface IAsyncResult<T> {
   Throwable getError();
   
   boolean isSucceeded();
-  
-  boolean isFailed();
-  
 }

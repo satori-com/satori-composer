@@ -85,7 +85,7 @@ public class StatsHttpForwarder extends StatsJsonAggregator implements IStatsFor
     try {
       sendRequest(drainAsJsonMessage(), AsyncPromise.from(ar -> {
         noack -= 1;
-        if (ar.isFailed()) {
+        if (!ar.isSucceeded()) {
           log.warn("statistics skipped", ar.getError());
         }
       }));

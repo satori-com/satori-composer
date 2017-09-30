@@ -105,7 +105,7 @@ public class RtmSubscribeMod extends Mod {
   
   private void onMessageConsumed(IAsyncResult ar) {
     unconsumedMessages -= 1;
-    if (ar.isFailed()) {
+    if (!ar.isSucceeded()) {
       log.warn("processing message error", ar.getError());
       stats.failed += 1;
     } else {

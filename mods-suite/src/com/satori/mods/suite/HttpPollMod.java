@@ -170,7 +170,7 @@ public class HttpPollMod extends Mod {
   }
   
   public void processResult(IAsyncResult<JsonNode> ar) {
-    if (ar.isFailed()) {
+    if (!ar.isSucceeded()) {
       log.warn("poll failed", ar.getError());
       stats.pollFail += 1;
       onPollCompleted(false);
@@ -194,7 +194,7 @@ public class HttpPollMod extends Mod {
   }
   
   private void onMessageConsumed(IAsyncResult ar) {
-    if (ar.isFailed()) {
+    if (!ar.isSucceeded()) {
       log.warn("processing message error", ar.getError());
     }
     onPollCompleted(ar.isSucceeded());

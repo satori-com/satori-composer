@@ -14,70 +14,68 @@ public class AsyncQueue<T> implements IAsyncHandler<T> {
   @SuppressWarnings("unchecked")
   @Override
   public void succeed(T el) {
-    switch (state) {
-      case emptyOrStarving: {
-        Object cont = queue.pollFirst();
-        if (cont != null) {
-          ((IAsyncHandler<T>) cont).succeed(el);
-        } else {
-          queue.addLast(AsyncResults.succeeded(el));
-          state = State.emptyOrFatting;
-        }
-        break;
+    if(state == State.emptyOrStarving){
+      Object cont = queue.pollFirst();
+      if (cont != null) {
+        ((IAsyncHandler<T>) cont).succeed(el);
+        return;
       }
-      case emptyOrFatting: {
-        queue.addLast(AsyncResults.succeeded(el));
-        break;
-      }
+      state = State.emptyOrFatting;
     }
+    queue.addLast(AsyncResults.succeeded(el));
   }
   
   @SuppressWarnings("unchecked")
   @Override
   public void fail(Throwable ex) {
-    switch (state) {
-      case emptyOrStarving: {
-        Object cont = queue.pollFirst();
-        if (cont != null) {
-          ((IAsyncHandler<T>) cont).fail(ex);
-        } else {
-          queue.addLast(AsyncResults.failed(ex));
-          state = State.emptyOrFatting;
-        }
-        break;
+    if(state == State.emptyOrStarving){
+      Object cont = queue.pollFirst();
+      if (cont != null) {
+        ((IAsyncHandler<T>) cont).fail(ex);
+        return;
       }
-      case emptyOrFatting: {
-        queue.addLast(AsyncResults.failed(ex));
-        break;
-      }
+      state = State.emptyOrFatting;
     }
+    queue.addLast(AsyncResults.failed(ex));
   }
   
   @SuppressWarnings("unchecked")
   @Override
   public void complete(IAsyncResult<T> ar) {
-    switch (state) {
-      case emptyOrStarving: {
-        Object cont = queue.pollFirst();
-        if (cont != null) {
-          ((IAsyncHandler<T>) cont).complete(ar);
-        } else {
-          queue.addLast(ar);
-          state = State.emptyOrFatting;
-        }
-        break;
-      }
-      case emptyOrFatting: {
-        queue.addLast(ar);
-        break;
-      }
-    }
+    promise(AsyncResult.asFuture(ar));
   }
   
   @SuppressWarnings("unchecked")
-  public IAsyncHandler<? extends T> tryEnq() {
+  public void promise(IAsyncFuture<T> future) {
+    if(state == State.emptyOrStarving){
+      Object cont = queue.pollFirst();
+      if (cont != null) {
+        future.onCompleted((IAsyncHandler<T>)cont);
+        return;
+      }
+      state = State.emptyOrFatting;
+    }
+    queue.addLast(future);
+  }
+  
+  @SuppressWarnings("unchecked")
+  public IAsyncHandler<? super T> promise() {
+    if(state == State.emptyOrStarving){
+      Object cont = queue.pollFirst();
+      if (cont != null) {
+        return (IAsyncHandler<T>)cont;
+      }
+      state = State.emptyOrFatting;
+    }
+    AsyncFuture<T> promise = new AsyncFuture<>();
+    queue.addLast(promise);
+    return promise;
+  }
+  
+  @SuppressWarnings("unchecked")
+  public IAsyncHandler<? super T> tryEnq() {
     if (state == State.emptyOrStarving) {
-      return (IAsyncHandler<? extends T>)queue.pollFirst();
+      return (IAsyncHandler<? super T>)queue.pollFirst();
     }
     return null;
   }
@@ -98,24 +96,17 @@ public class AsyncQueue<T> implements IAsyncHandler<T> {
     succeed(el);
   }
   
-  
   @SuppressWarnings("unchecked")
   public void deq(IAsyncHandler<T> cont) {
-    switch(state) {
-      case emptyOrStarving: {
-        queue.addLast(cont);
-        break;
+    if(state == State.emptyOrFatting){
+      IAsyncFuture<T> f = (IAsyncFuture<T>)queue.pollFirst();
+      if (f != null) {
+        f.onCompleted(cont);
+        return;
       }
-      case emptyOrFatting: {
-        IAsyncFuture<T> f = (IAsyncFuture<T>)queue.pollFirst();
-        if (f != null) {
-          f.onCompleted(cont);
-        } else {
-          queue.addLast(cont);
-          state = State.emptyOrStarving;
-        }
-      }
+      state = State.emptyOrStarving;
     }
+    queue.addLast(cont);
   }
   
   @SuppressWarnings("unchecked")
@@ -125,6 +116,7 @@ public class AsyncQueue<T> implements IAsyncHandler<T> {
       if (f != null) {
         return f;
       }
+      state = State.emptyOrStarving;
     }
     AsyncFuture<T> future = new AsyncFuture<>();
     queue.addLast(future);

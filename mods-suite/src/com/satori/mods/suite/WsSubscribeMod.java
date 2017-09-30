@@ -242,7 +242,7 @@ public class WsSubscribeMod extends Mod {
   }
   
   private void onMessageConsumed(IAsyncResult ar) {
-    if (ar.isFailed()) {
+    if (!ar.isSucceeded()) {
       log.warn("processing message error", ar.getError());
       stats.failed += 1;
     } else {

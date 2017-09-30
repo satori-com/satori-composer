@@ -37,9 +37,4 @@ public class AsyncFailedResult<T> extends AsyncResult<T> {
     return false;
   }
   
-  @Override
-  public boolean isFailed() {
-    return true;
-  }
-  
 }

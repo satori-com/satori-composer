@@ -102,7 +102,7 @@ public class QueueMod extends Mod {
   
   private void onSendCompleted(IAsyncResult ar) {
     sendingFuture = null;
-    if (ar.isFailed()) {
+    if (!ar.isSucceeded()) {
       log.warn("failed to process message", ar.getError());
     }
     processQueue();
@@ -127,8 +127,9 @@ public class QueueMod extends Mod {
           return;
         }
         // completed immediately
-        if (sendingFuture.isFailed()) {
-          log.warn("failed to process message", sendingFuture.getError());
+        IAsyncResult<?> ar = sendingFuture.getResult();
+        if (!ar.isSucceeded()) {
+          log.warn("failed to process message", ar.getError());
         }
       } catch (Throwable e) {
         log.warn("failed to process message", e);

@@ -98,10 +98,12 @@ public class XsltMod extends Mod {
         });
         return;
       }
+      
       // operation was completed immediately
-      if (future.isFailed()) {
+      IAsyncResult<?> ar = future.getResult();
+      if (!ar.isSucceeded()) {
         // abort loop with failure
-        cont.fail(future.getError());
+        cont.fail(ar.getError());
         return;
       }
     }

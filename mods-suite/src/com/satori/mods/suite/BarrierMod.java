@@ -97,7 +97,7 @@ public class BarrierMod extends Mod {
   
   private void onSendCompleted(IAsyncResult ar) {
     counter -= 1;
-    if (ar.isFailed()) {
+    if (!ar.isSucceeded()) {
       log.warn("failed to process message", ar.getError());
     }
     resumeIfNeeded();

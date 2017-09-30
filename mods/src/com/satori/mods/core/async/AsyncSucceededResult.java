@@ -26,11 +26,6 @@ public class AsyncSucceededResult<T> extends AsyncResult<T> {
   }
   
   @Override
-  public boolean isFailed() {
-    return false;
-  }
-  
-  @Override
   public Throwable getError() {
     return null;
   }

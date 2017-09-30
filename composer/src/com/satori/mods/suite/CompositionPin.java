@@ -89,9 +89,10 @@ public class CompositionPin implements IModOutput {
       }
       
       // operation was completed immediately
-      if (future.isFailed()) {
+      IAsyncResult<?> ar = future.getResult();
+      if (!ar.isSucceeded()) {
         // abort loop with failure
-        cont.fail(future.getError());
+        cont.fail(ar.getError());
         return;
       }
     }

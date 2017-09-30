@@ -62,7 +62,7 @@ public class StatsRtmForwarder extends StatsJsonAggregator implements IStatsForw
       msg.tags = config.tags;
       rtm.publish(channel, msg, ar -> {
         inProgress = false;
-        if (ar.isFailed()) {
+        if (!ar.isSucceeded()) {
           log.warn("statistics skipped", ar.getError());
         }
       });

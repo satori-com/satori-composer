@@ -14,7 +14,7 @@ public class ClockMod extends Mod {
   }
   
   private void onReady(IAsyncResult ar) {
-    if (ar.isFailed()) {
+    if (!ar.isSucceeded()) {
       log.error("failure", ar.getError());
     }
     process();
@@ -39,8 +39,9 @@ public class ClockMod extends Mod {
           future.onCompleted(this::onReady);
           return;
         }
-        if (future.isFailed()) {
-          log.error("failure", future.getError());
+        IAsyncResult ar = future.getResult();
+        if (!ar.isSucceeded()) {
+          log.error("failure", ar.getError());
         }
       } catch (Throwable e) {
         log.error("internal error", e);

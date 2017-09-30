@@ -126,9 +126,10 @@ public class ArrayUnwrapMod extends Mod {
       }
       
       // operation was completed immediately
-      if (!future.isSucceeded()) {
+      IAsyncResult<?> ar = future.getResult();
+      if (!ar.isSucceeded()) {
         // log error if processing failed
-        log.warn("failed to process array element", future.getError());
+        log.warn("failed to process array element", ar.getError());
       }
     }
   }

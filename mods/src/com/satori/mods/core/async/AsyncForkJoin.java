@@ -26,7 +26,7 @@ public class AsyncForkJoin implements IAsyncFuture, IAsyncHandler, IAsyncResult 
   
   @Override
   public void complete(IAsyncResult ar) {
-    if(ar.isFailed()){
+    if(!ar.isSucceeded()){
       // TODO: log error
     }
     val -= 1;
@@ -78,10 +78,5 @@ public class AsyncForkJoin implements IAsyncFuture, IAsyncHandler, IAsyncResult 
   @Override
   public boolean isSucceeded() {
     return val == 0;
-  }
-  
-  @Override
-  public boolean isFailed() {
-    return false;
   }
 }

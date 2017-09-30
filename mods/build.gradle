@@ -1,3 +1,31 @@
+
+buildscript {
+  ext.kotlin_version = '1.1.+'
+
+  repositories {
+    mavenCentral()
+    jcenter()
+  }
+
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+
+apply plugin: 'kotlin'
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_1_8
+  }
+}
+
+kotlin {
+  experimental {
+    coroutines 'enable'
+  }
+}
+
 dependencies {
 
   compile 'org.slf4j:slf4j-api:1.7.25'
@@ -10,6 +38,8 @@ dependencies {
   compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.0'
 
   testCompile 'junit:junit:4.+'
+  testCompile "org.jetbrains.kotlin:kotlin-stdlib:+"
+  testCompile "org.jetbrains.kotlinx:kotlinx-coroutines-core:+"
 }
 
 

@@ -54,7 +54,7 @@ public class StatsRtmRefForwarder extends StatsJsonAggregator implements IStatsF
       StatsJsonMessage msg = drainAsJsonMessage();
       rtm.publish(channel, msg, ar -> {
         inProgress = false;
-        if (ar.isFailed()) {
+        if (!ar.isSucceeded()) {
           log.warn("failed to publish statistics", ar.getError());
         }
       });

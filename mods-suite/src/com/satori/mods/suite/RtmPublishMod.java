@@ -79,7 +79,7 @@ public class RtmPublishMod extends Mod {
       log.info("paused...");
       rtm.onWritable(ar -> {
         log.info("resumed...");
-        if (ar.isFailed()) {
+        if (!ar.isSucceeded()) {
           stats.sentErr += 1;
           log.error("publish failed", ar.getError());
           cont.fail(ar.getError());
