@@ -1,8 +1,8 @@
 package com.satori.composer.rtm.core;
 
 
+import com.satori.async.api.*;
 import com.satori.composer.runtime.*;
-import com.satori.mods.core.async.*;
 
 import java.util.*;
 
@@ -75,7 +75,7 @@ public abstract class RtmState<TContext extends IRtmContext, TExit> implements I
   
   
   @Override
-  public boolean tryComplete(IAsyncResult<TExit> ar) {
+  public boolean tryComplete(IAsyncResult<? extends TExit> ar) {
     if (ar.isSucceeded()) {
       return complete(Stage.succeeded, ar.getValue());
     } else {

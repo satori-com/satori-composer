@@ -1,7 +1,7 @@
 package com.satori.composer.rtm.core;
 
+import com.satori.async.api.*;
 import com.satori.composer.runtime.*;
-import com.satori.mods.core.async.*;
 
 import com.fasterxml.jackson.databind.*;
 import io.vertx.core.*;
@@ -170,7 +170,7 @@ public class RtmBase extends RtmDefaultContext implements IRtm, IPulseObject {
     if (current != null) {
       return current.onConnected(cont);
     }
-    cont.fail("rtm stopped");
+    cont.fail(new Exception("rtm stopped"));
     return true;
   }
   
@@ -184,7 +184,7 @@ public class RtmBase extends RtmDefaultContext implements IRtm, IPulseObject {
     if (current != null) {
       return current.onWritable(cont);
     }
-    cont.fail("rtm stopped");
+    cont.fail(new Exception("rtm stopped"));
     return true;
   }
   

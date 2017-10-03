@@ -1,7 +1,8 @@
 package com.satori.composer.ddog;
 
+import com.satori.async.api.*;
+import com.satori.async.core.*;
 import com.satori.composer.vertx.*;
-import com.satori.mods.core.async.*;
 
 import java.nio.charset.*;
 import java.util.*;
@@ -67,7 +68,7 @@ public class DdogClient {
             "request (%s) failed  with %d '%s'",
             request.uri(), statusCode, statusMessage
           );
-          promise.fail(msg);
+          promise.fail(new Exception(msg));
           return;
         }
         final DdogApiResult result;

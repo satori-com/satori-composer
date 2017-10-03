@@ -1,4 +1,4 @@
-package com.satori.mods.core.async;
+package com.satori.async.core;
 
 public class AsyncCounter {
   

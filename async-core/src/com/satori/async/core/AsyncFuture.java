@@ -1,10 +1,12 @@
-package com.satori.mods.core.async;
+package com.satori.async.core;
+
+import com.satori.async.api.*;
 
 public class AsyncFuture<T> implements IAsyncFuture<T>, IAsyncPromise<T> {
   
   private boolean completed;
-  private IAsyncResult<T> result;
-  private IAsyncHandler<T> onCompleted;
+  private IAsyncResult<? extends T> result;
+  private IAsyncHandler<? super T> onCompleted;
   
   public AsyncFuture() {
     completed = false;
@@ -13,7 +15,7 @@ public class AsyncFuture<T> implements IAsyncFuture<T>, IAsyncPromise<T> {
   }
   
   @Override
-  public IAsyncResult<T> getResult() {
+  public IAsyncResult<? extends T> getResult() {
     return result;
   }
   
@@ -22,7 +24,7 @@ public class AsyncFuture<T> implements IAsyncFuture<T>, IAsyncPromise<T> {
   }
   
   @Override
-  public boolean tryComplete(final IAsyncResult<T> ar) {
+  public boolean tryComplete(final IAsyncResult<? extends T> ar) {
     if (completed) {
       return false;
     }
@@ -33,7 +35,7 @@ public class AsyncFuture<T> implements IAsyncFuture<T>, IAsyncPromise<T> {
   }
   
   @Override
-  public void onCompleted(IAsyncHandler<T> cont) {
+  public void onCompleted(IAsyncHandler<? super T> cont) {
     if (isCompleted()) {
       cont.complete(result);
       return;
@@ -42,7 +44,7 @@ public class AsyncFuture<T> implements IAsyncFuture<T>, IAsyncPromise<T> {
   }
   
   private void processCompleted() {
-    IAsyncHandler<T> onCompleted = this.onCompleted;
+    IAsyncHandler<? super T> onCompleted = this.onCompleted;
     if (onCompleted != null) {
       this.onCompleted = null;
       onCompleted.complete(result);

@@ -1,7 +1,9 @@
-package com.satori.mods.core.async
+package com.satori.async.core
 
+import com.satori.async.api.*
 import org.junit.*
 import org.junit.Assert.*
+import org.omg.CORBA.Object
 
 
 class AyncQueueTests : Assert() {
@@ -9,7 +11,7 @@ class AyncQueueTests : Assert() {
   @Test
   fun genericTest() {
 
-    val q = AsyncQueue<Any>()
+    val q = AsyncQueue<Int>()
 
     val f1 = q.deq()
     val f2 = q.deq()
@@ -18,36 +20,51 @@ class AyncQueueTests : Assert() {
     assertFalse(f2.isCompleted)
     assertTrue(q.tryDeq() == null)
 
-    q.enq("1")
+    q.enq(1)
 
-    assertTrue(f1.isCompleted && f1.value == "1")
+    assertTrue(f1.isCompleted && f1.value == 1)
     assertFalse(f2.isCompleted)
     assertNull(q.tryDeq())
 
-    q.enq("2")
-    assertTrue(f2.isCompleted && f2.value == "2")
+    q.enq(2)
+    assertTrue(f2.isCompleted && f2.value == 2)
     assertNull(q.tryDeq())
 
-    q.enq("3")
-    q.enq("4")
-    q.enq("5")
+    q.enq(3)
+    q.enq(4)
+    q.enq(5)
 
-    assertTrue(q.tryDeq().result.get() == "3")
+    assertTrue(q.tryDeq().result.get() == 3)
 
     val f4 = q.deq()
-    assertTrue(f4.isCompleted && f4.value == "4")
+    assertTrue(f4.isCompleted && f4.value == 4)
 
-    assertTrue(q.tryDeq().result.get() == "5")
+    assertTrue(q.tryDeq().result.get() == 5)
 
     val f6 = q.deq()
     assertFalse(f6.isCompleted)
     assertNull(q.tryDeq())
 
-    q.enq("6")
-    assertTrue(f6.isCompleted && f6.value == "6")
+    q.enq(6)
+    assertTrue(f6.isCompleted && f6.value == 6)
     assertNull(q.tryDeq())
   }
 
+  @Test
+  fun deqTest() {
+    var cp = 0
+
+    val q = AsyncQueue<Int>()
+    q.deq().onCompleted { ar: IAsyncResult<out Number> ->
+      assertEquals(1, cp++)
+      assertTrue(ar.get() == 1)
+    }
+
+    assertEquals(0, cp++)
+    q.enq(1)
+    assertEquals(2, cp++)
+
+  }
 
   @Test
   fun tryDeqTest() {
@@ -154,15 +171,15 @@ class AyncQueueTests : Assert() {
     val f = future(Unit) {
       assertEquals(0, cp++)
 
-      assertTrue( 1 == q.deq().await())
+      assertTrue(1 == q.deq().await())
 
-      return@future run{
+      return@future run {
 
         assertEquals(2, cp++)
 
         try {
           q.deq().await()
-        } catch (ex:Throwable){
+        } catch (ex: Throwable) {
           assertEquals(5, cp++)
         }
       }
@@ -180,7 +197,7 @@ class AyncQueueTests : Assert() {
       assertEquals(4, cp++)
       assertFalse(f.isCompleted)
 
-      promise.fail("test")
+      promise.fail(Exception("test"))
 
       assertEquals(6, cp++)
       assertTrue(f.isCompleted)

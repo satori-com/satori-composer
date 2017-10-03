@@ -1,8 +1,8 @@
 package com.satori.mods.suite;
 
+import com.satori.async.api.*;
 import com.satori.composer.runtime.*;
 import com.satori.mods.api.*;
-import com.satori.mods.core.async.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.core.stats.*;
 
@@ -95,7 +95,7 @@ public class Composition extends Mod {
   public void onInput(String input, JsonNode data, IAsyncHandler cont) throws Exception {
     CompositionPin pin = pins.get(input);
     if (pin == null) {
-      cont.fail("connectors not found");
+      cont.fail(new Exception("connectors not found"));
       return;
     }
     pin.yield(data, cont);

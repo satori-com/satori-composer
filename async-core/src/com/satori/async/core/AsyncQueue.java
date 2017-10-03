@@ -1,4 +1,6 @@
-package com.satori.mods.core.async;
+package com.satori.async.core;
+
+import com.satori.async.api.*;
 
 import java.util.*;
 import java.util.function.*;
@@ -41,16 +43,16 @@ public class AsyncQueue<T> implements IAsyncHandler<T> {
   
   @SuppressWarnings("unchecked")
   @Override
-  public void complete(IAsyncResult<T> ar) {
+  public void complete(IAsyncResult<? extends T> ar) {
     promise(AsyncResult.asFuture(ar));
   }
   
   @SuppressWarnings("unchecked")
-  public void promise(IAsyncFuture<T> future) {
+  public void promise(IAsyncFuture<? extends T> future) {
     if(state == State.emptyOrStarving){
       Object cont = queue.pollFirst();
       if (cont != null) {
-        future.onCompleted((IAsyncHandler<T>)cont);
+        future.onCompleted((IAsyncHandler<? super T>)cont);
         return;
       }
       state = State.emptyOrFatting;
@@ -73,9 +75,9 @@ public class AsyncQueue<T> implements IAsyncHandler<T> {
   }
   
   @SuppressWarnings("unchecked")
-  public IAsyncHandler<? super T> tryEnq() {
+  public IAsyncHandler<? extends T> tryEnq() {
     if (state == State.emptyOrStarving) {
-      return (IAsyncHandler<? super T>)queue.pollFirst();
+      return (IAsyncHandler<T>)queue.pollFirst();
     }
     return null;
   }
@@ -97,7 +99,7 @@ public class AsyncQueue<T> implements IAsyncHandler<T> {
   }
   
   @SuppressWarnings("unchecked")
-  public void deq(IAsyncHandler<T> cont) {
+  public void deq(IAsyncHandler<? super T> cont) {
     if(state == State.emptyOrFatting){
       IAsyncFuture<T> f = (IAsyncFuture<T>)queue.pollFirst();
       if (f != null) {
@@ -110,7 +112,7 @@ public class AsyncQueue<T> implements IAsyncHandler<T> {
   }
   
   @SuppressWarnings("unchecked")
-  public IAsyncFuture<T> deq() {
+  public IAsyncFuture<? extends T> deq() {
     if(state == State.emptyOrFatting){
       IAsyncFuture<T> f = (IAsyncFuture<T>)queue.pollFirst();
       if (f != null) {
@@ -125,7 +127,7 @@ public class AsyncQueue<T> implements IAsyncHandler<T> {
   
   
   @SuppressWarnings("unchecked")
-  public IAsyncFuture<T> tryDeq(){
+  public IAsyncFuture<? extends T> tryDeq(){
     if(state == State.emptyOrFatting){
       return (IAsyncFuture<T>)queue.pollFirst();
     }
@@ -133,9 +135,9 @@ public class AsyncQueue<T> implements IAsyncHandler<T> {
   }
   
   @SuppressWarnings("unchecked")
-  public <R> R tryDeq(Function<IAsyncFuture<T>,R> block) {
+  public <R> R tryDeq(Function<IAsyncFuture<? extends T>, R> block) {
     if(state == State.emptyOrFatting){
-      IAsyncFuture<T> f = (IAsyncFuture<T>)queue.pollFirst();
+      IAsyncFuture<? extends T> f = (IAsyncFuture<? extends T>)queue.pollFirst();
       if(f != null){
         return block.apply(f);
       }

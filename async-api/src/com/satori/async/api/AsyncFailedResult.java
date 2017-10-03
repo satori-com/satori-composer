@@ -1,4 +1,4 @@
-package com.satori.mods.core.async;
+package com.satori.async.api;
 
 public class AsyncFailedResult<T> extends AsyncResult<T> {
   private final Throwable error;

@@ -1,4 +1,6 @@
-package com.satori.mods.core.async;
+package com.satori.async.core;
+
+import com.satori.async.api.*;
 
 import java.util.function.*;
 
@@ -14,7 +16,7 @@ public abstract class AsyncPromise<T> implements IAsyncPromise<T>, IAsyncProgres
   }
   
   @Override
-  public boolean tryComplete(IAsyncResult<T> ar) {
+  public boolean tryComplete(IAsyncResult<? extends T> ar) {
     if (completed) {
       return false;
     }
@@ -44,26 +46,6 @@ public abstract class AsyncPromise<T> implements IAsyncPromise<T>, IAsyncProgres
     }
     completed = true;
     onFailure(cause);
-    return true;
-  }
-  
-  @Override
-  public boolean tryFail(String message, Throwable cause) {
-    if (completed) {
-      return false;
-    }
-    completed = true;
-    onFailure(new Exception(message, cause));
-    return true;
-  }
-  
-  @Override
-  public boolean tryFail(String message) {
-    if (completed) {
-      return false;
-    }
-    completed = true;
-    onFailure(new Exception(message));
     return true;
   }
   

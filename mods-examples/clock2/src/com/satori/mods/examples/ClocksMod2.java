@@ -1,6 +1,6 @@
 package com.satori.mods.examples;
 
-import com.satori.mods.core.async.*;
+import com.satori.async.core.*;
 import com.satori.mods.suite.*;
 
 import org.slf4j.*;

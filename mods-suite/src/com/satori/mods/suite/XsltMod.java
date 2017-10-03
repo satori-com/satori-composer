@@ -1,7 +1,7 @@
 package com.satori.mods.suite;
 
+import com.satori.async.api.*;
 import com.satori.mods.api.*;
-import com.satori.mods.core.async.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.core.stats.*;
 import com.satori.mods.resources.*;

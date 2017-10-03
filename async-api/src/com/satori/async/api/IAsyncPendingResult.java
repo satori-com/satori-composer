@@ -1,8 +1,8 @@
-package com.satori.mods.core.async;
+package com.satori.async.api;
 
 public interface IAsyncPendingResult<T> extends IAsyncProgress {
   
-  IAsyncResult<T> getResult();
+  IAsyncResult<? extends T> getResult();
   
   @Override
   default boolean isCompleted(){

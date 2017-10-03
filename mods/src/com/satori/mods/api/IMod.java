@@ -1,6 +1,7 @@
 package com.satori.mods.api;
 
-import com.satori.mods.core.async.*;
+import com.satori.async.api.*;
+import com.satori.async.core.*;
 import com.satori.mods.core.stats.*;
 
 import com.fasterxml.jackson.databind.*;

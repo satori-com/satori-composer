@@ -1,6 +1,7 @@
 package com.satori.mods.suite;
 
-import com.satori.mods.core.async.*;
+import com.satori.async.api.*;
+import com.satori.async.core.*;
 
 import java.util.*;
 

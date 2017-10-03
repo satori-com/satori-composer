@@ -1,14 +1,14 @@
 package com.satori.mods.suite;
 
+import com.satori.async.api.*;
+import com.satori.async.core.*;
 import com.satori.composer.rtm.*;
 import com.satori.composer.runtime.*;
 import com.satori.mods.api.*;
-import com.satori.mods.core.async.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.core.stats.*;
 
 import com.fasterxml.jackson.databind.*;
-import io.vertx.core.*;
 import org.slf4j.*;
 
 // low latency mode only is supported

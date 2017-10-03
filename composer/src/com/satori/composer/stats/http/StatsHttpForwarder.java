@@ -1,10 +1,11 @@
 package com.satori.composer.stats.http;
 
+import com.satori.async.api.*;
+import com.satori.async.core.*;
 import com.satori.composer.config.*;
 import com.satori.composer.runtime.*;
 import com.satori.composer.stats.*;
 import com.satori.composer.vertx.*;
-import com.satori.mods.core.async.*;
 
 import java.util.*;
 
@@ -151,10 +152,10 @@ public class StatsHttpForwarder extends StatsJsonAggregator implements IStatsFor
     int statusCode = response.statusCode();
     String statusMessage = response.statusMessage();
     if (statusCode < 200 || statusCode >= 300) {
-      promise.fail(String.format(
+      promise.fail(new Exception(String.format(
         "request (%s) failed  with %d '%s'",
         path, statusCode, statusMessage
-      ));
+      )));
       return;
     }
     final byte[] result;

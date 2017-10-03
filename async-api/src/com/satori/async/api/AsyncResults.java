@@ -1,4 +1,4 @@
-package com.satori.mods.core.async;
+package com.satori.async.api;
 
 public class AsyncResults {
   public final static AsyncSucceededResult<?> succeededNull = new AsyncSucceededResult<>(null);

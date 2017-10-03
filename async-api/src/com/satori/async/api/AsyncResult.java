@@ -1,4 +1,4 @@
-package com.satori.mods.core.async;
+package com.satori.async.api;
 
 public abstract class AsyncResult<T> implements IAsyncResult<T>, IAsyncFuture<T> {
   
@@ -29,7 +29,7 @@ public abstract class AsyncResult<T> implements IAsyncResult<T>, IAsyncFuture<T>
   }
   
   @Override
-  public void onCompleted(IAsyncHandler<T> cont) {
+  public void onCompleted(IAsyncHandler<? super T> cont) {
     cont.complete(this);
   }
   

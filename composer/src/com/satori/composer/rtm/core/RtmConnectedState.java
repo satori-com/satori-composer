@@ -1,6 +1,6 @@
 package com.satori.composer.rtm.core;
 
-import com.satori.mods.core.async.*;
+import com.satori.async.api.*;
 
 import com.fasterxml.jackson.databind.*;
 import io.vertx.core.http.*;
@@ -206,7 +206,7 @@ public class RtmConnectedState<TContext extends RtmDefaultContext> extends RtmSt
   
   public void onPipelineRecv(RtmPdu<JsonNode> pdu) throws Throwable {
     // unhandled pdu's, fail
-    fail("unexpected pdu received");
+    fail(new Exception("unexpected pdu received"));
   }
   
   public void onPipelinePulse(long timestamp) {

@@ -1,6 +1,6 @@
 package com.satori.composer.rtm.core;
 
-import com.satori.mods.core.async.*;
+import com.satori.async.api.*;
 
 import io.vertx.core.http.*;
 

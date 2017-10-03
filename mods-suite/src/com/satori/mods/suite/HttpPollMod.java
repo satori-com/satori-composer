@@ -1,8 +1,9 @@
 package com.satori.mods.suite;
 
+import com.satori.async.api.*;
+import com.satori.async.core.*;
 import com.satori.composer.vertx.*;
 import com.satori.mods.api.*;
-import com.satori.mods.core.async.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.core.stats.*;
 
@@ -161,7 +162,7 @@ public class HttpPollMod extends Mod {
       return;
     }
     try {
-      sendRequest(path, 0, AsyncPromise.from(this::processResult));
+      sendRequest(path, 0, AsyncPromise.<JsonNode>from(this::processResult));
     } catch (Exception cause) {
       log.error("poll failed", cause);
       onPollCompleted(false);
@@ -169,7 +170,7 @@ public class HttpPollMod extends Mod {
     
   }
   
-  public void processResult(IAsyncResult<JsonNode> ar) {
+  public void processResult(IAsyncResult<? extends JsonNode> ar) {
     if (!ar.isSucceeded()) {
       log.warn("poll failed", ar.getError());
       stats.pollFail += 1;
@@ -221,7 +222,7 @@ public class HttpPollMod extends Mod {
   
   protected void sendRequest(String path, int redirectCnt, IAsyncPromise<JsonNode> promise) {
     if (redirectCnt > maxRedirections) {
-      promise.fail("too many redirection");
+      promise.fail(new Exception("too many redirection"));
       return;
     }
     try {
@@ -302,10 +303,10 @@ public class HttpPollMod extends Mod {
       }
       
       if (statusCode < 200 || statusCode >= 300) {
-        promise.fail(String.format(
+        promise.fail(new Exception(String.format(
           "request (%s) failed  with %d '%s'",
           path, statusCode, statusMessage
-        ));
+        )));
         return;
       }
       

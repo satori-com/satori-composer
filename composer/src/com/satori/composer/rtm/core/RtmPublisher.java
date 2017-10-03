@@ -1,7 +1,7 @@
 package com.satori.composer.rtm.core;
 
 
-import com.satori.mods.core.async.*;
+import com.satori.async.api.*;
 
 import java.util.*;
 
@@ -34,7 +34,7 @@ public class RtmPublisher extends RtmPduInterceptor<IRtmContext> {
       
       for (IAsyncHandler cont : awaiters.values()) {
         try {
-          cont.fail("operation aborted");
+          cont.fail(new Exception("operation aborted"));
         } catch (Throwable cause) {
           // TODO: rethrow as aggregated exception after all
           log().warn("unhandled exception", cause);
@@ -104,7 +104,7 @@ public class RtmPublisher extends RtmPduInterceptor<IRtmContext> {
   public <T> String publish(String channel, T msg, IAsyncHandler<String> cont) {
     if (awaiters == null) {
       if (cont != null) {
-        cont.fail("not started");
+        cont.fail(new Exception("not started"));
       }
       return null;
     }
@@ -113,7 +113,7 @@ public class RtmPublisher extends RtmPduInterceptor<IRtmContext> {
     if (cont != null) {
       cont = awaiters.put(id, cont);
       if (cont != null) {
-        cont.fail("duplicated id");
+        cont.fail(new Exception("duplicated id"));
         fail(new Exception("duplicated id"));
       }
     }

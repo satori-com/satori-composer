@@ -1,6 +1,6 @@
-package com.satori.mods.core.async
+package com.satori.async.core
 
-import io.vertx.core.*
+import com.satori.async.api.*
 import kotlin.coroutines.experimental.*
 
 suspend fun <T> IAsyncFuture<T>.await(): T {
@@ -52,7 +52,7 @@ fun <R, T> future(scope: R, block: suspend R.() -> T): IAsyncFuture<T> {
   return future;
 }
 
-fun<T, R> IAsyncFuture<T>.map(block: (T)->R ):IAsyncFuture<R>{
+fun<T, R> IAsyncFuture<T>.map(block: (T)->R ): IAsyncFuture<R> {
   val future = AsyncFuture<R>()
   onCompleted{ ar ->
     if(!ar.isSucceeded){

@@ -1,4 +1,6 @@
-package com.satori.mods.core.async;
+package com.satori.async.core;
+
+import com.satori.async.api.*;
 
 public class AsyncForkJoin implements IAsyncFuture, IAsyncHandler, IAsyncResult {
   

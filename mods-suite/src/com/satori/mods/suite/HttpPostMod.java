@@ -1,9 +1,10 @@
 package com.satori.mods.suite;
 
+import com.satori.async.api.*;
+import com.satori.async.core.*;
 import com.satori.composer.templates.*;
 import com.satori.composer.vertx.*;
 import com.satori.mods.api.*;
-import com.satori.mods.core.async.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.core.stats.*;
 
@@ -13,7 +14,6 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jdk8.*;
 import com.fasterxml.jackson.module.afterburner.*;
 import io.netty.handler.codec.http.*;
-import io.vertx.core.*;
 import io.vertx.core.buffer.*;
 import io.vertx.core.http.*;
 import io.vertx.core.http.HttpHeaders;
@@ -143,10 +143,10 @@ public class HttpPostMod extends Mod {
     int statusCode = response.statusCode();
     String statusMessage = response.statusMessage();
     if (statusCode < 200 || statusCode >= 300) {
-      promise.fail(String.format(
+      promise.fail(new Exception(String.format(
         "request (%s) failed  with %d '%s'",
         path, statusCode, statusMessage
-      ));
+      )));
       return;
     }
     final byte[] result;

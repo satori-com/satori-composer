@@ -94,7 +94,13 @@ subprojects {
   }
 }
 
-def publishingProjects = [':composer', ':mods', ':mods-suite'].collect { project(it) }
+def publishingProjects = [
+  ':composer',
+  ':mods',
+  ':mods-suite',
+  ':async-api',
+  ':async-core'
+].collect { project(it) }
 
 configure(publishingProjects) {
   apply from: rootProject.file('publishing.gradle')

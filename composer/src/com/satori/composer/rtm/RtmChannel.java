@@ -1,7 +1,7 @@
 package com.satori.composer.rtm;
 
+import com.satori.async.api.*;
 import com.satori.composer.rtm.core.*;
-import com.satori.mods.core.async.*;
 
 import io.vertx.core.*;
 import io.vertx.core.http.*;
@@ -48,7 +48,7 @@ public class RtmChannel extends RtmBase implements IRtmContext {
   public <T> String publish(String channel, T msg, IAsyncHandler<String> cont) {
     if (publisher == null) {
       if (cont != null) {
-        cont.fail("not connected");
+        cont.fail(new Exception("not connected"));
       }
       return null;
     }

@@ -1,7 +1,7 @@
 package com.satori.mods.suite;
 
+import com.satori.async.api.*;
 import com.satori.mods.api.*;
-import com.satori.mods.core.async.*;
 import com.satori.mods.core.config.*;
 
 import java.io.Closeable;
@@ -30,7 +30,7 @@ public class Mod implements IMod, IModContext {
   
   @Override
   public void onInput(String inputName, JsonNode data, IAsyncHandler cont) throws Exception {
-    cont.fail("no inputs defined");
+    cont.fail(new Exception("no inputs defined"));
   }
   
   // IModContext implementation
