@@ -37,7 +37,9 @@ public class AsyncFuture<T> implements IAsyncFuture<T>, IAsyncPromise<T> {
   @Override
   public void onCompleted(IAsyncHandler<? super T> cont) {
     if (isCompleted()) {
-      cont.complete(result);
+      if(cont != null) {
+        cont.complete(result);
+      }
       return;
     }
     onCompleted = cont;
