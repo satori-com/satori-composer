@@ -4,14 +4,35 @@ include 'composer'
 include 'async-api'
 include 'async-core'
 
-include 'mods-examples/suite'
+include ':mods-examples-suite'
+project(':mods-examples-suite').projectDir = file('mods-examples/suite')
 
-include 'mods-examples/barrier'
-include 'mods-examples/barrier-queue'
-include 'mods-examples/big-blue-bus'
-include 'mods-examples/clock'
-include 'mods-examples/clock2'
-include 'mods-examples/hello-world'
-include 'mods-examples/nws-usa-alerts'
-include 'mods-examples/queue'
-include 'mods-examples/rtm-filter'
+include ':mods-examples-barrier'
+project(':mods-examples-barrier').projectDir = file('mods-examples/barrier')
+
+include ':mods-examples-barrier-queue'
+project(':mods-examples-barrier-queue').projectDir = file('mods-examples/barrier-queue')
+
+include ':mods-examples-big-blue-bus'
+project(':mods-examples-big-blue-bus').projectDir = file('mods-examples/big-blue-bus')
+
+include ':mods-examples-clock'
+project(':mods-examples-clock').projectDir = file('mods-examples/clock')
+
+include ':mods-examples-clock2'
+project(':mods-examples-clock2').projectDir = file('mods-examples/clock2')
+
+include ':mods-examples-hello-world'
+project(':mods-examples-hello-world').projectDir = file('mods-examples/hello-world')
+
+include ':mods-examples-nws-usa-alerts'
+project(':mods-examples-nws-usa-alerts').projectDir = file('mods-examples/nws-usa-alerts')
+
+include ':mods-examples-queue'
+project(':mods-examples-queue').projectDir = file('mods-examples/queue')
+
+include ':mods-examples-rtm-filter'
+project(':mods-examples-rtm-filter').projectDir = file('mods-examples/rtm-filter')
+
+include ':mods-examples-custom-resolver'
+project(':mods-examples-custom-resolver').projectDir = file('mods-examples/custom-resolver')

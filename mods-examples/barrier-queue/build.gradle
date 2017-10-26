@@ -6,11 +6,11 @@ applicationName = projectDir.name
 
 dependencies {
   compile project(':mods-suite')
-  compile project(':mods-examples/suite')
+  compile project(':mods-examples-suite')
 
-  compile 'org.slf4j:slf4j-jdk14:1.8.+'
+  compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
 
-  testCompile 'junit:junit:4.+'
+  testCompile "junit:junit:$junitVersion"
 }
 
 

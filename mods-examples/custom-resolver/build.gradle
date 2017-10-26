@@ -1,0 +1,20 @@
+apply plugin: 'application'
+
+mainClassName = "${group}.composer.${project.name.replace("/", "-")}.App".replace('-', '.')
+applicationName = "${project.name.replace("/", "-")}"
+
+
+task info {
+  group 'help'
+
+  println "mainClassName: $mainClassName"
+  println "applicationName: $applicationName"
+}
+dependencies {
+  //compile project(':mods-suite')
+  compile project(':mods-examples-suite')
+
+  compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
+
+  testCompile "junit:junit:$junitVersion"
+}

@@ -1,0 +1,19 @@
+{
+  "mods": {
+    "clock": {
+      "type": "ex:clock"
+    },
+    "delay": {
+      "type": "ex:delay",
+      "connectors": "clock"
+    },
+    "printer": {
+      "type": "my:printer",
+      "connectors": "delay",
+      "settings": {
+        "prefix": "my:printer"
+      }
+    }
+  }
+}
+

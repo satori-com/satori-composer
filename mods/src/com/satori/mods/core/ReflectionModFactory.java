@@ -1,7 +1,6 @@
-package com.satori.composer.runtime;
+package com.satori.mods.core;
 
 import com.satori.mods.api.*;
-import com.satori.mods.suite.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -9,33 +8,27 @@ import java.util.*;
 import com.fasterxml.jackson.databind.*;
 import org.slf4j.*;
 
-public class ModFactory {
-  private static final Logger log = LoggerFactory.getLogger(ModFactory.class);
-  private static final ServiceLoader<IWellKnownMods> wellKnownMods = ServiceLoader.load(IWellKnownMods.class);
+public class ReflectionModFactory implements IModFactory {
+  private final Logger log = LoggerFactory.getLogger(this.getClass());
+  private final Class modClass;
   
-  public static String resolve(String className){
-    if("composition".equals(className)){
-      return Composition.class.getCanonicalName();
-    }
-    for(IWellKnownMods provider: wellKnownMods){
-      String result = provider.resolve(className);
-      if(result != null){
-        return result;
-      }
-    }
-    return className;
+  @SuppressWarnings("WeakerAccess")
+  public ReflectionModFactory(ClassLoader classLoader, String className) throws ClassNotFoundException {
+    this(classLoader.loadClass(className).asSubclass(IMod.class));
   }
   
-  public static IMod create(String className, JsonNode config) {
-    
-    className = resolve(className);
-    
-    final Class<? extends IMod> modClass;
-    try {
-      modClass = Class.forName(className).asSubclass(IMod.class);
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException(e);
-    }
+  @SuppressWarnings("WeakerAccess")
+  public ReflectionModFactory(String className) throws ClassNotFoundException {
+    this(Thread.currentThread().getContextClassLoader(), className);
+  }
+  
+  @SuppressWarnings("WeakerAccess")
+  public ReflectionModFactory(Class<? extends IMod> modClass) {
+    this.modClass = modClass;
+  }
+  
+  @Override
+  public IMod create(JsonNode config) {
     
     Constructor<?>[] ctors = modClass.getDeclaredConstructors();
     Class[] configParams = new Class[]{JsonNode.class};
@@ -55,10 +48,10 @@ public class ModFactory {
     }
     if (defaultCtor == null) {
       RuntimeException err = new RuntimeException("matching constructors for mod not found");
-      StringBuilder sb= new StringBuilder();
+      StringBuilder sb = new StringBuilder();
       boolean firstCtor = true;
-      for(Constructor c: ctors){
-        if(firstCtor){
+      for (Constructor c : ctors) {
+        if (firstCtor) {
           firstCtor = false;
         } else {
           sb.append(", ");
@@ -68,8 +61,8 @@ public class ModFactory {
         sb.append(' ');
         sb.append(modClass.getSimpleName());
         sb.append('(');
-        for(Class cls: c.getParameterTypes()){
-          if(firstParam){
+        for (Class cls : c.getParameterTypes()) {
+          if (firstParam) {
             firstParam = false;
           } else {
             sb.append(", ");

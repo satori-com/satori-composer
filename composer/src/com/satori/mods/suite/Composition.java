@@ -20,21 +20,36 @@ public class Composition extends Mod {
   public Composition() throws Exception {
   }
   
-  public Composition(JsonNode userData) throws Exception {
-    this(Config.parseAndValidate(userData, CompositionSettings.class));
+  public Composition(JsonNode config) throws Exception {
+    this(config, DefaultModResolver.instance);
+  }
+  
+  public Composition(JsonNode config, IModResolver modResolver) throws Exception {
+    this(Config.parseAndValidate(config, CompositionSettings.class));
   }
   
   public Composition(CompositionSettings config) throws Exception {
-    this(config.mods);
-    
+    this(config, DefaultModResolver.instance);
+  }
+
+  public Composition(CompositionSettings config, IModResolver modResolver) throws Exception {
+    this(config.mods, modResolver);
+
     config.outputs.forEach(this::linkOutput);
   }
   
-  public Composition(HashMap<String, CompositionNodeConfig> mods) {
+  public Composition(HashMap<String, CompositionNodeConfig> mods) throws Exception {
+    this(mods, DefaultModResolver.instance);
+  }
+  
+  public Composition(HashMap<String, CompositionNodeConfig> mods, IModResolver modResolver) throws Exception {
     mods.forEach((modName, modConf) -> {
       final IMod mod;
       try {
-        mod = ModFactory.create(modConf.type, modConf.settings);
+        mod = modResolver.create(modConf.type, modConf.settings);
+      } catch (Exception e){
+        log.error("failed to create mod '{}:{}'", modName, modConf.type);
+        throw new RuntimeException(e);
       } catch (Throwable e){
         log.error("failed to create mod '{}:{}'", modName, modConf.type);
         throw e;

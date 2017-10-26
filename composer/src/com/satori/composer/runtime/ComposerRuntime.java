@@ -18,20 +18,32 @@ public class ComposerRuntime {
    * Starts composer with specified config loader.
    */
   public static Vertx start(ConfigLoader configLoader) throws Exception {
-    return start(configLoader.load());
+    return start(configLoader, DefaultModResolver.instance);
+  }
+  
+  public static Vertx start(ConfigLoader configLoader, IModResolver modResolver) throws Exception {
+    return start(configLoader.load(), modResolver);
   }
   
   public static Vertx start(JsonNode config) throws Exception {
-    return start(Config.parseAndValidate(config, ComposerRuntimeConfig.class));
+    return start(config, DefaultModResolver.instance);
+  }
+  
+  public static Vertx start(JsonNode config, IModResolver modResolver) throws Exception {
+    return start(Config.parseAndValidate(config, ComposerRuntimeConfig.class), modResolver);
   }
   
   public static Vertx start(ComposerRuntimeConfig config) throws Exception {
+    return start(config, DefaultModResolver.instance);
+  }
+  
+  public static Vertx start(ComposerRuntimeConfig config, IModResolver modResolver) throws Exception {
     prepare();
     if (config == null) {
       throw new InvalidConfigException("Config must not be null");
     }
     config.validate();
-    return start(new Composition(config.mods), config);
+    return start(new Composition(config.mods, modResolver), config);
   }
   
   /**

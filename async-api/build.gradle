@@ -1,7 +1,3 @@
 dependencies {
-  compile project(':mods-suite')
-
   testCompile "junit:junit:$junitVersion"
 }
-
-
