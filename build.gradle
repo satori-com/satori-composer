@@ -127,7 +127,7 @@ configure(publishingProjects) {
       from(srcDir) {
         into relativeDir
       }
-      archiveName "satori-$artifactId v${version}.zip"
+      archiveName "$artifactId v${version}.zip"
       destinationDir buildDir
       doFirst {
         println "zipping $srcDir -> ${outputs.getFiles()*.path.join(',')}"

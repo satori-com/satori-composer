@@ -11,13 +11,13 @@
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>libs-gtfs</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.1-SNAPSHOT</version>
 </dependency>
 ```
 
 
 ### Download
-[satori-libs-gtfs.v0.4.0-SNAPSHOT.zip](https://github.com/satori-com/satori-composer/releases/download/v0.4.0-SNAPSHOT/satori-libs-gtfs.v0.4.0-SNAPSHOT.zip)<br/>
+[satori-libs-gtfs.v0.4.1-SNAPSHOT.zip](https://github.com/satori-com/satori-composer/releases/download/v0.4.1-SNAPSHOT/satori-libs-gtfs.v0.4.1-SNAPSHOT.zip)<br/>
 [or see latest releases](https://github.com/satori-com/satori-composer/releases/latest)
 
 #### Requirements
