@@ -26,7 +26,7 @@
 <% }%>
 
 ### Download
-[satori-mods.v0.3.2-SNAPSHOT.zip](https://github.com${rootProject.githubRepo}/releases/download/v${project.version}/${project.name}.v${project.version}.zip)<br/>
+[satori-${project.name}.v${project.version}.zip](https://github.com${rootProject.githubRepo}/releases/download/v${project.version}/satori-${project.name}.v${project.version}.zip)<br/>
 [or see latest releases](https://github.com${rootProject.githubRepo}/releases/latest)
 
 #### Requirements

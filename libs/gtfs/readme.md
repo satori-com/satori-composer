@@ -17,7 +17,7 @@
 
 
 ### Download
-[satori-mods.v0.3.2-SNAPSHOT.zip](https://github.com/satori-com/satori-composer/releases/download/v0.4.0-SNAPSHOT/libs-gtfs.v0.4.0-SNAPSHOT.zip)<br/>
+[satori-libs-gtfs.v0.4.0-SNAPSHOT.zip](https://github.com/satori-com/satori-composer/releases/download/v0.4.0-SNAPSHOT/satori-libs-gtfs.v0.4.0-SNAPSHOT.zip)<br/>
 [or see latest releases](https://github.com/satori-com/satori-composer/releases/latest)
 
 #### Requirements
