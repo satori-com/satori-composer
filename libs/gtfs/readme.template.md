@@ -19,7 +19,7 @@
 ```xml
 <dependency>
     <groupId>${project.group}</groupId>
-    <artifactId>${project.name}</artifactId>
+    <artifactId>satori-${project.name}</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```

@@ -10,7 +10,7 @@
 ```xml
 <dependency>
     <groupId>com.satori</groupId>
-    <artifactId>libs-gtfs</artifactId>
+    <artifactId>satori-libs-gtfs</artifactId>
     <version>0.4.1-SNAPSHOT</version>
 </dependency>
 ```
