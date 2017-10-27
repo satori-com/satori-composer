@@ -1,6 +1,8 @@
 ## Satori Gtfs Library For Real-Time
 Requirements: java 1.8<br/>
 
+classes are generated based on [gtfs-realtime.proto](https://developers.google.com/transit/gtfs-realtime/gtfs-realtime-proto) schema for jackson json library
+
 
 ### Maven (snapshots)
 ```xml
