@@ -1,5 +1,5 @@
 ## Satori Gtfs Library For Real-Time
-#####Requirements: java 1.8
+####Requirements: java 1.8
 <% if(!project.version.endsWith("-SNAPSHOT")) {%>
 ### Maven (releases)
 ```xml
