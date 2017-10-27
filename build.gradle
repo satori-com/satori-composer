@@ -35,6 +35,13 @@ void transform(Closure closure) {
   Transform.execute(spec, project)
 }
 
+allprojects {
+  task info() {
+    group 'help'
+    outputs.upToDateWhen { false }
+  }
+}
+
 subprojects {
   group rootProject.group
   version rootProject.version
@@ -98,8 +105,9 @@ def publishingProjects = [
   ':composer',
   ':mods',
   ':mods-suite',
-  ':async-api',
-  ':async-core'
+  ':libs-async-api',
+  ':libs-async-core',
+  ':libs-gtfs'
 ].collect { project(it) }
 
 configure(publishingProjects) {
@@ -119,7 +127,7 @@ configure(publishingProjects) {
       from(srcDir) {
         into relativeDir
       }
-      archiveName "$artifactId v${version}.zip"
+      archiveName "satori-$artifactId v${version}.zip"
       destinationDir buildDir
       doFirst {
         println "zipping $srcDir -> ${outputs.getFiles()*.path.join(',')}"
@@ -144,7 +152,8 @@ task mergeAllOutRepositories(type: Zip) {
 
 
 ext {
-  githubUrl = "https://api.github.com/repos/satori-com/satori-composer/"
+  githubRepo = "/satori-com/satori-composer"
+  githubUrl = "https://api.github.com/repos${githubRepo}/"
 }
 
 if (rootProject.file(".gradle/github.gradle").exists()) {
@@ -162,13 +171,11 @@ task githubPublishRelease(type: GitHubPublishReleaseTask) {
   asset mergeAllOutRepositories
 }
 
-task info() {
-  group 'help'
-
-  println "publishing projects:"
-  publishingProjects.each {
-    println "  ${it.name}"
+info {
+  doLast {
+    println "publishing projects:"
+    publishingProjects.each {
+      println "  ${it.name}"
+    }
   }
-
-  outputs.upToDateWhen { false }
 }

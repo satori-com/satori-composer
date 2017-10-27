@@ -1,6 +1,6 @@
 package com.satori.mods.examples;
 
-import com.satori.async.core.*;
+import com.satori.libs.async.core.*;
 import com.satori.mods.api.*;
 import com.satori.mods.suite.*;
 

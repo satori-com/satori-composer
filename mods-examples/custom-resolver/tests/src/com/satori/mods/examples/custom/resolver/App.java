@@ -2,6 +2,7 @@ package com.satori.mods.examples.custom.resolver;
 
 import com.satori.composer.runtime.*;
 import com.satori.mods.api.*;
+import com.satori.mods.core.*;
 import com.satori.mods.resources.*;
 
 import java.io.*;
@@ -17,7 +18,7 @@ public class App {
       LogManager.getLogManager().readConfiguration(is);
     }
     IModResolver modResolver = modRef -> {
-      if("my:printer".equals(modRef)){
+      if ("my:printer".equals(modRef)) {
         return c -> new PrinterMod(c.get("prefix").asText(), System.out);
       }
       return DefaultModResolver.instance.resolve(modRef);

@@ -1,7 +1,7 @@
 package com.satori.composer.rtm.core;
 
 
-import com.satori.async.api.*;
+import com.satori.libs.async.api.*;
 
 import java.util.*;
 

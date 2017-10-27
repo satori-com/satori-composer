@@ -4,11 +4,11 @@ mainClassName = "${group}.composer.${project.name.replace("/", "-")}.App".replac
 applicationName = "${project.name.replace("/", "-")}"
 
 
-task info {
-  group 'help'
-
-  println "mainClassName: $mainClassName"
-  println "applicationName: $applicationName"
+info {
+  doLast {
+    println "mainClassName: $mainClassName"
+    println "applicationName: $applicationName"
+  }
 }
 dependencies {
   //compile project(':mods-suite')

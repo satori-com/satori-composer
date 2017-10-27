@@ -1,0 +1,115 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+  }
+}
+
+apply plugin: 'com.google.protobuf'
+
+
+ext {
+  pbufSchema = file('protobuf/gtfs-realtime.proto').absolutePath
+  jsonSchema = file('protobuf/gtfs-realtime.json').absolutePath
+}
+
+sourceSets.main.proto.srcDirs = ['protobuf']
+//sourceSets.main.java.srcDirs 'gen'
+
+protobuf {
+  generatedFilesBaseDir = "$projectDir/src/"
+
+  protoc {
+    artifact = 'com.google.protobuf:protoc:3.+'
+  }
+  generateProtoTasks {
+    all().each { task ->
+      task.group = 'protobuf'
+      task.builtins {
+        java {
+          //option 'java_package=com.example.foo.bar'
+          //option 'package=com.example.foo.bar'
+          outputSubDir = '../'
+        }
+      }
+      if(task.sourceSet.name == "main"){
+        //task.outputBaseDir = 'src'
+      }
+      task.outputs.upToDateWhen { false }
+    }
+  }
+}
+tasks.withType(com.google.protobuf.gradle.ProtobufExtract).all {
+  group 'protobuf'
+}
+
+configurations { codegen }
+
+task generateGtfsSchema(type: JavaExec) {
+  group "codegen"
+
+  inputs.files pbufSchema
+  outputs.files jsonSchema
+
+  classpath = configurations.codegen
+  main = tasks.getByPath(':codegen-pbuf2jschema:startScripts').mainClassName
+
+  args '-schema', pbufSchema
+  args '-out', jsonSchema
+}
+
+task generateGtfsTypes(type: JavaExec) {
+  group "codegen"
+
+  classpath = configurations.codegen
+  main = tasks.getByPath(':codegen-jmodel:startScripts').mainClassName
+
+  args '-prefix', "Gtfs"
+  args '-pckg', "${project.group}.${project.name.replace('-','.')}"
+  args '-data', jsonSchema
+  args '-template', file('protobuf/generateGtfsTypes.groovy')
+  args '-out', file('src/')
+}
+
+task generateGtfsConverter(type: JavaExec) {
+  group "codegen"
+
+  classpath = configurations.codegen
+  main = tasks.getByPath(':codegen-jmodel:startScripts').mainClassName
+
+  args '-prefix', "Gtfs"
+  args '-pckg', "${project.group}.${project.name.replace('-','.')}"
+  args '-data', jsonSchema
+  args '-template', file('protobuf/generateGtfsConverter.groovy')
+  args '-out', file('src/')
+}
+
+task generateReadme(type: TransformTask) {
+  group 'codegen'
+  template = file('readme.template.md')
+  output = file('readme.md')
+  outputs.upToDateWhen { false }
+}
+tasks.generateReadme.execute()
+
+info{
+  doLast {
+  }
+}
+
+dependencies {
+
+  codegen project(':codegen-pbuf2jschema')
+  codegen project(':codegen-jmodel')
+
+  compile 'com.google.protobuf:protobuf-java:3.4.0'
+
+  compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+  compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+  compile "com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion"
+  compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
+
+  testCompile "junit:junit:$junitVersion"
+}

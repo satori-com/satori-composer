@@ -25,7 +25,7 @@ kotlin {
 }
 
 dependencies {
-  compile project(':async-core')
+  compile project(':libs-async-core')
 
   compile "org.slf4j:slf4j-api:$slf4jVersion"
 

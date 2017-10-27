@@ -1,7 +1,7 @@
 package com.satori.mods.suite;
 
-import com.satori.async.api.*;
-import com.satori.async.core.*;
+import com.satori.libs.async.api.*;
+import com.satori.libs.async.core.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.core.stats.*;
 
@@ -84,8 +84,8 @@ public class QueueMod extends Mod {
   public IAsyncFuture onInput(String inputName, JsonNode data) throws Exception {
     stats.recv += 1;
     queue.addLast(data);
-    if(!paused){
-      if(queue.size() < pauseThreshold){
+    if (!paused) {
+      if (queue.size() < pauseThreshold) {
         if (sendingFuture == null) {
           processQueue();
         }
@@ -141,21 +141,21 @@ public class QueueMod extends Mod {
   
   
   private void resumeIfNeeded() {
-    while (true){
-      if(paused && queue.size() > resumeThreshold){
+    while (true) {
+      if (paused && queue.size() > resumeThreshold) {
         return;
       }
-      if(paused) {
+      if (paused) {
         stats.resumed += 1;
         paused = false;
       }
       AsyncFuture future = resumeFutures.pollFirst();
-      if(future == null){
+      if (future == null) {
         return;
       }
       try {
         future.succeed();
-      } catch (Throwable e){
+      } catch (Throwable e) {
         log.warn("continuation failure", e);
       }
     }

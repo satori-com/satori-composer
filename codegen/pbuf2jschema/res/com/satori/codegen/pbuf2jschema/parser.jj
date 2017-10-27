@@ -1,0 +1,258 @@
+options {
+  STATIC = false;
+  LOOKAHEAD = 1;
+  CHOICE_AMBIGUITY_CHECK = 2;
+  OTHER_AMBIGUITY_CHECK = 1;
+  DEBUG_PARSER = false;
+  DEBUG_LOOKAHEAD = false;
+  DEBUG_TOKEN_MANAGER = false;
+  ERROR_REPORTING = true;
+  JAVA_UNICODE_ESCAPE = false;
+  UNICODE_INPUT = false;
+  IGNORE_CASE = false;
+  USER_TOKEN_MANAGER = false;
+  USER_CHAR_STREAM = false;
+  BUILD_PARSER = true;
+  BUILD_TOKEN_MANAGER = true;
+  SANITY_CHECK = true;
+  FORCE_LA_CHECK = false;
+}
+
+PARSER_BEGIN(ProtoBufParser)
+package com.satori.codegen.pbuf2jschema.parser;
+
+import com.satori.codegen.pbuf2jschema.schema.*;
+import java.util.*;
+
+public class ProtoBufParser {
+}
+
+PARSER_END(ProtoBufParser)
+
+SKIP: {
+  " " | "\t" | "\n" | "\r"
+}
+
+TOKEN: { // keywords
+  <MESSAGE: "message"> |
+  <REQUIRED: "required"> |
+  <OPTIONAL: "optional"> |
+  <REPEATED: "repeated"> |
+  <SYNTAX: "syntax"> |
+  <OPTION: "option"> |
+  <PACKAGE: "package"> |
+  <EXTENSIONS: "extensions"> |
+  <ENUM: "enum"> |
+  <DEF: "default"> |
+  <TO: "to"> |
+  <TYPE_INT: "int32" |  "uint32" | "sint32"> |
+  <TYPE_STRING: "string"> |
+  <TYPE_BIN: "bytes"> |
+  <TYPE_BOOL: "bool"> |
+  <TYPE_LONG: "int64" | "uint64" | "sint64"> |
+  <TYPE_DOUBLE: "double" | "fixed64" | "sfixed64"> |
+  <TYPE_FLOAT: "float" | "fixed32" | "sfixed32">
+}
+
+TOKEN: {
+  <#ALPHA: ["a"-"z","A"-"Z", "_", "$"]> |
+  <#DIGIT: ["0"-"9"]> |
+  <NUMBER: (["0"-"9"])+> |
+  <ID: <ALPHA> (<ALPHA> | <DIGIT>)*>
+}
+
+SKIP: {
+  "//": IN_LINE_COMMENT
+}
+<IN_LINE_COMMENT> SPECIAL_TOKEN: {
+  <LINE_COMMENT: "\n"|"\r"|"\r\n">: DEFAULT
+}
+<IN_LINE_COMMENT> MORE: {
+  <~[]>
+}
+
+
+TOKEN: {
+  <QUOTE:"\""> : STRING_STATE
+}
+<STRING_STATE> TOKEN:{
+  <ENDQUOTE:<QUOTE>> : DEFAULT |
+  <STRING:(~["\""])+>
+}
+
+Unit parse(): {
+  Unit res;
+} {
+  res = unit()
+  {return res;}
+}
+
+Unit unit(): {
+  Unit unit = new Unit();
+  Field f;
+} {(
+  unit.syntax = syntax()
+  (option())*
+  pack()
+  (f = type_def() {unit.addDefinition(f);})*
+  <EOF>
+) {return unit;}}
+
+Field type_def(): {
+  Field res;
+} {(
+  (res = enum_def() | res = message_def())
+){return res;}}
+
+Field message_def(): {
+  Token t = token.next;
+  Definition res = new Definition("object");
+  Field f;
+  String name;
+} {(
+  (<MESSAGE> (name=name()) "{"
+    (
+      (f = field(){res.addProperty(f);}) |
+      (f = type_def(){res.addDefinition(f);})
+    )*
+    [extensions()]
+  "}")
+
+){
+  res.description = comments(t);
+  return new Field(name, res);
+}}
+
+Field enum_def(): {
+  Token t = token.next;
+  Definition res = new Definition();
+  String name;
+  String fn;
+  Integer fv;
+} {(
+  <ENUM> (name=name()) "{"
+    (fn=name() "=" fv=number() ";" {
+      Definition option = new Definition();
+      option.type = "integer";
+      option.addEnum(fv);
+      res.addDefinition(fn, option);
+      res.addOneOf(Definition.ref(fn));
+      //res.type="integer";
+      //res.addEnum(fv);
+    })*
+    [extensions()]
+  "}"
+){
+  res.description = comments(t);
+  return new Field(name, res);
+}}
+
+Field field(): {
+  Token t = token.next;
+  Definition res;
+  String name;
+  int mod = OPTIONAL;
+} {(
+  [mod=field_mod()] res=type() name=name() "=" <NUMBER> [res.def=default_clause()] ";"
+){
+  if(mod == REPEATED){
+    Definition items = res;
+    res = new Definition("array");
+    res.items = items;
+  }
+  res.description = comments(t);
+  return new Field(name, res, mod == REQUIRED);
+}}
+
+int field_mod(): {
+  Token t;
+} {(
+  t=<REQUIRED>|
+  t=<OPTIONAL>|
+  t=<REPEATED>
+){return t.kind;}}
+
+Object default_clause(): {
+ Object res;
+} {(
+  "[" <DEF> "=" (res=literal()|res=name()) "]"
+){return res;}}
+
+void extensions() :{} {
+  (<EXTENSIONS> <NUMBER> <TO> <NUMBER> ";")
+}
+
+String syntax() :{
+  String val;
+} {
+  (<SYNTAX> "=" (val=string()) ";")
+  {return val;}
+}
+
+void option(): {} {
+  (<OPTION> <ID> "=" string() ";")
+}
+
+void pack(): {} {
+  (<PACKAGE> <ID> ";")
+}
+
+Object literal(): {
+  Object res;
+}{(
+  res = string() | res = number()
+){return res;}}
+
+int number(): {
+  Token t;
+}{
+  (t=<NUMBER>)
+  {return Integer.parseInt(t.image);}
+}
+
+String string(): {
+  String res = "";
+  Token t;
+} {
+  <QUOTE> ((t=<STRING>){res=t.image;})? <ENDQUOTE>
+  {return res;}
+}
+
+String name(): {
+  Token t;
+} {
+  t=<ID> {return t.image;}
+}
+
+Definition type(): {
+  String ref;
+} {(
+  <TYPE_INT>{return new Definition("integer");} |
+  <TYPE_LONG>{return new Definition("integer", "int64");} |
+  <TYPE_FLOAT>{return new Definition("number", "float");} |
+  <TYPE_DOUBLE>{return new Definition("number","double");} |
+  <TYPE_BOOL>{return new Definition("boolean");} |
+  <TYPE_STRING>{return new Definition("string");} |
+  ref=name(){return Definition.ref(ref);}
+)}
+
+String comments(Token t): {
+  StringBuilder res = new StringBuilder();
+} {{
+  if (t == null || t.specialToken == null){
+   return null;
+  }
+  Token head_t = t.specialToken;
+
+  while (head_t.specialToken != null){
+   head_t = head_t.specialToken;
+  }
+
+  while (head_t != null) {
+    res.append(head_t.image);
+    head_t = head_t.next;
+  }
+
+  return res.toString();
+}}
+

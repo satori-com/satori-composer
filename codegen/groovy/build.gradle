@@ -1,0 +1,13 @@
+dependencies {
+
+  compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
+
+  compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+  compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+  compile "com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion"
+  compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
+
+  compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+
+  testCompile "junit:junit:$junitVersion"
+}

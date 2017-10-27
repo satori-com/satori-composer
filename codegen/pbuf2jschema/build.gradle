@@ -1,0 +1,47 @@
+buildscript {
+  repositories {
+    jcenter()
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.sun.codemodel:codemodel:+'
+    classpath 'net.java.dev.javacc:javacc:+'
+  }
+}
+
+apply plugin: 'application'
+
+def packageName =  "${group}.${project.name.replace("/","-")}".replace('-','.')
+def packageDir =  packageName.replace('.','/')
+
+mainClassName = "${packageName}.App"
+applicationName = "${project.projectDir.name}"
+//mainClassName = 'com.mz.ProtobufToJsonSchema'
+//applicationName = 'gtfs-parser'
+
+task generateProtoBufParser(type: JavaExec) {
+  group "codegen"
+  description "generate protobuf parser"
+  classpath = buildscript.configurations.classpath
+  main = 'org.javacc.parser.Main'
+  def grammar = file("res/$packageDir/parser.jj").absolutePath;
+  def out = file("src/$packageDir/parser").absolutePath;
+  args "-OUTPUT_DIRECTORY:${out}"
+  //args "-JAVA_TEMPLATE_TYPE:modern"
+  args "-JDK_VERSION:1.8"
+  args "${grammar}"
+  doFirst {
+    file(out).deleteDir()
+    file(out).mkdirs()
+  }
+}
+
+dependencies {
+
+  compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+  compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+  compile "com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion"
+  compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
+
+  testCompile "junit:junit:$junitVersion"
+}

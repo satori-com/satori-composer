@@ -2,6 +2,7 @@ package com.satori.composer.runtime;
 
 import com.satori.composer.config.loader.*;
 import com.satori.mods.api.*;
+import com.satori.mods.core.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.suite.*;
 

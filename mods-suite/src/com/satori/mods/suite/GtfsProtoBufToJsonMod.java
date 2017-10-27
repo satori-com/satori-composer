@@ -1,13 +1,12 @@
 package com.satori.mods.suite;
 
-import com.satori.async.api.*;
+import com.satori.libs.async.api.*;
+import com.satori.libs.gtfs.*;
 import com.satori.mods.api.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.core.stats.*;
-import com.satori.mods.suite.gtfs.*;
 
 import com.fasterxml.jackson.databind.*;
-import com.google.transit.realtime.*;
 import org.slf4j.*;
 
 public class GtfsProtoBufToJsonMod extends Mod {

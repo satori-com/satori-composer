@@ -1,7 +1,7 @@
 package com.satori.mods.suite;
 
-import com.satori.async.api.*;
-import com.satori.async.core.*;
+import com.satori.libs.async.api.*;
+import com.satori.libs.async.core.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.core.stats.*;
 
@@ -81,14 +81,14 @@ public class BarrierMod extends Mod {
   public IAsyncFuture onInput(String inputName, JsonNode data) throws Exception {
     stats.recv += 1;
     processData(data);
-    if(!paused){
-      if(counter < pauseThreshold){
+    if (!paused) {
+      if (counter < pauseThreshold) {
         return AsyncResults.succeeded();
       }
       paused = true;
       stats.paused += 1;
     }
-  
+    
     AsyncFuture future = new AsyncFuture();
     resumeFutures.addLast(future);
     return future;
@@ -116,7 +116,7 @@ public class BarrierMod extends Mod {
       log.warn("failed to process message", e);
       return;
     }
-    if(future == null){
+    if (future == null) {
       counter -= 1;
       log.error("internal error", new NullPointerException());
       return;
@@ -134,21 +134,21 @@ public class BarrierMod extends Mod {
   }
   
   private void resumeIfNeeded() {
-    while (true){
-      if(paused){
-        if(counter > resumeThreshold){
+    while (true) {
+      if (paused) {
+        if (counter > resumeThreshold) {
           return;
         }
         paused = false;
         stats.resumed += 1;
       }
       AsyncFuture future = resumeFutures.pollFirst();
-      if(future == null){
+      if (future == null) {
         return;
       }
       try {
         future.succeed();
-      } catch (Throwable e){
+      } catch (Throwable e) {
         log.warn("continuation failure", e);
       }
     }

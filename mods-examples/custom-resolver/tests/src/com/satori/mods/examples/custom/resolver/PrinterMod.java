@@ -1,6 +1,6 @@
 package com.satori.mods.examples.custom.resolver;
 
-import com.satori.async.api.*;
+import com.satori.libs.async.api.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.suite.*;
 

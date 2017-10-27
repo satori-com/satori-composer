@@ -1,0 +1,29 @@
+apply plugin: 'groovy'
+apply plugin: 'application'
+
+def packageName =  "${group}.${project.name.replace("/","-")}".replace('-','.')
+def packageDir =  packageName.replace('.','/')
+
+mainClassName = "${packageName}.App"
+applicationName = "${project.projectDir.name}"
+
+sourceSets.main.groovy.srcDirs = ['src']
+sourceSets.test.groovy.srcDirs = ['tests']
+
+
+dependencies {
+  compile project(':codegen-groovy')
+
+  compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
+
+  compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+  compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+  compile "com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion"
+  compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
+
+  compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+
+  compile 'com.sun.codemodel:codemodel:+'
+
+  testCompile "junit:junit:$junitVersion"
+}

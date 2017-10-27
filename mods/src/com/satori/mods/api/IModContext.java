@@ -1,6 +1,6 @@
 package com.satori.mods.api;
 
-import com.satori.async.api.*;
+import com.satori.libs.async.api.*;
 
 import java.io.Closeable;
 

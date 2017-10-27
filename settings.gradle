@@ -1,8 +1,30 @@
 include 'mods'
 include 'mods-suite'
 include 'composer'
-include 'async-api'
-include 'async-core'
+
+// codegen
+
+include ':codegen-pbuf2jschema'
+project(':codegen-pbuf2jschema').projectDir = file('codegen/pbuf2jschema')
+
+include ':codegen-jmodel'
+project(':codegen-jmodel').projectDir = file('codegen/jmodel')
+
+include ':codegen-groovy'
+project(':codegen-groovy').projectDir = file('codegen/groovy')
+
+// libs
+
+include ':libs-gtfs'
+project(':libs-gtfs').projectDir = file('libs/gtfs')
+
+include ':libs-async-api'
+project(':libs-async-api').projectDir = file('libs/async-api')
+
+include ':libs-async-core'
+project(':libs-async-core').projectDir = file('libs/async-core')
+
+// examples
 
 include ':mods-examples-suite'
 project(':mods-examples-suite').projectDir = file('mods-examples/suite')

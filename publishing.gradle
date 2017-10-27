@@ -41,14 +41,14 @@ publishing {
   publications {
     jar(MavenPublication) {
       groupId group
-      artifactId "satori-${project.name}"
+      artifactId "${project.name}"
       version project.version
       pom.withXml {
         asNode().children().last() + {
           resolveStrategy = Closure.DELEGATE_FIRST
 
           url 'https://github.com/satori-com/satori-composer'
-          name "satori-${project.name}"
+          name "${project.name}"
           description 'satori composer'
           //packaging 'jar'
 

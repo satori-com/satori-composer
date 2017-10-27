@@ -1,0 +1,701 @@
+{
+  "definitions" : {
+    "TranslatedString" : {
+      "definitions" : {
+        "Translation" : {
+          "type" : "object",
+          "properties" : {
+            "language" : {
+              "description" : " BCP-47 language code. Can be omitted if the language is unknown or if\r\n no i18n is done at all for the feed. At most one translation is\r\n allowed to have an unspecified language tag.\r\n",
+              "type" : "string"
+            },
+            "text" : {
+              "description" : " A UTF-8 string containing the message.\r\n",
+              "type" : "string"
+            }
+          },
+          "required" : [ "text" ]
+        }
+      },
+      "description" : " An internationalized message containing per-language versions of a snippet of\r\n text or a URL.\r\n One of the strings from a message will be picked up. The resolution proceeds\r\n as follows:\r\n 1. If the UI language matches the language code of a translation,\r\n    the first matching translation is picked.\r\n 2. If a default UI language (e.g., English) matches the language code of a\r\n    translation, the first matching translation is picked.\r\n 3. If some translation has an unspecified language code, that translation is\r\n    picked.\r\n",
+      "type" : "object",
+      "properties" : {
+        "translation" : {
+          "description" : " At least one translation must be provided.\r\n",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TranslatedString/definitions/Translation"
+          }
+        }
+      }
+    },
+    "TimeRange" : {
+      "description" : "\r\n Low level data structures used above.\r\n\r\n A time interval. The interval is considered active at time 't' if 't' is\r\n greater than or equal to the start time and less than the end time.\r\n",
+      "type" : "object",
+      "properties" : {
+        "start" : {
+          "description" : " Start time, in POSIX time (i.e., number of seconds since January 1st 1970\r\n 00:00:00 UTC).\r\n If missing, the interval starts at minus infinity.\r\n",
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "end" : {
+          "description" : " End time, in POSIX time (i.e., number of seconds since January 1st 1970\r\n 00:00:00 UTC).\r\n If missing, the interval ends at plus infinity.\r\n",
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "FeedMessage" : {
+      "description" : " The contents of a feed message.\r\n A feed is a continuous stream of feed messages. Each message in the stream is\r\n obtained as a response to an appropriate HTTP GET request.\r\n A realtime feed is always defined with relation to an existing GTFS feed.\r\n All the entity ids are resolved with respect to the GTFS feed.\r\n\r\n A feed depends on some external configuration:\r\n - The corresponding GTFS feed.\r\n - Feed application (updates, positions or alerts). A feed should contain only\r\n   items of one specified application; all the other entities will be ignored.\r\n - Polling frequency\r\n",
+      "type" : "object",
+      "properties" : {
+        "header" : {
+          "description" : " Metadata about this feed and feed message.\r\n",
+          "$ref" : "#/definitions/FeedHeader"
+        },
+        "entity" : {
+          "description" : " Contents of the feed.\r\n",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/FeedEntity"
+          }
+        }
+      },
+      "required" : [ "header" ]
+    },
+    "VehiclePosition" : {
+      "definitions" : {
+        "VehicleStopStatus" : {
+          "definitions" : {
+            "IN_TRANSIT_TO" : {
+              "type" : "integer",
+              "enum" : [ 2 ]
+            },
+            "STOPPED_AT" : {
+              "type" : "integer",
+              "enum" : [ 1 ]
+            },
+            "INCOMING_AT" : {
+              "type" : "integer",
+              "enum" : [ 0 ]
+            }
+          },
+          "oneOf" : [ {
+            "$ref" : "#/definitions/VehiclePosition/definitions/VehicleStopStatus/definitions/INCOMING_AT"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/VehicleStopStatus/definitions/STOPPED_AT"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/VehicleStopStatus/definitions/IN_TRANSIT_TO"
+          } ]
+        },
+        "CongestionLevel" : {
+          "definitions" : {
+            "CONGESTION" : {
+              "type" : "integer",
+              "enum" : [ 3 ]
+            },
+            "RUNNING_SMOOTHLY" : {
+              "type" : "integer",
+              "enum" : [ 1 ]
+            },
+            "STOP_AND_GO" : {
+              "type" : "integer",
+              "enum" : [ 2 ]
+            },
+            "UNKNOWN_CONGESTION_LEVEL" : {
+              "type" : "integer",
+              "enum" : [ 0 ]
+            },
+            "SEVERE_CONGESTION" : {
+              "type" : "integer",
+              "enum" : [ 4 ]
+            }
+          },
+          "description" : " Congestion level that is affecting this vehicle.\r\n",
+          "oneOf" : [ {
+            "$ref" : "#/definitions/VehiclePosition/definitions/CongestionLevel/definitions/UNKNOWN_CONGESTION_LEVEL"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/CongestionLevel/definitions/RUNNING_SMOOTHLY"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/CongestionLevel/definitions/STOP_AND_GO"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/CongestionLevel/definitions/CONGESTION"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/CongestionLevel/definitions/SEVERE_CONGESTION"
+          } ]
+        },
+        "OccupancyStatus" : {
+          "definitions" : {
+            "NOT_ACCEPTING_PASSENGERS" : {
+              "type" : "integer",
+              "enum" : [ 6 ]
+            },
+            "MANY_SEATS_AVAILABLE" : {
+              "type" : "integer",
+              "enum" : [ 1 ]
+            },
+            "STANDING_ROOM_ONLY" : {
+              "type" : "integer",
+              "enum" : [ 3 ]
+            },
+            "EMPTY" : {
+              "type" : "integer",
+              "enum" : [ 0 ]
+            },
+            "CRUSHED_STANDING_ROOM_ONLY" : {
+              "type" : "integer",
+              "enum" : [ 4 ]
+            },
+            "FULL" : {
+              "type" : "integer",
+              "enum" : [ 5 ]
+            },
+            "FEW_SEATS_AVAILABLE" : {
+              "type" : "integer",
+              "enum" : [ 2 ]
+            }
+          },
+          "description" : " The degree of passenger occupancy of the vehicle. This field is still\r\n experimental, and subject to change. It may be formally adopted in the\r\n future.\r\n",
+          "oneOf" : [ {
+            "$ref" : "#/definitions/VehiclePosition/definitions/OccupancyStatus/definitions/EMPTY"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/OccupancyStatus/definitions/MANY_SEATS_AVAILABLE"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/OccupancyStatus/definitions/FEW_SEATS_AVAILABLE"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/OccupancyStatus/definitions/STANDING_ROOM_ONLY"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/OccupancyStatus/definitions/CRUSHED_STANDING_ROOM_ONLY"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/OccupancyStatus/definitions/FULL"
+          }, {
+            "$ref" : "#/definitions/VehiclePosition/definitions/OccupancyStatus/definitions/NOT_ACCEPTING_PASSENGERS"
+          } ]
+        }
+      },
+      "description" : " Realtime positioning information for a given vehicle.\r\n",
+      "type" : "object",
+      "properties" : {
+        "trip" : {
+          "description" : " The Trip that this vehicle is serving.\r\n Can be empty or partial if the vehicle can not be identified with a given\r\n trip instance.\r\n",
+          "$ref" : "#/definitions/TripDescriptor"
+        },
+        "current_stop_sequence" : {
+          "description" : " The stop sequence index of the current stop. The meaning of\r\n current_stop_sequence (i.e., the stop that it refers to) is determined by\r\n current_status.\r\n If current_status is missing IN_TRANSIT_TO is assumed.\r\n",
+          "type" : "integer"
+        },
+        "congestion_level" : {
+          "$ref" : "#/definitions/VehiclePosition/definitions/CongestionLevel"
+        },
+        "occupancy_status" : {
+          "$ref" : "#/definitions/VehiclePosition/definitions/OccupancyStatus"
+        },
+        "stop_id" : {
+          "description" : " Identifies the current stop. The value must be the same as in stops.txt in\r\n the corresponding GTFS feed.\r\n",
+          "type" : "string"
+        },
+        "current_status" : {
+          "description" : " The exact status of the vehicle with respect to the current stop.\r\n Ignored if current_stop_sequence is missing.\r\n",
+          "default" : "IN_TRANSIT_TO",
+          "$ref" : "#/definitions/VehiclePosition/definitions/VehicleStopStatus"
+        },
+        "position" : {
+          "description" : " Current position of this vehicle.\r\n",
+          "$ref" : "#/definitions/Position"
+        },
+        "vehicle" : {
+          "description" : " Additional information on the vehicle that is serving this trip.\r\n",
+          "$ref" : "#/definitions/VehicleDescriptor"
+        },
+        "timestamp" : {
+          "description" : " Moment at which the vehicle's position was measured. In POSIX time\r\n (i.e., number of seconds since January 1st 1970 00:00:00 UTC).\r\n",
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "EntitySelector" : {
+      "description" : " A selector for an entity in a GTFS feed.\r\n",
+      "type" : "object",
+      "properties" : {
+        "route_id" : {
+          "type" : "string"
+        },
+        "trip" : {
+          "$ref" : "#/definitions/TripDescriptor"
+        },
+        "route_type" : {
+          "description" : " corresponds to route_type in GTFS.\r\n",
+          "type" : "integer"
+        },
+        "stop_id" : {
+          "type" : "string"
+        },
+        "agency_id" : {
+          "description" : " The values of the fields should correspond to the appropriate fields in the\r\n GTFS feed.\r\n At least one specifier must be given. If several are given, then the\r\n matching has to apply to all the given specifiers.\r\n",
+          "type" : "string"
+        }
+      }
+    },
+    "TripUpdate" : {
+      "definitions" : {
+        "StopTimeEvent" : {
+          "description" : " Timing information for a single predicted event (either arrival or\r\n departure).\r\n Timing consists of delay and/or estimated time, and uncertainty.\r\n - delay should be used when the prediction is given relative to some\r\n   existing schedule in GTFS.\r\n - time should be given whether there is a predicted schedule or not. If\r\n   both time and delay are specified, time will take precedence\r\n   (although normally, time, if given for a scheduled trip, should be\r\n   equal to scheduled time in GTFS + delay).\r\n\r\n Uncertainty applies equally to both time and delay.\r\n The uncertainty roughly specifies the expected error in true delay (but\r\n note, we don't yet define its precise statistical meaning). It's possible\r\n for the uncertainty to be 0, for example for trains that are driven under\r\n computer timing control.\r\n",
+          "type" : "object",
+          "properties" : {
+            "delay" : {
+              "description" : " Delay (in seconds) can be positive (meaning that the vehicle is late) or\r\n negative (meaning that the vehicle is ahead of schedule). Delay of 0\r\n means that the vehicle is exactly on time.\r\n",
+              "type" : "integer"
+            },
+            "time" : {
+              "description" : " Event as absolute time.\r\n In Unix time (i.e., number of seconds since January 1st 1970 00:00:00\r\n UTC).\r\n",
+              "type" : "integer",
+              "format" : "int64"
+            },
+            "uncertainty" : {
+              "description" : " If uncertainty is omitted, it is interpreted as unknown.\r\n If the prediction is unknown or too uncertain, the delay (or time) field\r\n should be empty. In such case, the uncertainty field is ignored.\r\n To specify a completely certain prediction, set its uncertainty to 0.\r\n",
+              "type" : "integer"
+            }
+          }
+        },
+        "StopTimeUpdate" : {
+          "definitions" : {
+            "ScheduleRelationship" : {
+              "definitions" : {
+                "NO_DATA" : {
+                  "type" : "integer",
+                  "enum" : [ 2 ]
+                },
+                "SKIPPED" : {
+                  "type" : "integer",
+                  "enum" : [ 1 ]
+                },
+                "SCHEDULED" : {
+                  "type" : "integer",
+                  "enum" : [ 0 ]
+                }
+              },
+              "description" : " The relation between this StopTime and the static schedule.\r\n",
+              "oneOf" : [ {
+                "$ref" : "#/definitions/TripUpdate/definitions/StopTimeUpdate/definitions/ScheduleRelationship/definitions/SCHEDULED"
+              }, {
+                "$ref" : "#/definitions/TripUpdate/definitions/StopTimeUpdate/definitions/ScheduleRelationship/definitions/SKIPPED"
+              }, {
+                "$ref" : "#/definitions/TripUpdate/definitions/StopTimeUpdate/definitions/ScheduleRelationship/definitions/NO_DATA"
+              } ]
+            }
+          },
+          "description" : " Realtime update for arrival and/or departure events for a given stop on a\r\n trip. Updates can be supplied for both past and future events.\r\n The producer is allowed, although not required, to drop past events.\r\n",
+          "type" : "object",
+          "properties" : {
+            "stop_sequence" : {
+              "description" : " The update is linked to a specific stop either through stop_sequence or\r\n stop_id, so one of the fields below must necessarily be set.\r\n See the documentation in TripDescriptor for more information.\r\n Must be the same as in stop_times.txt in the corresponding GTFS feed.\r\n",
+              "type" : "integer"
+            },
+            "arrival" : {
+              "$ref" : "#/definitions/TripUpdate/definitions/StopTimeEvent"
+            },
+            "stop_id" : {
+              "description" : " Must be the same as in stops.txt in the corresponding GTFS feed.\r\n",
+              "type" : "string"
+            },
+            "departure" : {
+              "$ref" : "#/definitions/TripUpdate/definitions/StopTimeEvent"
+            },
+            "schedule_relationship" : {
+              "default" : "SCHEDULED",
+              "$ref" : "#/definitions/TripUpdate/definitions/StopTimeUpdate/definitions/ScheduleRelationship"
+            }
+          }
+        }
+      },
+      "description" : "\r\n Entities used in the feed.\r\n\r\n Realtime update of the progress of a vehicle along a trip.\r\n Depending on the value of ScheduleRelationship, a TripUpdate can specify:\r\n - A trip that proceeds along the schedule.\r\n - A trip that proceeds along a route but has no fixed schedule.\r\n - A trip that have been added or removed with regard to schedule.\r\n\r\n The updates can be for future, predicted arrival/departure events, or for\r\n past events that already occurred.\r\n Normally, updates should get more precise and more certain (see\r\n uncertainty below) as the events gets closer to current time.\r\n Even if that is not possible, the information for past events should be\r\n precise and certain. In particular, if an update points to time in the past\r\n but its update's uncertainty is not 0, the client should conclude that the\r\n update is a (wrong) prediction and that the trip has not completed yet.\r\n\r\n Note that the update can describe a trip that is already completed.\r\n To this end, it is enough to provide an update for the last stop of the trip.\r\n If the time of that is in the past, the client will conclude from that that\r\n the whole trip is in the past (it is possible, although inconsequential, to\r\n also provide updates for preceding stops).\r\n This option is most relevant for a trip that has completed ahead of schedule,\r\n but according to the schedule, the trip is still proceeding at the current\r\n time. Removing the updates for this trip could make the client assume\r\n that the trip is still proceeding.\r\n Note that the feed provider is allowed, but not required, to purge past\r\n updates - this is one case where this would be practically useful.\r\n",
+      "type" : "object",
+      "properties" : {
+        "trip" : {
+          "description" : " The Trip that this message applies to. There can be at most one\r\n TripUpdate entity for each actual trip instance.\r\n If there is none, that means there is no prediction information available.\r\n It does *not* mean that the trip is progressing according to schedule.\r\n",
+          "$ref" : "#/definitions/TripDescriptor"
+        },
+        "delay" : {
+          "description" : " The current schedule deviation for the trip.  Delay should only be\r\n specified when the prediction is given relative to some existing schedule\r\n in GTFS.\r\n\r\n Delay (in seconds) can be positive (meaning that the vehicle is late) or\r\n negative (meaning that the vehicle is ahead of schedule). Delay of 0\r\n means that the vehicle is exactly on time.\r\n\r\n Delay information in StopTimeUpdates take precedent of trip-level delay\r\n information, such that trip-level delay is only propagated until the next\r\n stop along the trip with a StopTimeUpdate delay value specified.\r\n\r\n Feed providers are strongly encouraged to provide a TripUpdate.timestamp\r\n value indicating when the delay value was last updated, in order to\r\n evaluate the freshness of the data.\r\n\r\n NOTE: This field is still experimental, and subject to change. It may be\r\n formally adopted in the future.\r\n",
+          "type" : "integer"
+        },
+        "stop_time_update" : {
+          "description" : " Updates to StopTimes for the trip (both future, i.e., predictions, and in\r\n some cases, past ones, i.e., those that already happened).\r\n The updates must be sorted by stop_sequence, and apply for all the\r\n following stops of the trip up to the next specified one.\r\n\r\n Example 1:\r\n For a trip with 20 stops, a StopTimeUpdate with arrival delay and departure\r\n delay of 0 for stop_sequence of the current stop means that the trip is\r\n exactly on time.\r\n\r\n Example 2:\r\n For the same trip instance, 3 StopTimeUpdates are provided:\r\n - delay of 5 min for stop_sequence 3\r\n - delay of 1 min for stop_sequence 8\r\n - delay of unspecified duration for stop_sequence 10\r\n This will be interpreted as:\r\n - stop_sequences 3,4,5,6,7 have delay of 5 min.\r\n - stop_sequences 8,9 have delay of 1 min.\r\n - stop_sequences 10,... have unknown delay.\r\n",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TripUpdate/definitions/StopTimeUpdate"
+          }
+        },
+        "vehicle" : {
+          "description" : " Additional information on the vehicle that is serving this trip.\r\n",
+          "$ref" : "#/definitions/VehicleDescriptor"
+        },
+        "timestamp" : {
+          "description" : " Moment at which the vehicle's real-time progress was measured. In POSIX\r\n time (i.e., the number of seconds since January 1st 1970 00:00:00 UTC).\r\n",
+          "type" : "integer",
+          "format" : "int64"
+        }
+      },
+      "required" : [ "trip" ]
+    },
+    "TripDescriptor" : {
+      "definitions" : {
+        "ScheduleRelationship" : {
+          "definitions" : {
+            "ADDED" : {
+              "type" : "integer",
+              "enum" : [ 1 ]
+            },
+            "UNSCHEDULED" : {
+              "type" : "integer",
+              "enum" : [ 2 ]
+            },
+            "CANCELED" : {
+              "type" : "integer",
+              "enum" : [ 3 ]
+            },
+            "SCHEDULED" : {
+              "type" : "integer",
+              "enum" : [ 0 ]
+            }
+          },
+          "description" : " The relation between this trip and the static schedule. If a trip is done\r\n in accordance with temporary schedule, not reflected in GTFS, then it\r\n shouldn't be marked as SCHEDULED, but likely as ADDED.\r\n",
+          "oneOf" : [ {
+            "$ref" : "#/definitions/TripDescriptor/definitions/ScheduleRelationship/definitions/SCHEDULED"
+          }, {
+            "$ref" : "#/definitions/TripDescriptor/definitions/ScheduleRelationship/definitions/ADDED"
+          }, {
+            "$ref" : "#/definitions/TripDescriptor/definitions/ScheduleRelationship/definitions/UNSCHEDULED"
+          }, {
+            "$ref" : "#/definitions/TripDescriptor/definitions/ScheduleRelationship/definitions/CANCELED"
+          } ]
+        }
+      },
+      "description" : " A descriptor that identifies an instance of a GTFS trip, or all instances of\r\n a trip along a route.\r\n - To specify a single trip instance, the trip_id (and if necessary,\r\n   start_time) is set. If route_id is also set, then it should be same as one\r\n   that the given trip corresponds to.\r\n - To specify all the trips along a given route, only the route_id should be\r\n   set. Note that if the trip_id is not known, then stop sequence ids in\r\n   TripUpdate are not sufficient, and stop_ids must be provided as well. In\r\n   addition, absolute arrival/departure times must be provided.\r\n",
+      "type" : "object",
+      "properties" : {
+        "start_time" : {
+          "description" : " The initially scheduled start time of this trip instance.\r\n When the trip_id corresponds to a non-frequency-based trip, this field\r\n should either be omitted or be equal to the value in the GTFS feed. When\r\n the trip_id correponds to a frequency-based trip, the start_time must be\r\n specified for trip updates and vehicle positions. If the trip corresponds\r\n to exact_times=1 GTFS record, then start_time must be some multiple\r\n (including zero) of headway_secs later than frequencies.txt start_time for\r\n the corresponding time period. If the trip corresponds to exact_times=0,\r\n then its start_time may be arbitrary, and is initially expected to be the\r\n first departure of the trip. Once established, the start_time of this\r\n frequency-based trip should be considered immutable, even if the first\r\n departure time changes -- that time change may instead be reflected in a\r\n StopTimeUpdate.\r\n Format and semantics of the field is same as that of\r\n GTFS/frequencies.txt/start_time, e.g., 11:15:35 or 25:15:35.\r\n",
+          "type" : "string"
+        },
+        "trip_id" : {
+          "description" : " The trip_id from the GTFS feed that this selector refers to.\r\n For non frequency-based trips, this field is enough to uniquely identify\r\n the trip. For frequency-based trip, start_time and start_date might also be\r\n necessary.\r\n",
+          "type" : "string"
+        },
+        "direction_id" : {
+          "description" : " The direction_id from the GTFS feed trips.txt file, indicating the\r\n direction of travel for trips this selector refers to. This field is\r\n still experimental, and subject to change. It may be formally adopted in\r\n the future.\r\n",
+          "type" : "integer"
+        },
+        "route_id" : {
+          "description" : " The route_id from the GTFS that this selector refers to.\r\n",
+          "type" : "string"
+        },
+        "schedule_relationship" : {
+          "$ref" : "#/definitions/TripDescriptor/definitions/ScheduleRelationship"
+        },
+        "start_date" : {
+          "description" : " The scheduled start date of this trip instance.\r\n Must be provided to disambiguate trips that are so late as to collide with\r\n a scheduled trip on a next day. For example, for a train that departs 8:00\r\n and 20:00 every day, and is 12 hours late, there would be two distinct\r\n trips on the same time.\r\n This field can be provided but is not mandatory for schedules in which such\r\n collisions are impossible - for example, a service running on hourly\r\n schedule where a vehicle that is one hour late is not considered to be\r\n related to schedule anymore.\r\n In YYYYMMDD format.\r\n",
+          "type" : "string"
+        }
+      }
+    },
+    "Position" : {
+      "description" : " A position.\r\n",
+      "type" : "object",
+      "properties" : {
+        "odometer" : {
+          "description" : " Odometer value, in meters.\r\n",
+          "type" : "number",
+          "format" : "double"
+        },
+        "bearing" : {
+          "description" : " Bearing, in degrees, clockwise from North, i.e., 0 is North and 90 is East.\r\n This can be the compass bearing, or the direction towards the next stop\r\n or intermediate location.\r\n This should not be direction deduced from the sequence of previous\r\n positions, which can be computed from previous data.\r\n",
+          "type" : "number",
+          "format" : "float"
+        },
+        "latitude" : {
+          "description" : " Degrees North, in the WGS-84 coordinate system.\r\n",
+          "type" : "number",
+          "format" : "float"
+        },
+        "speed" : {
+          "description" : " Momentary speed measured by the vehicle, in meters per second.\r\n",
+          "type" : "number",
+          "format" : "float"
+        },
+        "longitude" : {
+          "description" : " Degrees East, in the WGS-84 coordinate system.\r\n",
+          "type" : "number",
+          "format" : "float"
+        }
+      },
+      "required" : [ "latitude", "longitude" ]
+    },
+    "Alert" : {
+      "definitions" : {
+        "Cause" : {
+          "definitions" : {
+            "MAINTENANCE" : {
+              "type" : "integer",
+              "enum" : [ 9 ]
+            },
+            "WEATHER" : {
+              "type" : "integer",
+              "enum" : [ 8 ]
+            },
+            "TECHNICAL_PROBLEM" : {
+              "type" : "integer",
+              "enum" : [ 3 ]
+            },
+            "CONSTRUCTION" : {
+              "type" : "integer",
+              "enum" : [ 10 ]
+            },
+            "ACCIDENT" : {
+              "type" : "integer",
+              "enum" : [ 6 ]
+            },
+            "HOLIDAY" : {
+              "type" : "integer",
+              "enum" : [ 7 ]
+            },
+            "MEDICAL_EMERGENCY" : {
+              "type" : "integer",
+              "enum" : [ 12 ]
+            },
+            "STRIKE" : {
+              "type" : "integer",
+              "enum" : [ 4 ]
+            },
+            "UNKNOWN_CAUSE" : {
+              "type" : "integer",
+              "enum" : [ 1 ]
+            },
+            "OTHER_CAUSE" : {
+              "type" : "integer",
+              "enum" : [ 2 ]
+            },
+            "DEMONSTRATION" : {
+              "type" : "integer",
+              "enum" : [ 5 ]
+            },
+            "POLICE_ACTIVITY" : {
+              "type" : "integer",
+              "enum" : [ 11 ]
+            }
+          },
+          "description" : " Cause of this alert.\r\n",
+          "oneOf" : [ {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/UNKNOWN_CAUSE"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/OTHER_CAUSE"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/TECHNICAL_PROBLEM"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/STRIKE"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/DEMONSTRATION"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/ACCIDENT"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/HOLIDAY"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/WEATHER"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/MAINTENANCE"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/CONSTRUCTION"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/POLICE_ACTIVITY"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Cause/definitions/MEDICAL_EMERGENCY"
+          } ]
+        },
+        "Effect" : {
+          "definitions" : {
+            "SIGNIFICANT_DELAYS" : {
+              "type" : "integer",
+              "enum" : [ 3 ]
+            },
+            "OTHER_EFFECT" : {
+              "type" : "integer",
+              "enum" : [ 7 ]
+            },
+            "MODIFIED_SERVICE" : {
+              "type" : "integer",
+              "enum" : [ 6 ]
+            },
+            "DETOUR" : {
+              "type" : "integer",
+              "enum" : [ 4 ]
+            },
+            "STOP_MOVED" : {
+              "type" : "integer",
+              "enum" : [ 9 ]
+            },
+            "NO_SERVICE" : {
+              "type" : "integer",
+              "enum" : [ 1 ]
+            },
+            "UNKNOWN_EFFECT" : {
+              "type" : "integer",
+              "enum" : [ 8 ]
+            },
+            "REDUCED_SERVICE" : {
+              "type" : "integer",
+              "enum" : [ 2 ]
+            },
+            "ADDITIONAL_SERVICE" : {
+              "type" : "integer",
+              "enum" : [ 5 ]
+            }
+          },
+          "description" : " What is the effect of this problem on the affected entity.\r\n",
+          "oneOf" : [ {
+            "$ref" : "#/definitions/Alert/definitions/Effect/definitions/NO_SERVICE"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Effect/definitions/REDUCED_SERVICE"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Effect/definitions/SIGNIFICANT_DELAYS"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Effect/definitions/DETOUR"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Effect/definitions/ADDITIONAL_SERVICE"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Effect/definitions/MODIFIED_SERVICE"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Effect/definitions/OTHER_EFFECT"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Effect/definitions/UNKNOWN_EFFECT"
+          }, {
+            "$ref" : "#/definitions/Alert/definitions/Effect/definitions/STOP_MOVED"
+          } ]
+        }
+      },
+      "description" : " An alert, indicating some sort of incident in the public transit network.\r\n",
+      "type" : "object",
+      "properties" : {
+        "active_period" : {
+          "description" : " Time when the alert should be shown to the user. If missing, the\r\n alert will be shown as long as it appears in the feed.\r\n If multiple ranges are given, the alert will be shown during all of them.\r\n",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TimeRange"
+          }
+        },
+        "effect" : {
+          "default" : "UNKNOWN_EFFECT",
+          "$ref" : "#/definitions/Alert/definitions/Effect"
+        },
+        "cause" : {
+          "default" : "UNKNOWN_CAUSE",
+          "$ref" : "#/definitions/Alert/definitions/Cause"
+        },
+        "description_text" : {
+          "description" : " Full description for the alert as plain-text. The information in the\r\n description should add to the information of the header.\r\n",
+          "$ref" : "#/definitions/TranslatedString"
+        },
+        "header_text" : {
+          "description" : " Alert header. Contains a short summary of the alert text as plain-text.\r\n",
+          "$ref" : "#/definitions/TranslatedString"
+        },
+        "informed_entity" : {
+          "description" : " Entities whose users we should notify of this alert.\r\n",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EntitySelector"
+          }
+        },
+        "url" : {
+          "description" : " The URL which provides additional information about the alert.\r\n",
+          "$ref" : "#/definitions/TranslatedString"
+        }
+      }
+    },
+    "FeedEntity" : {
+      "description" : " A definition (or update) of an entity in the transit feed.\r\n",
+      "type" : "object",
+      "properties" : {
+        "is_deleted" : {
+          "description" : " Whether this entity is to be deleted. Relevant only for incremental\r\n fetches.\r\n",
+          "default" : "false",
+          "type" : "boolean"
+        },
+        "alert" : {
+          "$ref" : "#/definitions/Alert"
+        },
+        "trip_update" : {
+          "description" : " Data about the entity itself. Exactly one of the following fields must be\r\n present (unless the entity is being deleted).\r\n",
+          "$ref" : "#/definitions/TripUpdate"
+        },
+        "id" : {
+          "description" : " The ids are used only to provide incrementality support. The id should be\r\n unique within a FeedMessage. Consequent FeedMessages may contain\r\n FeedEntities with the same id. In case of a DIFFERENTIAL update the new\r\n FeedEntity with some id will replace the old FeedEntity with the same id\r\n (or delete it - see is_deleted below).\r\n The actual GTFS entities (e.g. stations, routes, trips) referenced by the\r\n feed must be specified by explicit selectors (see EntitySelector below for\r\n more info).\r\n",
+          "type" : "string"
+        },
+        "vehicle" : {
+          "$ref" : "#/definitions/VehiclePosition"
+        }
+      },
+      "required" : [ "id" ]
+    },
+    "VehicleDescriptor" : {
+      "description" : " Identification information for the vehicle performing the trip.\r\n",
+      "type" : "object",
+      "properties" : {
+        "license_plate" : {
+          "description" : " The license plate of the vehicle.\r\n",
+          "type" : "string"
+        },
+        "id" : {
+          "description" : " Internal system identification of the vehicle. Should be unique per\r\n vehicle, and can be used for tracking the vehicle as it proceeds through\r\n the system.\r\n",
+          "type" : "string"
+        },
+        "label" : {
+          "description" : " User visible label, i.e., something that must be shown to the passenger to\r\n help identify the correct vehicle.\r\n",
+          "type" : "string"
+        }
+      }
+    },
+    "FeedHeader" : {
+      "definitions" : {
+        "Incrementality" : {
+          "definitions" : {
+            "DIFFERENTIAL" : {
+              "type" : "integer",
+              "enum" : [ 1 ]
+            },
+            "FULL_DATASET" : {
+              "type" : "integer",
+              "enum" : [ 0 ]
+            }
+          },
+          "description" : " Determines whether the current fetch is incremental.  Currently,\r\n DIFFERENTIAL mode is unsupported and behavior is unspecified for feeds\r\n that use this mode.  There are discussions on the GTFS-realtime mailing\r\n list around fully specifying the behavior of DIFFERENTIAL mode and the\r\n documentation will be updated when those discussions are finalized.\r\n",
+          "oneOf" : [ {
+            "$ref" : "#/definitions/FeedHeader/definitions/Incrementality/definitions/FULL_DATASET"
+          }, {
+            "$ref" : "#/definitions/FeedHeader/definitions/Incrementality/definitions/DIFFERENTIAL"
+          } ]
+        }
+      },
+      "description" : " Metadata about a feed, included in feed messages.\r\n",
+      "type" : "object",
+      "properties" : {
+        "gtfs_realtime_version" : {
+          "description" : " Version of the feed specification.\r\n The current version is 1.0.\r\n",
+          "type" : "string"
+        },
+        "incrementality" : {
+          "default" : "FULL_DATASET",
+          "$ref" : "#/definitions/FeedHeader/definitions/Incrementality"
+        },
+        "timestamp" : {
+          "description" : " This timestamp identifies the moment when the content of this feed has been\r\n created (in server time). In POSIX time (i.e., number of seconds since\r\n January 1st 1970 00:00:00 UTC).\r\n",
+          "type" : "integer",
+          "format" : "int64"
+        }
+      },
+      "required" : [ "gtfs_realtime_version" ]
+    }
+  },
+  "syntax" : "proto2"
+}

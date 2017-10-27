@@ -1,11 +1,11 @@
 package com.satori.composer.stats.http;
 
-import com.satori.async.api.*;
-import com.satori.async.core.*;
 import com.satori.composer.config.*;
 import com.satori.composer.runtime.*;
 import com.satori.composer.stats.*;
 import com.satori.composer.vertx.*;
+import com.satori.libs.async.api.*;
+import com.satori.libs.async.core.*;
 
 import java.util.*;
 
