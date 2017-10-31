@@ -25,7 +25,7 @@ public class Composition extends Mod {
   }
   
   public Composition(JsonNode config, IModResolver modResolver) throws Exception {
-    this(Config.parseAndValidate(config, CompositionSettings.class));
+    this(Config.parseAndValidate(config, CompositionSettings.class), modResolver);
   }
   
   public Composition(CompositionSettings config) throws Exception {
