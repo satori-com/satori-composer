@@ -118,7 +118,7 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
           }
         }
       };
-      RtmSubscribePdu pdu = new RtmSubscribePdu(channel(), prefix(), filter(), id, null);
+      RtmSubscribePdu pdu = new RtmSubscribePdu(channel(), prefix(), filter(), id, null, history());
       master.send(pdu);
     } catch (Throwable cause) {
       fail(cause);
