@@ -162,12 +162,16 @@ if (rootProject.file(".gradle/github.gradle").exists()) {
 
 task githubListReleases(type: GitHubListReleasesTask) {
   url = githubUrl
-  authToken = githubAuthToken
+  if (hasProperty('githubAuthToken')) {
+    authToken = githubAuthToken
+  }
 }
 
 task githubPublishRelease(type: GitHubPublishReleaseTask) {
   url = githubUrl
-  authToken = githubAuthToken
+  if (hasProperty('githubAuthToken')) {
+    authToken = githubAuthToken
+  }
   asset mergeAllOutRepositories
 }
 
