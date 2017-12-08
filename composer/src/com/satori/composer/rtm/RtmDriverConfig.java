@@ -14,6 +14,9 @@ public class RtmDriverConfig extends RtmBaseConfig {
   @JsonProperty("channel")
   public String channel = null;
   
+  @JsonProperty("prefix")
+  public Boolean prefix = null;
+  
   @JsonProperty("filter")
   public String filter = null;
   

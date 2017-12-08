@@ -10,6 +10,9 @@ public class RtmSubscribePdu extends RtmPdu<RtmSubscribePdu.Body> {
   public static class Body {
     @JsonProperty("channel")
     public String channel;
+  
+    @JsonProperty("prefix")
+    public boolean prefix = false;
     
     @JsonProperty("subscription_id")
     public String subscription;
@@ -22,40 +25,26 @@ public class RtmSubscribePdu extends RtmPdu<RtmSubscribePdu.Body> {
 
     @JsonProperty("history")
     public Map history;
-    
-    public Body(String channel, String filter, String next, Map history) {
+  
+    public Body(String channel, boolean prefix, String filter, String next, Map history) {
       if (filter != null && !filter.isEmpty()) {
         this.filter = filter;
         this.subscription = channel;
       } else {
         this.channel = channel;
       }
+      if(prefix) {
+        this.subscription = channel;
+      }
+      this.prefix = prefix;
       this.next = next;
       this.history = history;
     }
-    
-    public Body(String channel, String filter) {
-      this(channel, filter, null, null);
-    }
   }
   
-  public RtmSubscribePdu(String channel, String filter, String id, String next, Map history) {
+  public RtmSubscribePdu(String channel, boolean prefix, String filter, String id, String next, Map history) {
     this.action = "rtm/subscribe";
-    this.body = new Body(channel, filter, next, history);
+    this.body = new Body(channel, prefix, filter, next, history);
     this.id = id;
   }
-  
-  public RtmSubscribePdu(String channel, String filter, String id, String next) {
-    this(channel, filter, id, next, null);
-  }
-  
-  public RtmSubscribePdu(String channel, String filter, String id) {
-    this(channel, filter, id, null);
-  }
-  
-  public RtmSubscribePdu(String channel, String filter) {
-    this(channel, filter, null, null);
-  }
-  
-  
 }

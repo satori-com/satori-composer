@@ -118,7 +118,7 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
           }
         }
       };
-      RtmSubscribePdu pdu = new RtmSubscribePdu(channel(), filter(), id, null, history());
+      RtmSubscribePdu pdu = new RtmSubscribePdu(channel(), prefix(), filter(), id, null);
       master.send(pdu);
     } catch (Throwable cause) {
       fail(cause);
@@ -130,10 +130,11 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
       if (!id.equals(pdu.id)) {
         return false;
       }
-      
+  
+      boolean hasPosition = (pdu.body != null && pdu.body.get("position") != null);
       if (pdu.action.equals("rtm/subscribe/ok")) {
         enterSubscribedState(
-          pdu.body != null ? pdu.body.get("position").asText() : null, unsubscribe
+          hasPosition ? pdu.body.get("position").asText() : null, unsubscribe
         );
         return true;
       } else if (pdu.action.equals("rtm/subscribe/error")) {
@@ -356,6 +357,10 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
   
   String channel() {
     return ctx.channel();
+  }
+  
+  boolean prefix() {
+    return ctx.prefix();
   }
   
   String filter() {

@@ -14,12 +14,14 @@ public abstract class RtmChannelSubscriber extends RtmChannel implements IRtmSub
   private final String channel;
   private final String filter;
   private final Map history;
+  private final boolean prefix;
   
   public RtmChannelSubscriber(Vertx vertx, RtmDriverConfig config, String name) {
     super(vertx, config, name);
     channel = config.channel;
     filter = config.filter;
     history = config.history;
+    prefix = config.prefix;
   }
   
   @Override
@@ -54,6 +56,9 @@ public abstract class RtmChannelSubscriber extends RtmChannel implements IRtmSub
   public String channel() {
     return channel;
   }
+  
+  @Override
+  public boolean prefix() { return prefix; }
   
   @Override
   public String filter() {
