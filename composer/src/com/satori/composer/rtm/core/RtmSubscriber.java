@@ -130,11 +130,11 @@ public class RtmSubscriber extends RtmPduInterceptor<IRtmSubscriberContext> {
       if (!id.equals(pdu.id)) {
         return false;
       }
-  
-      boolean hasPosition = (pdu.body != null && pdu.body.get("position") != null);
+      
       if (pdu.action.equals("rtm/subscribe/ok")) {
+        JsonNode positionNode = pdu.body != null ? pdu.body.get("position") : null;
         enterSubscribedState(
-          hasPosition ? pdu.body.get("position").asText() : null, unsubscribe
+          positionNode != null ? positionNode.asText() : null, unsubscribe
         );
         return true;
       } else if (pdu.action.equals("rtm/subscribe/error")) {
