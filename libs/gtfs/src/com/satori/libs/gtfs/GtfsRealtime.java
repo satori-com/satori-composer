@@ -128,6 +128,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1216,7 +1219,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new FeedMessage(input, extensionRegistry);
+        return new FeedMessage(input, extensionRegistry);
       }
     };
 
@@ -1332,6 +1335,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2219,7 +2225,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new FeedHeader(input, extensionRegistry);
+        return new FeedHeader(input, extensionRegistry);
       }
     };
 
@@ -2395,6 +2401,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3796,7 +3805,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new FeedEntity(input, extensionRegistry);
+        return new FeedEntity(input, extensionRegistry);
       }
     };
 
@@ -4121,6 +4130,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4327,6 +4339,9 @@ public final class GtfsRealtime {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5072,7 +5087,7 @@ public final class GtfsRealtime {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new StopTimeEvent(input, extensionRegistry);
+          return new StopTimeEvent(input, extensionRegistry);
         }
       };
 
@@ -5209,6 +5224,9 @@ public final class GtfsRealtime {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6510,7 +6528,7 @@ public final class GtfsRealtime {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new StopTimeUpdate(input, extensionRegistry);
+          return new StopTimeUpdate(input, extensionRegistry);
         }
       };
 
@@ -8477,7 +8495,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TripUpdate(input, extensionRegistry);
+        return new TripUpdate(input, extensionRegistry);
       }
     };
 
@@ -8726,6 +8744,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -11053,7 +11074,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new VehiclePosition(input, extensionRegistry);
+        return new VehiclePosition(input, extensionRegistry);
       }
     };
 
@@ -11305,6 +11326,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -13925,7 +13949,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Alert(input, extensionRegistry);
+        return new Alert(input, extensionRegistry);
       }
     };
 
@@ -14024,6 +14048,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -14639,7 +14666,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TimeRange(input, extensionRegistry);
+        return new TimeRange(input, extensionRegistry);
       }
     };
 
@@ -14791,6 +14818,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -15735,7 +15765,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Position(input, extensionRegistry);
+        return new Position(input, extensionRegistry);
       }
     };
 
@@ -16017,6 +16047,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -17749,7 +17782,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TripDescriptor(input, extensionRegistry);
+        return new TripDescriptor(input, extensionRegistry);
       }
     };
 
@@ -17893,6 +17926,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -18864,7 +18900,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new VehicleDescriptor(input, extensionRegistry);
+        return new VehicleDescriptor(input, extensionRegistry);
       }
     };
 
@@ -19015,6 +19051,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -20212,7 +20251,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new EntitySelector(input, extensionRegistry);
+        return new EntitySelector(input, extensionRegistry);
       }
     };
 
@@ -20320,6 +20359,9 @@ public final class GtfsRealtime {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -20465,6 +20507,9 @@ public final class GtfsRealtime {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -21244,7 +21289,7 @@ public final class GtfsRealtime {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Translation(input, extensionRegistry);
+          return new Translation(input, extensionRegistry);
         }
       };
 
@@ -22046,7 +22091,7 @@ public final class GtfsRealtime {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TranslatedString(input, extensionRegistry);
+        return new TranslatedString(input, extensionRegistry);
       }
     };
 
@@ -22158,7 +22203,7 @@ public final class GtfsRealtime {
       "ime.FeedHeader.Incrementality:\014FULL_DATA" +
       "SET\022\021\n\ttimestamp\030\003 \001(\004\"4\n\016Incrementality" +
       "\022\020\n\014FULL_DATASET\020\000\022\020\n\014DIFFERENTIAL\020\001*\006\010\350" +
-      "\007\020\320\017\"\312\001\n\nFeedEntity\022\n\n\002id\030\001 \002(\t\022\031\n\nis_de",
+      "\007\020\320\017\"\312\001\n\nFeedEntity\022\n\n\002id\030\001 \002(\t\022\031\n\nis_de" +
       "leted\030\002 \001(\010:\005false\0221\n\013trip_update\030\003 \001(\0132" +
       "\034.transit_realtime.TripUpdate\0222\n\007vehicle" +
       "\030\004 \001(\0132!.transit_realtime.VehiclePositio" +
@@ -22168,7 +22213,7 @@ public final class GtfsRealtime {
       "cle\030\003 \001(\0132#.transit_realtime.VehicleDesc" +
       "riptor\022E\n\020stop_time_update\030\002 \003(\0132+.trans" +
       "it_realtime.TripUpdate.StopTimeUpdate\022\021\n" +
-      "\ttimestamp\030\004 \001(\004\022\r\n\005delay\030\005 \001(\005\032I\n\rStopT",
+      "\ttimestamp\030\004 \001(\004\022\r\n\005delay\030\005 \001(\005\032I\n\rStopT" +
       "imeEvent\022\r\n\005delay\030\001 \001(\005\022\014\n\004time\030\002 \001(\003\022\023\n" +
       "\013uncertainty\030\003 \001(\005*\006\010\350\007\020\320\017\032\351\002\n\016StopTimeU" +
       "pdate\022\025\n\rstop_sequence\030\001 \001(\r\022\017\n\007stop_id\030" +
@@ -22178,7 +22223,7 @@ public final class GtfsRealtime {
       "TimeEvent\022j\n\025schedule_relationship\030\005 \001(\016" +
       "2@.transit_realtime.TripUpdate.StopTimeU" +
       "pdate.ScheduleRelationship:\tSCHEDULED\"?\n" +
-      "\024ScheduleRelationship\022\r\n\tSCHEDULED\020\000\022\013\n\007",
+      "\024ScheduleRelationship\022\r\n\tSCHEDULED\020\000\022\013\n\007" +
       "SKIPPED\020\001\022\013\n\007NO_DATA\020\002*\006\010\350\007\020\320\017*\006\010\350\007\020\320\017\"\340" +
       "\006\n\017VehiclePosition\022.\n\004trip\030\001 \001(\0132 .trans" +
       "it_realtime.TripDescriptor\0224\n\007vehicle\030\010 " +
@@ -22188,7 +22233,7 @@ public final class GtfsRealtime {
       "\007stop_id\030\007 \001(\t\022Z\n\016current_status\030\004 \001(\01623" +
       ".transit_realtime.VehiclePosition.Vehicl" +
       "eStopStatus:\rIN_TRANSIT_TO\022\021\n\ttimestamp\030" +
-      "\005 \001(\004\022K\n\020congestion_level\030\006 \001(\01621.transi",
+      "\005 \001(\004\022K\n\020congestion_level\030\006 \001(\01621.transi" +
       "t_realtime.VehiclePosition.CongestionLev" +
       "el\022K\n\020occupancy_status\030\t \001(\01621.transit_r" +
       "ealtime.VehiclePosition.OccupancyStatus\"" +
@@ -22198,7 +22243,7 @@ public final class GtfsRealtime {
       "\000\022\024\n\020RUNNING_SMOOTHLY\020\001\022\017\n\013STOP_AND_GO\020\002" +
       "\022\016\n\nCONGESTION\020\003\022\025\n\021SEVERE_CONGESTION\020\004\"" +
       "\257\001\n\017OccupancyStatus\022\t\n\005EMPTY\020\000\022\030\n\024MANY_S" +
-      "EATS_AVAILABLE\020\001\022\027\n\023FEW_SEATS_AVAILABLE\020",
+      "EATS_AVAILABLE\020\001\022\027\n\023FEW_SEATS_AVAILABLE\020" +
       "\002\022\026\n\022STANDING_ROOM_ONLY\020\003\022\036\n\032CRUSHED_STA" +
       "NDING_ROOM_ONLY\020\004\022\010\n\004FULL\020\005\022\034\n\030NOT_ACCEP" +
       "TING_PASSENGERS\020\006*\006\010\350\007\020\320\017\"\266\006\n\005Alert\0222\n\ra" +
@@ -22208,7 +22253,7 @@ public final class GtfsRealtime {
       "\0162\035.transit_realtime.Alert.Cause:\rUNKNOW" +
       "N_CAUSE\022>\n\006effect\030\007 \001(\0162\036.transit_realti" +
       "me.Alert.Effect:\016UNKNOWN_EFFECT\022/\n\003url\030\010" +
-      " \001(\0132\".transit_realtime.TranslatedString",
+      " \001(\0132\".transit_realtime.TranslatedString" +
       "\0227\n\013header_text\030\n \001(\0132\".transit_realtime" +
       ".TranslatedString\022<\n\020description_text\030\013 " +
       "\001(\0132\".transit_realtime.TranslatedString\"" +
@@ -22218,7 +22263,7 @@ public final class GtfsRealtime {
       "IDAY\020\007\022\013\n\007WEATHER\020\010\022\017\n\013MAINTENANCE\020\t\022\020\n\014" +
       "CONSTRUCTION\020\n\022\023\n\017POLICE_ACTIVITY\020\013\022\025\n\021M" +
       "EDICAL_EMERGENCY\020\014\"\265\001\n\006Effect\022\016\n\nNO_SERV" +
-      "ICE\020\001\022\023\n\017REDUCED_SERVICE\020\002\022\026\n\022SIGNIFICAN",
+      "ICE\020\001\022\023\n\017REDUCED_SERVICE\020\002\022\026\n\022SIGNIFICAN" +
       "T_DELAYS\020\003\022\n\n\006DETOUR\020\004\022\026\n\022ADDITIONAL_SER" +
       "VICE\020\005\022\024\n\020MODIFIED_SERVICE\020\006\022\020\n\014OTHER_EF" +
       "FECT\020\007\022\022\n\016UNKNOWN_EFFECT\020\010\022\016\n\nSTOP_MOVED" +
@@ -22228,7 +22273,7 @@ public final class GtfsRealtime {
       "\003 \001(\002\022\020\n\010odometer\030\004 \001(\001\022\r\n\005speed\030\005 \001(\002*\006" +
       "\010\350\007\020\320\017\"\240\002\n\016TripDescriptor\022\017\n\007trip_id\030\001 \001" +
       "(\t\022\020\n\010route_id\030\005 \001(\t\022\024\n\014direction_id\030\006 \001" +
-      "(\r\022\022\n\nstart_time\030\002 \001(\t\022\022\n\nstart_date\030\003 \001",
+      "(\r\022\022\n\nstart_time\030\002 \001(\t\022\022\n\nstart_date\030\003 \001" +
       "(\t\022T\n\025schedule_relationship\030\004 \001(\01625.tran" +
       "sit_realtime.TripDescriptor.ScheduleRela" +
       "tionship\"O\n\024ScheduleRelationship\022\r\n\tSCHE" +
@@ -22238,7 +22283,7 @@ public final class GtfsRealtime {
       "te\030\003 \001(\t*\006\010\350\007\020\320\017\"\222\001\n\016EntitySelector\022\021\n\ta" +
       "gency_id\030\001 \001(\t\022\020\n\010route_id\030\002 \001(\t\022\022\n\nrout" +
       "e_type\030\003 \001(\005\022.\n\004trip\030\004 \001(\0132 .transit_rea" +
-      "ltime.TripDescriptor\022\017\n\007stop_id\030\005 \001(\t*\006\010",
+      "ltime.TripDescriptor\022\017\n\007stop_id\030\005 \001(\t*\006\010" +
       "\350\007\020\320\017\"\226\001\n\020TranslatedString\022C\n\013translatio" +
       "n\030\001 \003(\0132..transit_realtime.TranslatedStr" +
       "ing.Translation\0325\n\013Translation\022\014\n\004text\030\001" +
