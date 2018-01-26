@@ -111,5 +111,5 @@ dependencies {
   compile "com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
 
-  testCompile "junit:junit:$junitVersion"
+  testCompile project(':libs-testlib')
 }

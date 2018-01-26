@@ -1,29 +1,3 @@
-
-buildscript {
-  repositories {
-    mavenCentral()
-    jcenter()
-  }
-
-  dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-  }
-}
-
-apply plugin: 'kotlin'
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_1_8
-  }
-}
-
-kotlin {
-  experimental {
-    coroutines 'enable'
-  }
-}
-
 dependencies {
   compile project(':libs-async-core')
 
@@ -35,10 +9,6 @@ dependencies {
   compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
   compile "com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion"
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
-
-  testCompile "junit:junit:$junitVersion"
-  testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-  testCompile "org.jetbrains.kotlinx:kotlinx-coroutines-core:+"
 }
 
 

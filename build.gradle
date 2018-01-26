@@ -18,6 +18,22 @@ idea {
   }
 }
 
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+  }
+}
+
+ext {
+  pckg = group
+  pckgDir = pckg.replace('.', '/')
+}
+
+
 task generateReadme(type: TransformTask) {
   group 'codegen'
   template = file('readme.template.md')
@@ -63,12 +79,34 @@ subprojects {
   compileJava.options.compilerArgs << "-Xlint:unchecked"
   compileJava.options.compilerArgs << "-Xlint:deprecation"
 
+  archivesBaseName = (path - ~/^[^\w]+/).replaceAll(~/[^\w]+/, "-")
+
   idea {
     module {
       inheritOutputDirs = false
       outputDir = file(".out/idea")
       testOutputDir = file(".out/idea-tests")
     }
+  }
+  apply plugin: 'kotlin'
+
+
+  kotlin {
+    experimental {
+      coroutines 'enable'
+    }
+  }
+
+  tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+      jvmTarget = JavaVersion.VERSION_1_8
+    }
+  }
+
+  ext {
+    // define project base package
+    pckg = "${project.parent.pckg}.${name.replaceAll("[^\\w]+", ".")}"
+    pckgDir = pckg.replace('.', '/')
   }
 
   repositories {
@@ -85,13 +123,25 @@ subprojects {
   task createDefaultProjectStructure {
     group 'codegen'
     doLast {
-      def groupDir = project.group.replace('.', '/')
-      def projDir = project.name.replace('-', '/')
-      file("src/$groupDir/$projDir").mkdirs()
-      file("res/$groupDir/$projDir").mkdirs()
-      file("tests/src/$groupDir/$projDir").mkdirs()
-      file("tests/res/$groupDir/$projDir").mkdirs()
+      println "creating default project structure for project '${project.name}'..."
+
+      // create directories for all source sets
+      sourceSets.forEach { sourceSet ->
+        sourceSet.java.srcDirs.forEach {
+          def pathToCreate = new File(it, pckgDir)
+          println "creating sources path for '${sourceSet.name}': '$pathToCreate'"
+          pathToCreate.mkdirs()
+        }
+        sourceSet.resources.srcDirs.forEach {
+          def pathToCreate = new File(it, pckgDir)
+          println "creating resources path for '${sourceSet.name}': '$pathToCreate'"
+          pathToCreate.mkdirs()
+        }
+      }
+
+      // generate build.gradle
       if (!file("build.gradle").exists()) {
+        println "creating build.gadle: '${file('build.gradle')}'"
         transform {
           template = rootProject.file('build.template.gradle')
           output = file('build.gradle')

@@ -11,7 +11,6 @@ dependencies {
   compile "io.vertx:vertx-web:$vertxVersion"
   compile 'org.javassist:javassist:3.21.0-GA'
 
-  testCompile "junit:junit:$junitVersion"
   testCompile "io.vertx:vertx-unit:$vertxVersion"
   testCompile "ch.qos.logback:logback-classic:$logbackVersion"
   testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"

@@ -1,3 +1,5 @@
+
+// main dependencies
 dependencies {
   compile project(':mods')
 
@@ -5,7 +7,9 @@ dependencies {
 
   compile 'org.freemarker:freemarker:2.3.26-incubating'
   compile 'net.sf.saxon:Saxon-HE:9.8.0-3'
+
   compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion"
+  compile "com.fasterxml.jackson.module:jackson-module-jsonSchema:$jacksonVersion"
 
   compile project(':composer')
   //compile project(':mods')
@@ -14,9 +18,14 @@ dependencies {
   //compile "io.vertx:vertx-core:$vertxVersion"
   compile "io.vertx:vertx-web:$vertxVersion"
   //compile 'org.javassist:javassist:3.21.0-GA'
+}
 
-  testCompile "junit:junit:$junitVersion"
-  testCompile "io.vertx:vertx-unit:$vertxVersion"
+// test dependencies
+dependencies {
+  testCompile project(':libs-testlib')
+
+  testCompile "ch.qos.logback:logback-classic:$logbackVersion"
+  testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
 }
 
 

@@ -24,6 +24,4 @@ dependencies {
   compile "org.codehaus.groovy:groovy-all:$groovyVersion"
 
   compile 'com.sun.codemodel:codemodel:+'
-
-  testCompile "junit:junit:$junitVersion"
 }

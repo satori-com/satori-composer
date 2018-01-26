@@ -8,6 +8,4 @@ dependencies {
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
 
   compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-
-  testCompile "junit:junit:$junitVersion"
 }

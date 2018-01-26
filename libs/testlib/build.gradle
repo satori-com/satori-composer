@@ -1,0 +1,16 @@
+dependencies {
+  compile project(':libs-async-core')
+
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:+"
+
+  compile "org.slf4j:slf4j-api:$slf4jVersion"
+
+  compile "junit:junit:$junitVersion"
+
+  compile "io.vertx:vertx-unit:$vertxVersion"
+
+  compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+  compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+  compile "com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion"
+}
