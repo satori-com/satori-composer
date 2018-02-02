@@ -5,6 +5,7 @@ import com.satori.libs.async.api.*;
 public class AsyncForkJoin implements IAsyncFuture, IAsyncHandler, IAsyncResult {
   
   private int val;
+  private Throwable lastError;
   private IAsyncHandler<?> cont;
   
   public AsyncForkJoin() {
@@ -17,10 +18,12 @@ public class AsyncForkJoin implements IAsyncFuture, IAsyncHandler, IAsyncResult 
   }
   
   public int inc() {
+    if(isCompleted()) throw new RuntimeException("async fork join was already completed");
     return ++val;
   }
   
   public int dec() {
+    if(isCompleted()) throw new RuntimeException("async fork join was already completed");
     return --val;
   }
   
@@ -28,8 +31,10 @@ public class AsyncForkJoin implements IAsyncFuture, IAsyncHandler, IAsyncResult 
   
   @Override
   public void complete(IAsyncResult ar) {
+    if(isCompleted()) throw new RuntimeException("async fork join was already completed");
     if (!ar.isSucceeded()) {
       // TODO: log error
+      lastError = ar.getError();
     }
     val -= 1;
     IAsyncHandler<?> cont = this.cont;
