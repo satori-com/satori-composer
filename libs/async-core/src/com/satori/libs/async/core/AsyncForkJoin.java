@@ -5,8 +5,9 @@ import com.satori.libs.async.api.*;
 public class AsyncForkJoin implements IAsyncFuture, IAsyncHandler, IAsyncResult {
   
   private int val;
-  private Throwable lastError;
   private IAsyncHandler<?> cont;
+  
+  public Throwable lastError;
   
   public AsyncForkJoin() {
     this(1);
