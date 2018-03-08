@@ -20,6 +20,7 @@ public class CompositionPin implements IModOutput {
   }
   
   @Override
+  @SuppressWarnings("unchecked")
   public void yield(JsonNode data, IAsyncHandler cont) throws Exception {
     if (connectors.size() == 0) {
       cont.succeed();
@@ -29,7 +30,8 @@ public class CompositionPin implements IModOutput {
       connectors.get(0).process(data, cont);
       return;
     }
-    doYieldLoop(connectors.iterator(), data, cont);
+    //doYieldLoop(connectors.iterator(), data, cont);
+    doYieldLoop(connectors.iterator(), data).onCompleted(cont);
   }
   
   @Override
@@ -62,7 +64,8 @@ public class CompositionPin implements IModOutput {
     });
   }*/
   
-  public void doYieldLoop(Iterator<IModInput> itor, JsonNode msg, IAsyncHandler cont) throws Exception {
+  //deprecated
+  /*public void doYieldLoop(Iterator<IModInput> itor, JsonNode msg, IAsyncHandler cont) throws Exception {
     while (true) {
       
       IModInput h = itor.next();
@@ -97,7 +100,7 @@ public class CompositionPin implements IModOutput {
         return;
       }
     }
-  }
+  }*/
   
   @SuppressWarnings("unchecked")
   public IAsyncFuture doYieldLoop(Iterator<IModInput> itor, JsonNode msg) throws Exception {
@@ -123,13 +126,7 @@ public class CompositionPin implements IModOutput {
   }
   
   public void linkOutput(IMod mod, String inputName) {
-    linkOutput(new IModInput() {
-      @Override
-      public void process(JsonNode data, IAsyncHandler cont) throws Exception {
-        mod.onInput(inputName, data, cont);
-      }
-      
-    });
+    linkOutput((data, cont) -> mod.onInput(inputName, data, cont));
   }
   
   public void linkOutput(IMod mod) {

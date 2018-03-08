@@ -1,16 +1,80 @@
 package com.satori.mods.suite
 
+import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.module.jsonSchema.*
+import com.satori.libs.async.api.*
+import com.satori.libs.async.core.*
 import com.satori.libs.testlib.*
 import com.satori.libs.testlib.json.*
 import io.vertx.ext.unit.*
 import io.vertx.ext.unit.junit.*
+import kotlinx.coroutines.experimental.*
 import org.junit.*
 import org.junit.runner.*
+import org.slf4j.*
+import kotlin.coroutines.experimental.intrinsics.*
 
 @RunWith(VertxUnitRunner::class)
 class SchemaDetectorModTests : ModTest() {
 
+  class DelayMod() : Mod() {
+    val log = LoggerFactory.getLogger("delay-mod@${Integer.toHexString(System.identityHashCode(this))}")
+    override fun onInput(inputName: String, data: JsonNode, cont: IAsyncHandler<*>) {
+      onInput(inputName, data).onCompleted { ar ->
+        if (ar.isSucceeded) cont.succeed() else cont.fail(ar.error)
+      }
+    }
+
+    override fun onInput(inputName: String, data: JsonNode) = future(VertxFutureScope(context().vertx(), log)) {
+      log.info("input: $data")
+      yield(data).await()
+      delay(data.asInt())
+    }
+  }
+
+  @Test
+  fun `order test`(context: TestContext) = asyncTest(context) {
+    val mod = Composition().apply {
+      val delay1 = addMod("delay1", DelayMod())
+      val delay2 = addMod("delay2", DelayMod())
+      linkModInput(delay1, "default", "default")
+      linkModInput(delay2, "default", "default")
+      linkOutput("delay1")
+      linkOutput("delay2")
+    }
+
+    mod.init(this@SchemaDetectorModTests)
+
+    val afj = AsyncForkJoin()
+    afj.fork {
+      mod.onInput("default", jsonNode(1000)).await()
+    }
+    afj.fork {
+      suspendCoroutineOrReturn { cont ->
+        mod.onInput("default", jsonNode(100)){ar->
+          if(ar.isSucceeded) cont.resume(Unit) else cont.resumeWithException(ar.error)
+        }
+        return@suspendCoroutineOrReturn COROUTINE_SUSPENDED
+      }
+    }
+    afj.fork {
+      mod.onInput("default", jsonNode(10)).await()
+    }
+
+    afj.join().await()
+
+    stopMod(mod)
+
+    assertEquals(
+      listOf(
+        jsonNode(1000), jsonNode(1000),
+        jsonNode(100), jsonNode(100),
+        jsonNode(10), jsonNode(10)
+      ),
+      outQueue.toList()
+    )
+
+  }
 
   @Test
   fun `basic test`(context: TestContext) = asyncTest(context) {

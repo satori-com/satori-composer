@@ -1,5 +1,6 @@
 package com.satori.libs.async.core
 
+import com.satori.libs.testlib.*
 import org.junit.*
 import org.junit.Assert.*
 
@@ -9,7 +10,7 @@ class AyncQueueTests : Assert() {
   @Test
   fun genericTest() {
 
-    val q = com.satori.libs.async.core.AsyncQueue<Int>()
+    val q = AsyncQueue<Int>()
 
     val f1 = q.deq()
     val f2 = q.deq()
@@ -52,7 +53,7 @@ class AyncQueueTests : Assert() {
   fun deqTest() {
     var cp = 0
 
-    val q = com.satori.libs.async.core.AsyncQueue<Int>()
+    val q = AsyncQueue<Int>()
     q.deq().onCompleted { ar: com.satori.libs.async.api.IAsyncResult<out Number> ->
       assertEquals(1, cp++)
       assertTrue(ar.get() == 1)
@@ -67,7 +68,7 @@ class AyncQueueTests : Assert() {
   @Test
   fun tryDeqTest() {
 
-    val q = com.satori.libs.async.core.AsyncQueue<String>()
+    val q = AsyncQueue<String>()
 
     assertNull(q.tryDeq())
 
@@ -94,7 +95,7 @@ class AyncQueueTests : Assert() {
       }
     }
 
-    com.satori.libs.async.core.AsyncFuture<String>().let { f ->
+    AsyncFuture<String>().let { f ->
       q.promise(f)
       q.tryDeq().let { future ->
         assertNotNull(future)
@@ -115,7 +116,7 @@ class AyncQueueTests : Assert() {
   @Test
   fun tryEnqTest() {
 
-    val q = com.satori.libs.async.core.AsyncQueue<Number>()
+    val q = AsyncQueue<Number>()
 
     assertNull(q.tryEnq())
     assertNull(q.tryEnq { fail() })
@@ -164,7 +165,7 @@ class AyncQueueTests : Assert() {
   @Test
   fun awaitTest() {
     var cp = 0
-    val q = com.satori.libs.async.core.AsyncQueue<Number>()
+    val q = AsyncQueue<Number>()
 
     val f = future(Unit) {
       assertEquals(0, cp++)

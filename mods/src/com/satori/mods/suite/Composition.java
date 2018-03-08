@@ -107,8 +107,8 @@ public class Composition extends Mod {
   }
   
   @Override
-  public void onInput(String input, JsonNode data, IAsyncHandler cont) throws Exception {
-    CompositionPin pin = pins.get(input);
+  public void onInput(String inputName, JsonNode data, IAsyncHandler cont) throws Exception {
+    CompositionPin pin = pins.get(inputName);
     if (pin == null) {
       cont.fail(new Exception("connectors not found"));
       return;

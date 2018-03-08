@@ -14,8 +14,11 @@ import kotlin.coroutines.experimental.intrinsics.*
 annotation class FutureVertxMarker
 
 @FutureVertxMarker*/
-open class VertxFutureScope(val vertx: Vertx) {
-  val log = LoggerFactory.getLogger(javaClass)
+open class VertxFutureScope(
+  val vertx: Vertx,
+  val log: Logger = LoggerFactory.getLogger(VertxFutureScope::class.java)
+) {
+
   
   inline fun <R> thread(crossinline block: () -> R): IAsyncFuture<R> {
     val future = AsyncFuture<R>()
