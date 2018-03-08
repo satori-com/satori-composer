@@ -180,11 +180,11 @@ configure(publishingProjects) {
       archiveName "$artifactId v${version}.zip"
       destinationDir buildDir
       doFirst {
-        println "zipping $srcDir -> ${outputs.getFiles()*.path.join(',')}"
+        println "zipping $srcDir -> ${outputs.files*.path.join(',')}"
       }
 
       rootProject.mergeAllOutRepositories.dependsOn(t)
-      outputs.getFiles().each {
+      outputs.files.each {
         rootProject.mergeAllOutRepositories.from(zipTree(it))
       }
 

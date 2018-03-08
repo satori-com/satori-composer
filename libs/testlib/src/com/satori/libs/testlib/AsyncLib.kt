@@ -45,9 +45,9 @@ fun <T, R> IAsyncFuture<T>.map(block: (T) -> R): IAsyncFuture<R> {
   return future
 }
 
-inline fun AsyncCriticalSection.exec(crossinline block: () -> Unit) = exec(
-  IAsyncHandler { block() }
-)
+inline fun AsyncCriticalSection.exec(crossinline block: () -> Unit) = exec{ar->
+  block()
+}
 
 inline fun <R> AsyncCriticalSection.use(crossinline block: () -> IAsyncFuture<R>): IAsyncFuture<R> = future {
   enter().await()
