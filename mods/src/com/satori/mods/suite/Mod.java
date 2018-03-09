@@ -4,8 +4,6 @@ import com.satori.libs.async.api.*;
 import com.satori.mods.api.*;
 import com.satori.mods.core.config.*;
 
-import java.io.Closeable;
-
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 import io.vertx.core.*;
@@ -62,8 +60,8 @@ public class Mod implements IMod, IModContext {
   }
   
   @Override
-  public Closeable timer(long delay, Runnable action) {
-    return context.timer(delay, action);
+  public IAsyncFutureDisposable timer(long delay) {
+    return context.timer(delay);
   }
   
   // auxiliary functions

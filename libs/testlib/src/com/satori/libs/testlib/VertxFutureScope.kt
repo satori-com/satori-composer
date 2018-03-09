@@ -67,7 +67,7 @@ open class VertxFutureScope(
       var tid = Long.MIN_VALUE
       
       override fun dispose() {
-        if (!tryFail(DisposedException)) {
+        if (!tryFail(DisposedException.instance)) {
           return
         }
         if (tid != INVALID_TID) {

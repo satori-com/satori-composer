@@ -1,49 +1,56 @@
 package com.satori.composer.runtime;
 
-import java.io.Closeable;
-import java.io.*;
+import com.satori.libs.async.api.*;
+import com.satori.libs.async.core.*;
 
+import java.util.concurrent.*;
+
+import io.netty.channel.*;
 import io.vertx.core.*;
+import io.vertx.core.impl.*;
 import org.slf4j.*;
 
-public class ModTimer implements Closeable, Handler<Long> {
+public class ModTimer extends AsyncFuture implements IAsyncFutureDisposable, Runnable {
   public final static Logger log = LoggerFactory.getLogger(ModTimer.class);
-  public final static long INVALID_TIMER_ID = Long.MIN_VALUE;
   
-  private long timerId = INVALID_TIMER_ID;
-  private Runnable action = null;
-  private final Vertx vertx;
+  private ScheduledFuture future;
   
-  public ModTimer(long delay, Runnable action, Vertx vertx) {
-    this.vertx = vertx;
-    this.action = action;
-    if (action != null) {
-      timerId = vertx.setTimer(delay, this);
+  public ModTimer(long delay, Vertx vertx) {
+    ContextInternal ctx = (ContextInternal) vertx.getOrCreateContext();
+    if (!ctx.isEventLoopContext()) {
+      throw new RuntimeException("event loop context expected");
+    }
+    EventLoop eventLoop = ctx.nettyEventLoop();
+    future = eventLoop.schedule(this, delay, TimeUnit.MILLISECONDS);
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Override
+  public void run() {
+    if (future == null) {
+      // sanity check
+      log.error("unexpected timer callback", new IllegalStateException());
+    }
+    future = null;
+    if (!trySucceed(null)) {
+      // sanity check
+      log.error("timer future already completed", new IllegalStateException());
     }
   }
   
   @Override
-  public void handle(Long timerId) {
-    if (this.timerId != timerId) {
-      log.error("unexpected timer callback");
-      return;
-    }
-    this.timerId = Long.MIN_VALUE;
-    Runnable action = this.action;
-    this.action = null;
-    action.run();
-  }
-  
-  @Override
-  public void close() throws IOException {
-    if (timerId != Long.MIN_VALUE) {
+  public void dispose() {
+    ScheduledFuture future = this.future;
+    this.future = null;
+    if (future != null) {
       try {
-        vertx.cancelTimer(timerId);
-      } finally {
-        timerId = Long.MIN_VALUE;
-        action = null;
+        future.cancel(true);
+      } catch (Exception ex) {
+        // swallow exception
+        log.error("failed to cancel timer", ex);
       }
     }
+    tryFail(DisposedException.instance);
   }
   
 }

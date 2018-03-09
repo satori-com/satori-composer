@@ -101,8 +101,8 @@ public class CompositionNode implements IMod, IModContext {
   }
   
   @Override
-  public Closeable timer(long delay, Runnable action) {
-    return context.timer(delay, action);
+  public IAsyncFutureDisposable timer(long delay) {
+    return context.timer(delay);
   }
   
   public void linkOutput(IModInput output) {

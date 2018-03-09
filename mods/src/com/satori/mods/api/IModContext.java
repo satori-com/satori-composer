@@ -2,8 +2,6 @@ package com.satori.mods.api;
 
 import com.satori.libs.async.api.*;
 
-import java.io.Closeable;
-
 import com.fasterxml.jackson.databind.*;
 import io.vertx.core.*;
 
@@ -34,6 +32,6 @@ public interface IModContext extends IModOutput {
   
   void exec(Runnable action) throws Exception;
   
-  Closeable timer(long delay, Runnable action);
+  IAsyncFutureDisposable timer(long delay);
   
 }

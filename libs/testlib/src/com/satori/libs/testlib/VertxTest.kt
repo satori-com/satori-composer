@@ -4,7 +4,7 @@ import io.vertx.core.*
 import io.vertx.ext.unit.junit.*
 import org.junit.*
 
-open class VertxTest {
+open class VertxTest: Assert() {
   
   @Rule
   @JvmField

@@ -86,7 +86,7 @@ public class ComposerRuntime {
   public static void prepare() throws Exception {
     System.setProperty(
       io.vertx.core.logging.LoggerFactory.LOGGER_DELEGATE_FACTORY_CLASS_NAME,
-      "io.vertx.core.logging.SLF4JLogDelegateFactory"
+      io.vertx.core.logging.SLF4JLogDelegateFactory.class.getCanonicalName()
     );
     System.setProperty(
       FileResolver.DISABLE_CP_RESOLVING_PROP_NAME, "true"

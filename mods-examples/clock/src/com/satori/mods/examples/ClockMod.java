@@ -43,6 +43,7 @@ public class ClockMod extends Mod {
     exec(this::loop);
   }
   
+  @SuppressWarnings("unchecked")
   private void loop() {
     try {
       long msec = System.currentTimeMillis();
@@ -51,7 +52,11 @@ public class ClockMod extends Mod {
       yield(msec, AsyncPromise.from(
         () -> {
           // successful completion
-          timer(tick, this::loop);
+          timer(tick).onCompleted(ar -> {
+            if (ar.isSucceeded()) {
+              loop();
+            }
+          });
         },
         cause -> {
           // error completion

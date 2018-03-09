@@ -7,7 +7,7 @@
   },
   "mods": {
     "source": {
-      "type": "ex:clock",
+      "type": "ex:clock"
     },
     "barrier": {
       "type": "barrier",

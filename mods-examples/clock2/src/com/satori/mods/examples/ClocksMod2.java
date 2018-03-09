@@ -24,11 +24,16 @@ public class ClocksMod2 extends Mod {
     loop();
   }
   
+  @SuppressWarnings("unchecked")
   private void loop() {
     try {
       yield(System.currentTimeMillis(), AsyncPromise.from(
         () -> { // success continuation
-          timer(delay, this::loop);
+          timer(delay).onCompleted(ar->{
+            if(ar.isSucceeded()){
+              loop();
+            }
+          });
         },
         cause -> { // failure continuation
           log.error("failure", cause);

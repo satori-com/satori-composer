@@ -20,10 +20,11 @@ public class DelayMod extends Mod {
     this.delay = delay;
   }
   
+  @SuppressWarnings("unchecked")
   @Override
   public void onInput(String inputName, JsonNode data, IAsyncHandler cont) throws Exception {
     yield(data, AsyncPromise.from(
-      () -> timer(delay, cont::succeed), // success continuation
+      () -> timer(delay).onCompleted(cont), // success continuation
       cont::fail // failure continuation
     ));
   }

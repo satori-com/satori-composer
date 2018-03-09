@@ -6,10 +6,9 @@ import com.satori.composer.stats.ddog.*;
 import com.satori.composer.stats.http.*;
 import com.satori.composer.stats.rtm.*;
 import com.satori.composer.stats.statsd.*;
+import com.satori.libs.async.api.*;
 import com.satori.mods.api.*;
 import com.satori.mods.core.stats.*;
-
-import java.io.Closeable;
 
 import io.vertx.core.*;
 import org.slf4j.*;
@@ -149,8 +148,8 @@ public class ModVerticle extends AbstractVerticle implements IModContext {
   }
   
   @Override
-  public Closeable timer(long delay, Runnable action) {
-    return new ModTimer(delay, action, vertx);
+  public IAsyncFutureDisposable timer(long delay) {
+    return new ModTimer(delay, vertx);
   }
   
   public static IStatsForwarder createStatsForwarder(StatsModuleConfig config) {
