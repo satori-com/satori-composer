@@ -17,21 +17,38 @@ annotation class FutureVertxMarker
 @FutureVertxMarker*/
 open class VertxFutureScope(
   val vertx: Vertx,
-  val log: Logger = LoggerFactory.getLogger(VertxFutureScope::class.java)
+  val log: Logger = defaultLog
 ) {
   
   inline fun <R> thread(crossinline block: () -> R): IAsyncFuture<R> {
     val future = AsyncFuture<R>()
+    val context = vertx.getOrCreateContext()
     Thread {
       try {
         val result = block()
-        vertx.runOnContext { future.succeed(result) }
+        context.runOnContext { future.succeed(result) }
       } catch (err: Throwable) {
-        vertx.runOnContext { future.fail(err) }
+        context.runOnContext { future.fail(err) }
       }
     }.start()
     return future
   }
+  
+  inline fun <R> compute(crossinline block: () -> R): IAsyncFuture<R> {
+    val future = AsyncFuture<R>()
+    val context = vertx.getOrCreateContext()
+    ForkJoinPool.commonPool().execute{
+      try {
+        val result = block()
+        context.runOnContext { future.succeed(result) }
+      } catch (err: Throwable) {
+        context.runOnContext { future.fail(err) }
+      }
+    }
+    return future
+  }
+  
+  
   
   inline fun <R> blocking(crossinline block: () -> R): IAsyncFuture<R> {
     val future = AsyncFuture<R>()
@@ -190,5 +207,6 @@ open class VertxFutureScope(
   
   companion object {
     const val INVALID_TID: Long = Long.MIN_VALUE
+    val defaultLog = LoggerFactory.getLogger(VertxFutureScope::class.java)
   }
 }
