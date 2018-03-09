@@ -24,6 +24,9 @@ project(':libs-async-api').projectDir = file('libs/async-api')
 include ':libs-async-core'
 project(':libs-async-core').projectDir = file('libs/async-core')
 
+include ':libs-async-kotlin'
+project(':libs-async-kotlin').projectDir = file('libs/async-kotlin')
+
 include ':libs-testlib'
 project(':libs-testlib').projectDir = file('libs/testlib')
 

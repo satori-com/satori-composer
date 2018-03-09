@@ -1,8 +1,7 @@
 package com.satori.libs.async.core
 
-import com.satori.libs.testlib.*
+import com.satori.libs.async.kotlin.*
 import org.junit.*
-import org.junit.Assert.*
 
 class AsyncCriticalSectionTests : Assert() {
   
@@ -99,7 +98,7 @@ class AsyncCriticalSectionTests : Assert() {
   @Test
   fun exceptionExecTest() {
     var cp = 0
-    val acs = AsyncCriticalSection{
+    val acs = AsyncCriticalSection {
       assertEquals(2, cp++)
     }
     
@@ -115,7 +114,7 @@ class AsyncCriticalSectionTests : Assert() {
     }
     
     assertEquals(0, cp++)
-  
+    
     acs.leave()
     
     assertEquals(4, cp++)

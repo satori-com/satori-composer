@@ -1,8 +1,7 @@
-package com.satori.libs.testlib
+package com.satori.libs.async.kotlin
 
 import com.satori.libs.async.api.*
 import com.satori.libs.async.core.*
-import org.slf4j.*
 import kotlin.coroutines.experimental.*
 import kotlin.coroutines.experimental.intrinsics.*
 
@@ -45,7 +44,7 @@ fun <T, R> IAsyncFuture<T>.map(block: (T) -> R): IAsyncFuture<R> {
   return future
 }
 
-inline fun AsyncCriticalSection.exec(crossinline block: () -> Unit) = exec{ar->
+inline fun AsyncCriticalSection.exec(crossinline block: () -> Unit) = exec { ar ->
   block()
 }
 
@@ -80,16 +79,11 @@ fun AsyncForkJoin.fork(): IAsyncHandler<Any?> {
   inc()
   val afj = this
   return AsyncFuture<Any?>().apply {
-    onCompleted { ar ->
-      if (!ar.isSucceeded) {
-        LoggerFactory.getLogger("async-fork-join").warn("fork failed", ar.error) // TODO: fix it
-      }
-      afj.complete(ar)
-    }
+    onCompleted(afj)
   }
 }
 
-fun AsyncForkJoin.fork(block: suspend () -> Unit){
+fun AsyncForkJoin.fork(block: suspend () -> Unit) {
   val f = fork()
   future(block).onCompleted(f)
 }
@@ -107,7 +101,7 @@ inline fun <reified T> asyncResult(block: () -> T): IAsyncFuture<T> {
   })
 }
 
-inline fun<reified T> sync(noinline future: suspend () -> T): T {
+inline fun <reified T> sync(noinline future: suspend () -> T): T {
   
   val cont = object : Continuation<T> {
     val sync = Object()
@@ -148,4 +142,4 @@ inline fun<reified T> sync(noinline future: suspend () -> T): T {
   return cont.result!!.get()
 }
 
-val<T> IAsyncFuture<T>.value:T? get() = result?.value
+val <T> IAsyncFuture<T>.value: T? get() = result?.value

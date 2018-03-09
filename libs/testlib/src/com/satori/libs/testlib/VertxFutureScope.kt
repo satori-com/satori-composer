@@ -2,6 +2,7 @@ package com.satori.libs.testlib
 
 import com.satori.libs.async.api.*
 import com.satori.libs.async.core.*
+import com.satori.libs.async.kotlin.*
 import io.vertx.core.*
 import io.vertx.core.AsyncResult
 import io.vertx.core.impl.*
@@ -18,7 +19,6 @@ open class VertxFutureScope(
   val vertx: Vertx,
   val log: Logger = LoggerFactory.getLogger(VertxFutureScope::class.java)
 ) {
-
   
   inline fun <R> thread(crossinline block: () -> R): IAsyncFuture<R> {
     val future = AsyncFuture<R>()

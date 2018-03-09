@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.*
 import com.satori.composer.runtime.*
 import com.satori.libs.async.api.*
 import com.satori.libs.async.api.IAsyncFutureDisposable
+import com.satori.libs.async.kotlin.*
 import com.satori.libs.testlib.*
 import com.satori.mods.api.*
 import java.util.*

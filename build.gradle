@@ -157,6 +157,7 @@ def publishingProjects = [
   ':mods-suite',
   ':libs-async-api',
   ':libs-async-core',
+  ':libs-async-kotlin',
   ':libs-gtfs'
 ].collect { project(it) }
 

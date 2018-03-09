@@ -1,5 +1,6 @@
 package com.satori.libs.testlib
 
+import com.satori.libs.async.kotlin.*
 import io.vertx.core.*
 import io.vertx.ext.unit.*
 import io.vertx.ext.unit.impl.*

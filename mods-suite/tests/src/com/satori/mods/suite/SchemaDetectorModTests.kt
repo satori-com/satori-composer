@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.module.jsonSchema.*
 import com.satori.libs.async.api.*
 import com.satori.libs.async.core.*
+import com.satori.libs.async.kotlin.*
 import com.satori.libs.testlib.*
 import com.satori.libs.testlib.json.*
 import io.vertx.ext.unit.*
@@ -16,7 +17,7 @@ import kotlin.coroutines.experimental.intrinsics.*
 
 @RunWith(VertxUnitRunner::class)
 class SchemaDetectorModTests : ModTest() {
-
+  
   class DelayMod() : Mod() {
     val log = LoggerFactory.getLogger("delay-mod@${Integer.toHexString(System.identityHashCode(this))}")
     override fun onInput(inputName: String, data: JsonNode, cont: IAsyncHandler<*>) {
@@ -24,14 +25,14 @@ class SchemaDetectorModTests : ModTest() {
         if (ar.isSucceeded) cont.succeed() else cont.fail(ar.error)
       }
     }
-
+    
     override fun onInput(inputName: String, data: JsonNode) = future(VertxFutureScope(context().vertx(), log)) {
       log.info("input: $data")
       yield(data).await()
       delay(data.asInt())
     }
   }
-
+  
   @Test
   fun `order test`(context: TestContext) = asyncTest(context) {
     val mod = Composition().apply {
@@ -42,17 +43,17 @@ class SchemaDetectorModTests : ModTest() {
       linkOutput("delay1")
       linkOutput("delay2")
     }
-
+    
     mod.init(this@SchemaDetectorModTests)
-
+    
     val afj = AsyncForkJoin()
     afj.fork {
       mod.onInput("default", jsonNode(1000)).await()
     }
     afj.fork {
       suspendCoroutineOrReturn { cont ->
-        mod.onInput("default", jsonNode(100)){ar->
-          if(ar.isSucceeded) cont.resume(Unit) else cont.resumeWithException(ar.error)
+        mod.onInput("default", jsonNode(100)) { ar ->
+          if (ar.isSucceeded) cont.resume(Unit) else cont.resumeWithException(ar.error)
         }
         return@suspendCoroutineOrReturn COROUTINE_SUSPENDED
       }
@@ -60,11 +61,11 @@ class SchemaDetectorModTests : ModTest() {
     afj.fork {
       mod.onInput("default", jsonNode(10)).await()
     }
-
+    
     afj.join().await()
-
+    
     stopMod(mod)
-
+    
     assertEquals(
       listOf(
         jsonNode(1000), jsonNode(1000),
@@ -73,14 +74,14 @@ class SchemaDetectorModTests : ModTest() {
       ),
       outQueue.toList()
     )
-
+    
   }
-
+  
   @Test
   fun `basic test`(context: TestContext) = asyncTest(context) {
     val mod = SchemaDetectorMod()
     startMod(mod)
-
+    
     mod.onInput("default", jsonParseAsTree("""{
       "source_agency": "MZ",
       "dranik": {
@@ -114,11 +115,11 @@ class SchemaDetectorModTests : ModTest() {
       "timestamp": 1516945647536,
       "type": "shuttle"
     }""")).await()
-
+    
     val res = outQueue.pollFirst()
-
+    
     jsonTreeToValue<JsonSchema>(res)
-
+    
     assertEquals(jsonParseAsTree("""{
       "type": "object",
       "properties": {

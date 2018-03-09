@@ -1,7 +1,6 @@
-package com.satori.libs.testlib
+package com.satori.libs.async.kotlin
 
 import com.satori.libs.async.core.*
-import com.satori.libs.async.kotlin.*
 import org.junit.*
 
 class FutureLibTests : Assert() {
