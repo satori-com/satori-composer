@@ -16,7 +16,7 @@ class AsyncForkJoinTests : VertxTest() {
     val afj = AsyncForkJoin()
     var cnt = 0
     for (i in 1..100) afj.fork {
-      delay(i*10L)
+      delay(i * 10L)
       cnt += 1
     }
     afj.join().await()
@@ -33,7 +33,7 @@ class AsyncForkJoinTests : VertxTest() {
     var cnt = 0
     for (i in 1..100) {
       afj.inc()
-      timer(i*10L).onCompleted{ar->
+      timer(i * 10L).onCompleted { ar ->
         cnt += 1
         afj.dec()
       }
@@ -44,6 +44,5 @@ class AsyncForkJoinTests : VertxTest() {
     assertTrue(elapsed in 800..1200)
     assertEquals(100, cnt)
   }
-  
   
 }
