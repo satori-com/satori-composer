@@ -15,24 +15,29 @@ public class AsyncForkJoin implements IAsyncFuture, IAsyncHandler, IAsyncResult 
   
   public AsyncForkJoin(int val) {
     this.val = val;
-    this.cont = cont;
+    this.cont = null;
   }
   
-  public int inc() {
-    if(isCompleted()) throw new RuntimeException("async fork join was already completed");
-    return ++val;
+  public void inc() {
+    if (isCompleted()) throw new RuntimeException("async fork join was already completed");
+    val += 1;
   }
   
-  public int dec() {
-    if(isCompleted()) throw new RuntimeException("async fork join was already completed");
-    return --val;
+  public void dec() {
+    if (isCompleted()) throw new RuntimeException("async fork join was already completed");
+    val -= 1;
+    IAsyncHandler<?> cont = this.cont;
+    if (val == 0 && cont != null) {
+      this.cont = null;
+      cont.succeed();
+    }
   }
   
   // IAsyncHandler implementation
   
   @Override
   public void complete(IAsyncResult ar) {
-    if(isCompleted()) throw new RuntimeException("async fork join was already completed");
+    if (isCompleted()) throw new RuntimeException("async fork join was already completed");
     if (!ar.isSucceeded()) {
       // TODO: log error
       lastError = ar.getError();

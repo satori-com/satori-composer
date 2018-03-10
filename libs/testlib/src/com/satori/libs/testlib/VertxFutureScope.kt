@@ -37,7 +37,7 @@ open class VertxFutureScope(
   inline fun <R> compute(crossinline block: () -> R): IAsyncFuture<R> {
     val future = AsyncFuture<R>()
     val context = vertx.getOrCreateContext()
-    ForkJoinPool.commonPool().execute{
+    ForkJoinPool.commonPool().execute {
       try {
         val result = block()
         context.runOnContext { future.succeed(result) }
@@ -47,8 +47,6 @@ open class VertxFutureScope(
     }
     return future
   }
-  
-  
   
   inline fun <R> blocking(crossinline block: () -> R): IAsyncFuture<R> {
     val future = AsyncFuture<R>()
