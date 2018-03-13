@@ -1,3 +1,4 @@
+// main dependencies
 dependencies {
   compile project(':libs-async-core')
 
@@ -11,4 +12,10 @@ dependencies {
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
 }
 
+// test dependencies
+dependencies {
+  testCompile project(':libs-testlib')
 
+  testCompile "ch.qos.logback:logback-classic:$logbackVersion"
+  testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
+}

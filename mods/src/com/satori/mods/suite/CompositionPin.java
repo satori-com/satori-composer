@@ -7,9 +7,11 @@ import com.satori.mods.api.*;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.*;
+import org.slf4j.*;
 
 public class CompositionPin implements IModOutput {
   public final ArrayList<IModInput> connectors;
+  public final static Logger log = LoggerFactory.getLogger(CompositionPin.class);
   
   public CompositionPin() {
     this(new ArrayList<>());
@@ -107,17 +109,17 @@ public class CompositionPin implements IModOutput {
     AsyncForkJoin forkJoin = new AsyncForkJoin();
     while (itor.hasNext()) {
       IModInput input = itor.next();
+      IAsyncFuture future;
       try {
-        IAsyncFuture future = input.process(msg);
-        if (!future.isCompleted()) {
-          forkJoin.inc();
-          future.onCompleted(forkJoin);
-        }
+        future = input.process(msg);
       } catch (Throwable e) {
-        forkJoin.dec();
+        future = AsyncResults.failed(e);
+        log.warn("branch failed", e);
       }
+      forkJoin.inc();
+      future.onCompleted(forkJoin);
     }
-    forkJoin.succeed();
+    forkJoin.dec();
     return forkJoin;
   }
   
