@@ -87,7 +87,7 @@
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-composer</artifactId>
-    <version>0.5.2-SNAPSHOT</version>
+    <version>0.5.3-SNAPSHOT</version>
 </dependency>
 ```
 

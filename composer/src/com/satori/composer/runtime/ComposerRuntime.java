@@ -6,6 +6,8 @@ import com.satori.mods.core.*;
 import com.satori.mods.core.config.*;
 import com.satori.mods.suite.*;
 
+import java.util.concurrent.*;
+
 import com.fasterxml.jackson.databind.*;
 import io.netty.util.*;
 import io.vertx.core.*;
@@ -13,7 +15,8 @@ import io.vertx.core.impl.*;
 import org.slf4j.*;
 
 public class ComposerRuntime {
-  private static final Logger log = LoggerFactory.getLogger(ComposerRuntime.class);
+  public static final Logger log = LoggerFactory.getLogger(ComposerRuntime.class);
+  public static Runnable onClosed = null;
   
   /**
    * Starts composer with specified config loader.
@@ -55,13 +58,19 @@ public class ComposerRuntime {
     vertx = createVertx();
     vertx.exceptionHandler(cause -> {
       log.error("terminating framework", cause);
-      vertx.close();
+      vertx.close(ar -> {
+        Runnable onClosed = ComposerRuntime.onClosed;
+        if(onClosed != null)onClosed.run();
+      });
     });
     
     vertx.deployVerticle(new ModVerticle(config, mod), ar -> {
       if (!ar.succeeded()) {
         log.error("failed to deploy mod verticle", ar.cause());
-        vertx.close();
+        vertx.close(ar1 -> {
+          Runnable onClosed = ComposerRuntime.onClosed;
+          if(onClosed != null)onClosed.run();
+        });
         return;
       }
       log.info("mod verticle deployed: deploymentId={}", ar.result());
