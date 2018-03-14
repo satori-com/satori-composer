@@ -22,21 +22,17 @@ protobuf {
   generatedFilesBaseDir = "$projectDir/src/"
 
   protoc {
-    artifact = 'com.google.protobuf:protoc:3.+'
+    artifact = 'com.google.protobuf:protoc:3.5.1'
   }
   generateProtoTasks {
     all().each { task ->
       task.group = 'protobuf'
       task.builtins {
         java {
-          //option 'java_package=com.example.foo.bar'
-          //option 'package=com.example.foo.bar'
           outputSubDir = '../'
         }
       }
-      if(task.sourceSet.name == "main"){
-        //task.outputBaseDir = 'src'
-      }
+
       task.outputs.upToDateWhen { false }
     }
   }
@@ -104,7 +100,7 @@ dependencies {
   codegen project(':codegen-pbuf2jschema')
   codegen project(':codegen-jmodel')
 
-  compile 'com.google.protobuf:protobuf-java:3.4.0'
+  compile 'com.google.protobuf:protobuf-java:3.5.1'
 
   compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
   compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
