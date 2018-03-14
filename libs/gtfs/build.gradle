@@ -29,7 +29,7 @@ protobuf {
       task.group = 'protobuf'
       task.builtins {
         java {
-          outputSubDir = '../'
+          //outputSubDir = '../'
         }
       }
 
