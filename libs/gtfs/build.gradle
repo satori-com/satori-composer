@@ -19,7 +19,7 @@ sourceSets.main.proto.srcDirs = ['protobuf']
 //sourceSets.main.java.srcDirs 'gen'
 
 protobuf {
-  generatedFilesBaseDir = "$projectDir/src/"
+  generatedFilesBaseDir = "$buildDir/generated/protobuf"
 
   protoc {
     artifact = 'com.google.protobuf:protoc:3.5.1-1'
