@@ -1,5 +1,5 @@
 ## Satori Composer (preview)
-
+[![Build Status](https://travis-ci.org/satori-com/satori-composer.svg?branch=dev)](https://travis-ci.org/satori-com/satori-composer)
 #### Example
 ![diagram](docs/files/big-blue-bus-composition.png)
 ```yaml
