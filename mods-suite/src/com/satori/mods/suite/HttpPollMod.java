@@ -226,8 +226,8 @@ public class HttpPollMod extends Mod {
       return;
     }
     try {
-      HttpClientRequest request = redirectCnt > 0 ? http.getAbs(path) : http.get(path);
-      setRequestHeaders(request);
+      HttpClientRequest request = createRequest(path, redirectCnt > 0);
+      initRequest(request, redirectCnt > 0);
       request.exceptionHandler(promise::fail);
       request.handler(res -> processResponse(path, redirectCnt, res, promise));
       log.info("{} {}", request.method(), path);
@@ -235,6 +235,14 @@ public class HttpPollMod extends Mod {
     } catch (Throwable e) {
       promise.fail(e);
     }
+  }
+  
+  public HttpClientRequest createRequest(String path, boolean redirected) {
+    return redirected ? http.getAbs(path) : http.get(path);
+  }
+  
+  public void initRequest(HttpClientRequest request, boolean redirected) {
+    setRequestHeaders(request);
   }
   
   protected void setRequestHeaders(HttpClientRequest request) {
