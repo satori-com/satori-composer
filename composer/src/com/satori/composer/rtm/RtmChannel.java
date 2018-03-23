@@ -16,6 +16,10 @@ public class RtmChannel extends RtmBase implements IRtmContext {
     this.name = name + ", " + this.name;
   }
   
+  public RtmChannel(RtmBaseConfig config, String name) {
+    this(Vertx.currentContext().owner(), config, name);
+  }
+  
   @Override
   protected IRtmState<Void> createConnectedState(WebSocket ws) {
     return new RtmConnectedState<RtmChannel>(this, ws) {

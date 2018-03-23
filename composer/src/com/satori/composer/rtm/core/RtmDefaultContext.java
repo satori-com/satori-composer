@@ -60,9 +60,7 @@ public class RtmDefaultContext implements
       }
     }
     
-    name = (cfg.ssl ? "wss://" : "ws://") + cfg.host
-      + ((cfg.ssl && cfg.port != 443 || !cfg.ssl && cfg.port != 80) ? (":" + Integer.toString(cfg.port)) : "")
-      + (this.path);
+    name = cfg.getUrl("ws");
     
     this.http = createHttp();
     

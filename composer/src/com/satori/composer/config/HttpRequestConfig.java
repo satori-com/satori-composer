@@ -34,6 +34,37 @@ public class HttpRequestConfig extends HttpConnectionConfig {
     this.headers = cfg.headers;
   }
   
+  public String getUrl(String schema){
+    StringBuilder sb = new StringBuilder();
+    sb.append(schema);
+    if(ssl) {
+      sb.append("s://");
+    }else {
+      sb.append("://");
+    }
+    sb.append(host);
+    if(ssl && port != 443 || !ssl && port != 80){
+      sb.append(":");
+      sb.append(port);
+    }
+    if(path!=null){
+      // skip unnecessary leading '/'
+      for (int i=0; i<path.length(); i++){
+        if(path.charAt(i)!='/'){
+          sb.append("/");
+          sb.append(path, i, path.length());
+          break;
+        }
+      }
+    }
+    QueryStringEncoder qenc = new QueryStringEncoder("");
+    for (HashMap.Entry<String, String> e : args.entrySet()) {
+      qenc.addParam(e.getKey(), e.getValue());
+    }
+    sb.append(qenc.toString());
+    return sb.toString();
+  }
+  
   @Override
   public void validate() throws InvalidConfigException {
     super.validate();
