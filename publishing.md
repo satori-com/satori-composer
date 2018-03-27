@@ -1,3 +1,13 @@
+
+### release workflow
+- build may be required before pushing changes, as some committed sources are generated 
+  and may be need to be updated, say for example if you changed version, readme.md file 
+  should be regenerated 
+- push changes
+- ensure CI tests passed (https://travis-ci.org/satori-com/satori-composer)
+- publish github releases
+- publish artifacts to public/snapshot maven repo
+
 ### publishing github releases
 - add `github.gardle` file to `.gradle` directory, with following content:
   ```groovy
