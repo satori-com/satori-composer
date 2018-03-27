@@ -12,7 +12,7 @@ if (rootProject.file(".gradle/publishing.gradle").exists()) {
 task sourcesJar(type: Jar, dependsOn: classes) {
   group 'publishing'
   classifier 'sources'
-  from sourceSets.main.allJava
+  from sourceSets.main.allSource
 }
 
 if (signing.signatory) {
