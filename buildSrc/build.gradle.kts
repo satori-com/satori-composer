@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 import org.gradle.plugins.ide.idea.model.*
 
 plugins {
-  kotlin("jvm", "1.1.50")
+  kotlin("jvm").version("1.2.31")
   id("idea")
 }
 
