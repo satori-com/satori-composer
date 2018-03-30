@@ -23,6 +23,9 @@ public class ArrayUnwrapMod extends Mod {
   }
   
   public ArrayUnwrapMod(String path) {
+    if (path != null && !path.startsWith("/")) {
+      path = "/" + path;
+    }
     this.path = path;
   }
   
@@ -117,6 +120,12 @@ public class ArrayUnwrapMod extends Mod {
       if (!future.isCompleted()) {
         // operation still in progress, set continuation and exit
         future.onCompleted(ar -> {
+          
+          if (!ar.isSucceeded()) {
+            // log error if processing failed
+            log.warn("failed to process array element", ar.getError());
+          }
+          
           try {
             yieldLoop(deq, cont);
           } catch (Exception e) {
