@@ -52,10 +52,6 @@
     "printer": {
       "type": "printer",
       "connectors": "dedup"
-    },
-    "printer-2": {
-      "type": "printer",
-      "connectors": "dedup"
     }
   }
 }

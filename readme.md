@@ -5,7 +5,6 @@
 #### Example
 ![diagram](docs/files/big-blue-bus-composition.png)
 ```yaml
-
 {
   "stats": {
     "period": 1000, // in ms., 1 sec.
@@ -14,8 +13,8 @@
     }
   },
   "mods": {
-    "poller-vehicle-positions": {
-      "type": "com.satori.mods.suite.HttpPollMod",
+    "positions": {
+      "type": "http-poll",
       "settings": {
         "delay": 1000, // in ms., 1 sec.
         "format": "binary",
@@ -25,8 +24,8 @@
         "path": "/vehiclepositions.bin"
       }
     },
-    "poller-trip-updates": {
-      "type": "com.satori.mods.suite.HttpPollMod",
+    "trips": {
+      "type": "http-poll",
       "settings": {
         "delay": 1000, // in ms., 1 sec.
         "format": "binary",
@@ -37,35 +36,33 @@
       }
     },
     "converter": {
-      "type": "com.satori.mods.suite.GtfsProtoBufToJsonMod",
-      "connectors": ["poller-vehicle-positions", "poller-trip-updates"],
+      "type": "gtfs-proto-buf-to-json",
+      "connectors": ["positions", "trips"],
       "settings": {
         "user-data": "auckland"
       }
     },
-    "dedup-filter": {
-      "type": "com.satori.mods.suite.DedupMod",
+    "unwrapper": {
+      "type": "array-unwrap",
       "connectors": "converter",
+      "settings": "/entity"
+    },
+    "dedup": {
+      "type": "dedup",
+      "connectors": "unwrapper",
       "settings": {
         "expiration-interval": 600000,
-        "override": false,
-        "key-selector": "/entity"
+        "override": false
+        //"key-selector": "/entity"
       }
     },
-    "publisher": {
-      "type": "com.satori.mods.suite.RtmPublishMod",
-      "connectors": "dedup-filter",
-      "settings": {
-        "channel": "YOUR_CHANNEL",
-        "host": "YOU_HOST", //no wss scheme, just host: x.satori.com
-        "ssl": true,
-        "args": {"appkey": "YOU_APPKEY"} //,
-        // enable if your publish permission needs auth
-        //"auth": {"role": "YOUR_ROLE","secret": "YOUR_SECRET"}
-      }
+    "printer": {
+      "type": "printer",
+      "connectors": "dedup"
     }
   }
 }
+
 ```
 
 ### Documentation

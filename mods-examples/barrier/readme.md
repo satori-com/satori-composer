@@ -11,7 +11,7 @@ gradle run
 
 ##### run app using command line
 ```
-./.out/install/rtm-filter/bin/rtm-filter
+./.out/install/barrier/bin/barrier
 ```
 
 ##### build docker image
@@ -26,11 +26,11 @@ gradle runDockerContainer
 
 ##### run interactive docker container using command line
 ```
-docker run --rm -ti mods-examples-rtm-filter
+docker run --rm -ti mods-examples-barrier
 ```
 
 ##### run daemonized docker container
 ```
-docker run --restart=always --log-opt max-size=64m --log-opt max-file=16 -d --name=rtm-filter mods-examples-rtm-filter
+docker run --restart=always --log-opt max-size=64m --log-opt max-file=16 -d --name=barrier mods-examples-barrier
 ```
 

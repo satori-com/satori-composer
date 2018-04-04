@@ -33,15 +33,40 @@ ext {
   pckgDir = pckg.replace('.', '/')
 }
 
+afterEvaluate {
+  task generateBigBlueBusImage(type: JavaExec) {
+    group 'codegen'
 
-task generateReadme(type: TransformTask) {
-  group 'codegen'
-  template = file('readme.template.md')
-  output = file('readme.md')
-  outputs.upToDateWhen { false }
+    def cfgPath = project(":mods-examples-big-blue-bus").file("res/com/satori/mods/resources/config.json")
+    def imgPath = rootProject.file("docs/files/big-blue-bus-composition.png")
+
+    inputs.file(cfgPath)
+    outputs.file(imgPath)
+
+    classpath project(":libs-composition-drawer").sourceSets.main.output
+    classpath project(":libs-composition-drawer").configurations.runtime
+
+    main = "${project(":libs-composition-drawer").pckg}.App"
+    args "--cfg-path", cfgPath
+    args "--image-path", imgPath
+
+    doFirst {
+      println "generating composition diagram ...."
+      println commandLine.join(" ")
+    }
+  }
+
+  task generateReadme(type: TransformTask) {
+    group 'codegen'
+    dependsOn generateBigBlueBusImage
+    template = file('readme.template.md')
+    output = file('readme.md')
+    outputs.upToDateWhen { false }
+  }
+
+  tasks.generateReadme.execute()
+
 }
-
-tasks.generateReadme.execute()
 
 void transform(Closure closure) {
   def spec = new TransformSpec(project)
@@ -120,13 +145,25 @@ subprojects {
   dependencies {
   }
 
+  sourceSets.all {sourceSet ->
+    def n = sourceSet.name
+    n = n != "main" ? n.capitalize() : ""
+    def taskName = "generate${n}Code"
+    println "defining task: '${project.name}:${taskName}'"
+    def t = task "generate${n}Code"() {
+      group 'codegen'
+    }
+    tasks["compile${n}Java"].dependsOn t
+    tasks["compile${n}Kotlin"].dependsOn t
+  }
+
   task createDefaultProjectStructure {
     group 'codegen'
     doLast {
       println "creating default project structure for project '${project.name}'..."
 
       // create directories for all source sets
-      sourceSets.forEach { sourceSet ->
+      sourceSets.all { sourceSet ->
         sourceSet.java.srcDirs.forEach {
           def pathToCreate = new File(it, pckgDir)
           println "creating sources path for '${sourceSet.name}': '$pathToCreate'"

@@ -26,11 +26,11 @@ gradle runDockerContainer
 
 ##### run interactive docker container using command line
 ```
-docker run --rm -ti mods-examples/nws-usa-alerts
+docker run --rm -ti mods-examples-nws-usa-alerts
 ```
 
 ##### run daemonized docker container
 ```
-docker run --restart=always --log-opt max-size=64m --log-opt max-file=16 -d --name=nws-usa-alerts mods-examples/nws-usa-alerts
+docker run --restart=always --log-opt max-size=64m --log-opt max-file=16 -d --name=nws-usa-alerts mods-examples-nws-usa-alerts
 ```
 

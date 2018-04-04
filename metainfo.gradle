@@ -1,0 +1,61 @@
+import java.nio.file.Files
+
+task generateMetaInfo(type: TransformTask) {
+  group 'codegen'
+  description "generate meta information class"
+
+  def outputDir = file("meta-info")
+  def className = "MetaInfo"
+  def classFile = file("$outputDir/$pckgDir/${className}.kt")
+
+  template = rootProject.file('metainfo.template.kt')
+  output = classFile
+  model.className = className
+
+  inputs.file(rootProject.file("gradle.properties"))
+  inputs.file(template)
+  outputs.file(output)
+
+  project.sourceSets.main.java.srcDirs += outputDir
+
+  doFirst {
+    delete(outputDir)
+    outputDir.mkdirs()
+    // get current commit SHA
+    try {
+      new ByteArrayOutputStream().withStream { os ->
+        exec {
+          standardOutput = os
+          commandLine = ['git', 'rev-parse', '--verify', 'HEAD']
+          println "getting current commit SHA..."
+          println "> ${commandLine.join(' ')}"
+        }
+        model.sha = new Scanner(os.toString()).nextLine()
+        println "model.sha: ${model.sha}"
+      }
+    } catch (e) {
+      println "failed to get current commit SHA: $e"
+    }
+
+    try {
+      new ByteArrayOutputStream().withStream { os ->
+        exec {
+          standardOutput = os
+          commandLine = ['git', 'tag', '--points-at', 'HEAD']
+          println "getting current tags..."
+          println "> ${commandLine.join(' ')}"
+        }
+        model.tags = os.toString().split('\n').findAll {!it.isAllWhitespace()}
+        println "model.tags: ${model.tags}"
+      }
+    } catch (e) {
+      println "failed to get current commit SHA: $e"
+    }
+  }
+
+  clean.doFirst {
+    delete(outputDir)
+  }
+}
+
+generateCode.dependsOn(generateMetaInfo)
