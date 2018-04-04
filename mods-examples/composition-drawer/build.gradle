@@ -8,16 +8,16 @@ buildscript{
     }
   }
   dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.10-SNAPSHOT"
+    classpath "com.satori:satori-libs-composition-drawer:0.5.11-SNAPSHOT"
   }
 }
 
 task generateCompositionImage(type: GenerateCompositionImageTask){
   group "codegen"
   cfgPath = file("res/com/satori/mods/resources/config.json")
-  imagePath = file("docs/diagram.png")
+  imgPath = file("docs/diagram.png")
 }
-
+generateCode.dependsOn generateCompositionImage
 
 dependencies {
   testCompile project(':libs-testlib')
