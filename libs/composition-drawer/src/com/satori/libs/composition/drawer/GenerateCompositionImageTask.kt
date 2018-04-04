@@ -13,7 +13,7 @@ open class GenerateCompositionImageTask : DefaultTask() {
   var cfgPath: File? = null
   
   @OutputFile
-  var imagePath: File = File(project.buildDir, "composition.png")
+  var imgPath: File = File(project.buildDir, "composition.png")
   
   var blockWidth: Double = CompositionGraphWriter.defaultWidth
   var blockHeight: Double = CompositionGraphWriter.defaultHeight
@@ -21,16 +21,17 @@ open class GenerateCompositionImageTask : DefaultTask() {
   @TaskAction
   fun generateImage() {
     println(MetaInfo)
-
-    val cfgPath = cfgPath ?: throw Exception("cfgPath not specified")
+  
     
+    val cfgPath = cfgPath ?: throw Exception("cfgPath not specified")
+  
     cfgPath.toPath().parent.toFile().mkdirs()
     val graph = createGraph(
       cfgPath ?: throw Exception("cfgPath not specified"),
       blockWidth, blockHeight
     )
     val image = mxCellRenderer.createBufferedImage(graph, null, 1.0, Color.WHITE, true, null)
-    ImageIO.write(image, "PNG", imagePath)
+    ImageIO.write(image, "PNG", imgPath)
   }
 }
 

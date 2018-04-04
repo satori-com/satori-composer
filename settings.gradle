@@ -67,3 +67,6 @@ project(':mods-examples-rtm-filter').projectDir = file('mods-examples/rtm-filter
 
 include ':mods-examples-custom-resolver'
 project(':mods-examples-custom-resolver').projectDir = file('mods-examples/custom-resolver')
+
+include ':mods-examples-composition-drawer'
+project(':mods-examples-composition-drawer').projectDir = file('mods-examples/composition-drawer')

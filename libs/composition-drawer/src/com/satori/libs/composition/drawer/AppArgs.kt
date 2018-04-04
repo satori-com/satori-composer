@@ -7,7 +7,7 @@ class AppArgs {
   @JsonProperty("cfg-path")
   var cfgPath: String? = null
   
-  @JsonProperty("image-path")
+  @JsonProperty("img-path")
   var imgPath: String? = "composition.png"
   
   @JsonProperty("block-width")

@@ -1,0 +1,24 @@
+import com.satori.libs.composition.drawer.*
+
+buildscript{
+  repositories {
+    mavenCentral()
+    maven {
+      url('https://oss.sonatype.org/content/repositories/snapshots/')
+    }
+  }
+  dependencies {
+    classpath "com.satori:satori-libs-composition-drawer:0.5.10-SNAPSHOT"
+  }
+}
+
+task generateCompositionImage(type: GenerateCompositionImageTask){
+  group "codegen"
+  cfgPath = file("res/com/satori/mods/resources/config.json")
+  imagePath = file("docs/diagram.png")
+}
+
+
+dependencies {
+  testCompile project(':libs-testlib')
+}

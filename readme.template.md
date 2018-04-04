@@ -5,7 +5,7 @@
 #### Example
 ![diagram](docs/files/big-blue-bus-composition.png)
 ```yaml
-<%= new File("mods-examples/big-blue-bus/res/com/satori/mods/resources/config.json").text %>
+<%= rootProject.file("mods-examples/big-blue-bus/res/com/satori/mods/resources/config.json").text %>
 ```
 
 ### Documentation

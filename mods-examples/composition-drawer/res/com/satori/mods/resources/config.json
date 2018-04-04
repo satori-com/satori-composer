@@ -1,0 +1,57 @@
+{
+  "stats": {
+    "period": 1000, // in ms., 1 sec.
+    "console": {
+      "period": 10000
+    }
+  },
+  "mods": {
+    "positions": {
+      "type": "http-poll",
+      "settings": {
+        "delay": 1000, // in ms., 1 sec.
+        "format": "binary",
+        "host": "gtfs.bigbluebus.com",
+        "ssl": true,
+        "verify-host": false,
+        "path": "/vehiclepositions.bin"
+      }
+    },
+    "trips": {
+      "type": "http-poll",
+      "settings": {
+        "delay": 1000, // in ms., 1 sec.
+        "format": "binary",
+        "host": "gtfs.bigbluebus.com",
+        "ssl": true,
+        "verify-host": false,
+        "path": "/tripupdates.bin"
+      }
+    },
+    "converter": {
+      "type": "gtfs-proto-buf-to-json",
+      "connectors": ["positions", "trips"],
+      "settings": {
+        "user-data": "auckland"
+      }
+    },
+    "unwrapper": {
+      "type": "array-unwrap",
+      "connectors": "converter",
+      "settings": "/entity"
+    },
+    "dedup": {
+      "type": "dedup",
+      "connectors": "unwrapper",
+      "settings": {
+        "expiration-interval": 600000,
+        "override": false
+        //"key-selector": "/entity"
+      }
+    },
+    "printer": {
+      "type": "printer",
+      "connectors": "dedup"
+    }
+  }
+}

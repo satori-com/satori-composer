@@ -6,7 +6,7 @@ object AppExample {
   fun main(vararg args: String) {
     App.main(
       "--cfg-path", "mods-examples/big-blue-bus/res/com/satori/mods/resources/config.json",
-      "--image-path", "big-blue-bus.png"
+      "--img-path", "big-blue-bus.png"
     )
   }
 }

@@ -48,7 +48,7 @@ afterEvaluate {
 
     main = "${project(":libs-composition-drawer").pckg}.App"
     args "--cfg-path", cfgPath
-    args "--image-path", imgPath
+    args "--img-path", imgPath
 
     doFirst {
       println "generating composition diagram ...."
