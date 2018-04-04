@@ -10,9 +10,9 @@ class AppArgs {
   @JsonProperty("image-path")
   var imgPath: String? = "composition.png"
   
-  @JsonProperty("width")
-  var width: Double = CompositionGraphWriter.defaultWidth
+  @JsonProperty("block-width")
+  var blockWidth: Double = CompositionGraphWriter.defaultWidth
   
-  @JsonProperty("height")
-  var height: Double = CompositionGraphWriter.defaultHeight
+  @JsonProperty("block-height")
+  var blockHeight: Double = CompositionGraphWriter.defaultHeight
 }

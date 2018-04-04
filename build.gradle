@@ -201,7 +201,8 @@ def publishingProjects = [
   ':libs-async-api',
   ':libs-async-core',
   ':libs-async-kotlin',
-  ':libs-gtfs'
+  ':libs-gtfs',
+  ':libs-composition-drawer'
 ].collect { project(it) }
 
 configure(publishingProjects) {

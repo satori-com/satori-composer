@@ -24,7 +24,7 @@ object App {
     
     val graph = createGraph(
       appArgs.cfgPath ?: throw Exception("missing --cfg-path"),
-      appArgs.width, appArgs.height
+      appArgs.blockWidth, appArgs.blockHeight
     )
     val image = mxCellRenderer.createBufferedImage(graph, null, 1.0, Color.WHITE, true, null)
     ImageIO.write(image, "PNG", File(appArgs.imgPath))

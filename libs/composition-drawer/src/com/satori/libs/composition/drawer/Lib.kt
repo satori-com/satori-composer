@@ -59,15 +59,20 @@ fun createGraph(mods: HashMap<String, CompositionNodeConfig>, width: Double, hei
   return graph
 }
 
-fun createGraph(cfgPath: String) = createGraph(
-  cfgPath, CompositionGraphWriter.defaultWidth, CompositionGraphWriter.defaultHeight
-)
-
-fun createGraph(cfgPath: String, width: Double, height: Double): mxGraph {
-  val cfg = File(cfgPath).inputStream().use { inputStream ->
+fun createGraph(cfgPath: File, width: Double, height: Double): mxGraph {
+  val cfg = cfgPath.inputStream().use { inputStream ->
     Config.mapper.readValue(inputStream, ComposerRuntimeConfig::class.java).apply {
       validate()
     }
   }
   return createGraph(cfg.mods, width, height)
 }
+
+fun createGraph(cfgPath: String) = createGraph(
+  cfgPath, CompositionGraphWriter.defaultWidth, CompositionGraphWriter.defaultHeight
+)
+
+fun createGraph(cfgPath: String, width: Double, height: Double) = createGraph(
+  File(cfgPath), CompositionGraphWriter.defaultWidth, CompositionGraphWriter.defaultHeight
+)
+
