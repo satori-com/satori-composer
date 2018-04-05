@@ -73,6 +73,6 @@ fun createGraph(cfgPath: String) = createGraph(
 )
 
 fun createGraph(cfgPath: String, width: Double, height: Double) = createGraph(
-  File(cfgPath), CompositionGraphWriter.defaultWidth, CompositionGraphWriter.defaultHeight
+  File(cfgPath), width, height
 )
 

@@ -14,6 +14,7 @@
 - [Mods Suite](https://www.satori.com/docs/opensource/composer#mods-suite)
 - [Building and Running](https://www.satori.com/docs/opensource/composer#building-and-running)
 - [Async support library](docs/async/readme.md)
+- [Composition diagram drawer](libs/composition-drawer/readme.md)
 
 ### Common Libraries
 - [Gtfs Library For Real-Time](https://github.com/satori-com/satori-composer/tree/dev/libs/gtfs)

@@ -1,0 +1,9 @@
+
+task generateReadme(type: TransformTask) {
+  group 'codegen'
+
+  template = file('readme.template.md')
+  output = file('readme.md')
+}
+
+generateCode.dependsOn generateReadme
