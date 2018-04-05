@@ -1,5 +1,3 @@
-import com.satori.libs.composition.drawer.*
-
 buildscript{
   repositories {
     mavenCentral()
@@ -8,7 +6,7 @@ buildscript{
     }
   }
   dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.13-SNAPSHOT"
+    classpath "com.satori:satori-libs-composition-drawer:0.5.14-SNAPSHOT"
   }
 }
 
@@ -24,7 +22,7 @@ generateCode.dependsOn generateCompositionImage
 
 configurations{compositionDrawer}
 dependencies {
-  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.13-SNAPSHOT"
+  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.14-SNAPSHOT"
 }
 
 task generateCompositionImage2(type: JavaExec) {

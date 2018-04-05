@@ -1,4 +1,7 @@
 <!-- generated, do not modify -->
+## 'clock' example
+![diagram](docs/files/diagram.png)
+
 ##### build app
 ```
 gradle installDist

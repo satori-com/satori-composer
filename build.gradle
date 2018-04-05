@@ -163,7 +163,7 @@ subprojects {
       println "creating default project structure for project '${project.name}'..."
 
       // create directories for all source sets
-      sourceSets.all { sourceSet ->
+      sourceSets.forEach { sourceSet ->
         sourceSet.java.srcDirs.forEach {
           def pathToCreate = new File(it, pckgDir)
           println "creating sources path for '${sourceSet.name}': '$pathToCreate'"

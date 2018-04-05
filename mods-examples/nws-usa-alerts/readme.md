@@ -1,4 +1,7 @@
 <!-- generated, do not modify -->
+## 'nws usa alerts' example
+![diagram](docs/files/diagram.png)
+
 ##### build app
 ```
 gradle installDist

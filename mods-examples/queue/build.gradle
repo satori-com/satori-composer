@@ -1,6 +1,8 @@
 apply plugin: 'application'
 apply from: '../examples.gradle'
 
+description "queue"
+
 mainClassName = 'com.satori.mods.examples.App'
 applicationName = projectDir.name
 

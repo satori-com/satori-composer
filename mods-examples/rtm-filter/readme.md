@@ -1,4 +1,7 @@
 <!-- generated, do not modify -->
+## 'rtm filter' example
+![diagram](docs/files/diagram.png)
+
 ##### build app
 ```
 gradle installDist

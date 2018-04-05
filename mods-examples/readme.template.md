@@ -5,6 +5,9 @@ def appScript = project.startScripts.applicationName
 def appName = project.applicationName
 def projName = project.name
 %>-->
+## '<%=project.description%>' example
+![diagram](docs/files/diagram.png)
+
 ##### build app
 ```
 gradle installDist

@@ -1,5 +1,4 @@
 apply plugin: 'application'
-apply from: '../examples.gradle'
 
 mainClassName = 'com.satori.mods.examples.ClocksApp2'
 applicationName = projectDir.name

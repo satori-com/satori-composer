@@ -1,4 +1,7 @@
 <!-- generated, do not modify -->
+## 'big blue bus' example
+![diagram](docs/files/diagram.png)
+
 ##### build app
 ```
 gradle installDist

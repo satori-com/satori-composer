@@ -1,6 +1,8 @@
 apply plugin: 'application'
 apply from: '../examples.gradle'
 
+description "rtm filter"
+
 mainClassName = 'com.satori.mods.examples.NwsUsaAlerts'
 applicationName = projectDir.name
 
