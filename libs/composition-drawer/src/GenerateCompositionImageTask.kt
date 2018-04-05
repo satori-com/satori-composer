@@ -14,7 +14,10 @@ open class GenerateCompositionDiagramTask : DefaultTask() {
   @OutputFile
   var imgPath: File = File(project.buildDir, "composition.png")
   
+  @Input
   var blockWidth: Double = CompositionGraphWriter.defaultWidth
+  
+  @Input
   var blockHeight: Double = CompositionGraphWriter.defaultHeight
   
   @TaskAction
