@@ -11,7 +11,7 @@ buildscript{
     }
   }
   dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.12-SNAPSHOT"
+    classpath "com.satori:satori-libs-composition-drawer:0.5.13-SNAPSHOT"
   }
 }
 
@@ -22,8 +22,6 @@ task generateCompositionDiagram(type: GenerateCompositionDiagramTask) {
   imgPath = file("path/to/diagram.png")
   blockWidth = 230
   blockHeight = 45
-  
-  inputs.file("build.gradle")
 }
 ```
 
@@ -38,7 +36,7 @@ repositories {
   
 configurations{compositionDrawer}
 dependencies {
-  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.12-SNAPSHOT"
+  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.13-SNAPSHOT"
 }
 
 task generateCompositionDiagram(type: JavaExec) {
@@ -76,7 +74,7 @@ task generateCompositionDiagram(type: JavaExec) {
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-composition-drawer</artifactId>
-    <version>0.5.12-SNAPSHOT</version>
+    <version>0.5.13-SNAPSHOT</version>
 </dependency>
 ```
 

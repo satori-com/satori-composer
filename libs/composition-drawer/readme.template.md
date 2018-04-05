@@ -22,8 +22,6 @@ task generateCompositionDiagram(type: GenerateCompositionDiagramTask) {
   imgPath = file("path/to/diagram.png")
   blockWidth = 230
   blockHeight = 45
-  
-  inputs.file("build.gradle")
 }
 ```
 
