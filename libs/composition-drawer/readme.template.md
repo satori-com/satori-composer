@@ -1,5 +1,16 @@
 ## Composition diagram drawer
 
+Generate diagram image for composer configuration
+
+### Options
+
+| command line   | gradle task  | description                                                  |
+|----------------|--------------|--------------------------------------------------------------|
+| --cfg-path     | cfgPath      |  path to composer config file                                |
+| --img-path     | imgPath      |  path to image file to generate                              |
+| --img-format   | imgFormat    |  image format, one of: "png", "jpg", "gif". default is "png" |
+| --block-width  | blockWidth   |  block width. default is 260                                 |
+| --block-height | blockHeight  |  block height. default is 40                                 |
 
 #### Example using dedicated 'GenerateCompositionDiagram' gradle task
 ```gradle
@@ -87,3 +98,14 @@ task generateCompositionDiagram(type: JavaExec) {
 </dependency>
 ```
 <% }%>
+
+### Example of generated diagram
+input config:
+
+```yaml
+<%= rootProject.file("mods-examples/big-blue-bus/res/com/satori/mods/resources/config.json").text %>
+```
+generated diagram:
+
+![diagram](../../docs/files/big-blue-bus-composition.png)
+

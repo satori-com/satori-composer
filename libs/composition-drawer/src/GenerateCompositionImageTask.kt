@@ -20,6 +20,9 @@ open class GenerateCompositionDiagramTask : DefaultTask() {
   @Input
   var blockHeight: Double = CompositionGraphWriter.defaultHeight
   
+  @Input
+  var imgFormat: String = AppArgs.defaultImgFormat
+  
   @TaskAction
   fun generateImage() {
     println(MetaInfo)
@@ -33,7 +36,7 @@ open class GenerateCompositionDiagramTask : DefaultTask() {
       blockWidth, blockHeight
     )
     val image = mxCellRenderer.createBufferedImage(graph, null, 1.0, Color.WHITE, true, null)
-    ImageIO.write(image, "PNG", imgPath)
+    ImageIO.write(image, imgFormat, imgPath)
   }
 }
 

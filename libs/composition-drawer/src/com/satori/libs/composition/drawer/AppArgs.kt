@@ -8,11 +8,18 @@ class AppArgs {
   var cfgPath: String? = null
   
   @JsonProperty("img-path")
-  var imgPath: String? = "composition.png"
+  var imgPath: String = "composition.png"
+  
+  @JsonProperty("img-format")
+  var imgFormat: String = defaultImgFormat
   
   @JsonProperty("block-width")
   var blockWidth: Double = CompositionGraphWriter.defaultWidth
   
   @JsonProperty("block-height")
   var blockHeight: Double = CompositionGraphWriter.defaultHeight
+  
+  companion object {
+    val defaultImgFormat = "PNG"
+  }
 }

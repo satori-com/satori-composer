@@ -1,5 +1,16 @@
 ## Composition diagram drawer
 
+Generate diagram image for composer configuration
+
+### Options
+
+| command line   | gradle task  | description                                                  |
+|----------------|--------------|--------------------------------------------------------------|
+| --cfg-path     | cfgPath      |  path to composer config file                                |
+| --img-path     | imgPath      |  path to image file to generate                              |
+| --img-format   | imgFormat    |  image format, one of: "png", "jpg", "gif". default is "png" |
+| --block-width  | blockWidth   |  block width. default is 260                                 |
+| --block-height | blockHeight  |  block height. default is 40                                 |
 
 #### Example using dedicated 'GenerateCompositionDiagram' gradle task
 ```gradle
@@ -11,7 +22,7 @@ buildscript{
     }
   }
   dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.13-SNAPSHOT"
+    classpath "com.satori:satori-libs-composition-drawer:0.5.14-SNAPSHOT"
   }
 }
 
@@ -36,7 +47,7 @@ repositories {
   
 configurations{compositionDrawer}
 dependencies {
-  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.13-SNAPSHOT"
+  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.14-SNAPSHOT"
 }
 
 task generateCompositionDiagram(type: JavaExec) {
@@ -74,7 +85,75 @@ task generateCompositionDiagram(type: JavaExec) {
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-composition-drawer</artifactId>
-    <version>0.5.13-SNAPSHOT</version>
+    <version>0.5.14-SNAPSHOT</version>
 </dependency>
 ```
+
+
+### Example of generated diagram
+input config:
+
+```yaml
+{
+  "stats": {
+    "period": 1000, // in ms., 1 sec.
+    "console": {
+      "period": 10000
+    }
+  },
+  "mods": {
+    "positions": {
+      "type": "http-poll",
+      "settings": {
+        "delay": 1000, // in ms., 1 sec.
+        "format": "binary",
+        "host": "gtfs.bigbluebus.com",
+        "ssl": true,
+        "verify-host": false,
+        "path": "/vehiclepositions.bin"
+      }
+    },
+    "trips": {
+      "type": "http-poll",
+      "settings": {
+        "delay": 1000, // in ms., 1 sec.
+        "format": "binary",
+        "host": "gtfs.bigbluebus.com",
+        "ssl": true,
+        "verify-host": false,
+        "path": "/tripupdates.bin"
+      }
+    },
+    "converter": {
+      "type": "gtfs-proto-buf-to-json",
+      "connectors": ["positions", "trips"],
+      "settings": {
+        "user-data": "auckland"
+      }
+    },
+    "unwrapper": {
+      "type": "array-unwrap",
+      "connectors": "converter",
+      "settings": "/entity"
+    },
+    "dedup": {
+      "type": "dedup",
+      "connectors": "unwrapper",
+      "settings": {
+        "expiration-interval": 600000,
+        "override": false
+        //"key-selector": "/entity"
+      }
+    },
+    "printer": {
+      "type": "printer",
+      "connectors": "dedup"
+    }
+  }
+}
+
+```
+generated diagram:
+
+![diagram](../../docs/files/big-blue-bus-composition.png)
 

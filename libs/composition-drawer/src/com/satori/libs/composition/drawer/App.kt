@@ -27,6 +27,6 @@ object App {
       appArgs.blockWidth, appArgs.blockHeight
     )
     val image = mxCellRenderer.createBufferedImage(graph, null, 1.0, Color.WHITE, true, null)
-    ImageIO.write(image, "PNG", File(appArgs.imgPath))
+    ImageIO.write(image, appArgs.imgFormat, File(appArgs.imgPath))
   }
 }
