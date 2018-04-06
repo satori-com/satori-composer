@@ -4,6 +4,7 @@ buildscript {
   repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    //maven { url file(".repo") }
   }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
@@ -123,9 +124,8 @@ subprojects {
   repositories {
     mavenCentral()
     jcenter()
-    maven {
-      url('https://oss.sonatype.org/content/repositories/snapshots/')
-    }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    //maven { url file(".repo") }
   }
 
   dependencies {

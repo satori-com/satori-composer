@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.datatype.jdk8.*
 import com.fasterxml.jackson.module.afterburner.*
 import org.gradle.api.*
+import org.gradle.api.tasks.*
 import java.io.*
 import java.net.*
 import java.nio.charset.*
@@ -16,7 +17,10 @@ open class GitHubTask : DefaultTask() {
     group = "github"
   }
   
+  @Input
   var url: String? = null
+  
+  @Input
   var authToken: String? = null
   
   data class ApiResult(val status: Int, val message: String?, val content: JsonNode?) {

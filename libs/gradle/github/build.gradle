@@ -1,3 +1,13 @@
+//apply plugin: 'java-gradle-plugin'
+
+/*gradlePlugin {
+  plugins {
+    transformPlugin {
+      id = "com.satori.github"
+      implementationClass = "${pckg}.GitHubPlugin"
+    }
+  }
+}*/
 
 // main dependencies
 dependencies {
@@ -20,4 +30,5 @@ dependencies {
 // test dependencies
 dependencies {
   testCompile project(':libs-testlib')
+  testCompile gradleTestKit()
 }

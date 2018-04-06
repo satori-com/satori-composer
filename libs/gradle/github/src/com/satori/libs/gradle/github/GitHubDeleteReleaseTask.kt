@@ -4,6 +4,7 @@ import org.gradle.api.tasks.*
 
 open class GitHubDeleteReleaseTask : GitHubTask() {
   
+  @Input
   var tag: String? = "v${project.version}"
   
   @TaskAction

@@ -20,7 +20,7 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
   }
   dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.22-SNAPSHOT"
+    classpath "com.satori:satori-libs-composition-drawer:0.5.25-SNAPSHOT"
   }
 }
 
@@ -42,7 +42,7 @@ buildscript{
     maven {url "https://oss.sonatype.org/content/repositories/snapshots"}
   }
   dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.22-SNAPSHOT"
+    classpath "com.satori:satori-libs-composition-drawer:0.5.25-SNAPSHOT"
   }
 }
 apply plugin: "com.satori.composition.drawer"
@@ -66,7 +66,7 @@ repositories {
   
 configurations{compositionDrawer}
 dependencies {
-  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.22-SNAPSHOT"
+  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.25-SNAPSHOT"
 }
 
 task generateCompositionDiagram(type: JavaExec) {
@@ -104,7 +104,7 @@ task generateCompositionDiagram(type: JavaExec) {
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-composition-drawer</artifactId>
-    <version>0.5.22-SNAPSHOT</version>
+    <version>0.5.25-SNAPSHOT</version>
 </dependency>
 ```
 

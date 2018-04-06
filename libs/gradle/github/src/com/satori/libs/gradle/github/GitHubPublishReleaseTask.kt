@@ -9,11 +9,22 @@ import java.nio.file.*
 
 open class GitHubPublishReleaseTask : GitHubTask() {
   
+  @Input
   var releaseTag: String? = "v${project.version}"
+  
+  @Input
   var releaseName: String? = "composer $releaseTag"
+  
+  @Input
   var releaseBranch: String? = null//"dev"
+  
+  @Input
   var releaseDescription: String? = "experimental version, API may change"
+  
+  @Input
   var releaseDraft: Boolean? = false
+  
+  @Input
   var releasePrerelease: Boolean? = false
   
   @JsonInclude(JsonInclude.Include.NON_DEFAULT)
@@ -37,10 +48,7 @@ open class GitHubPublishReleaseTask : GitHubTask() {
     var prerelease: Boolean? = null
   }
   
-  var createReleaseRequest: Request = Request().apply {
-  
-  }
-  
+  @InputFiles
   val assets = HashSet<File>()
   
   fun asset(task: Task) {
