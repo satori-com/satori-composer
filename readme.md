@@ -72,6 +72,7 @@
 - [Building and Running](https://www.satori.com/docs/opensource/composer#building-and-running)
 - [Async support library](docs/async/readme.md)
 - [Composition diagram drawer](libs/composition-drawer/readme.md)
+- [Gradle plugin 'com.satori.transform'](libs/gradle/transform/readme.md)
 - Examples:  
   - [barrier](mods-examples/barrier) 
   - [barrier queue](mods-examples/barrier-queue) 
