@@ -73,13 +73,13 @@
 - [Async support library](docs/async/readme.md)
 - [Composition diagram drawer](libs/composition-drawer/readme.md)
 - Examples:  
-  - [barrier](mods-examples/barrier/readme.md) 
-  - [barrier queue](mods-examples/barrier-queue/readme.md) 
-  - [big blue bus](mods-examples/big-blue-bus/readme.md) 
-  - [clock](mods-examples/clock/readme.md) 
-  - [nws usa alerts](mods-examples/nws-usa-alerts/readme.md) 
-  - [queue](mods-examples/queue/readme.md) 
-  - [rtm filter](mods-examples/rtm-filter/readme.md)
+  - [barrier](mods-examples/barrier) 
+  - [barrier queue](mods-examples/barrier-queue) 
+  - [big blue bus](mods-examples/big-blue-bus) 
+  - [clock](mods-examples/clock) 
+  - [nws usa alerts](mods-examples/nws-usa-alerts) 
+  - [queue](mods-examples/queue) 
+  - [rtm filter](mods-examples/rtm-filter)
 ### Common Libraries
 - [Gtfs Library For Real-Time](https://github.com/satori-com/satori-composer/tree/dev/libs/gtfs)
 

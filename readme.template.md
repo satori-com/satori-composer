@@ -16,7 +16,7 @@
 - [Async support library](docs/async/readme.md)
 - [Composition diagram drawer](libs/composition-drawer/readme.md)
 - Examples: <% examples.forEach{ %> 
-  - [${it.description}](${rootProject.projectDir.toPath().relativize(it.projectDir.toPath()).toString().replace("\\", "/")}/readme.md)<% } %>
+  - [${it.description}](${rootProject.projectDir.toPath().relativize(it.projectDir.toPath()).toString().replace("\\", "/")})<% } %>
 ### Common Libraries
 - [Gtfs Library For Real-Time](https://github.com/satori-com/satori-composer/tree/dev/libs/gtfs)
 
