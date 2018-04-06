@@ -1,3 +1,4 @@
+import com.satori.libs.gradle.transform.*
 import org.gradle.api.*
 import org.gradle.api.tasks.*
 import java.io.*
@@ -11,7 +12,6 @@ open class TransformTask : DefaultTask(), ITransformSpec {
   override var output: File? = null
   
   var model = HashMap<String, Any>()
-  
   
   @TaskAction
   fun process() {

@@ -1,7 +1,7 @@
 import org.gradle.api.tasks.*
 
 open class GitHubListReleasesTask : GitHubTask() {
-
+  
   @TaskAction
   fun process() {
     println("retrieving github releases...")

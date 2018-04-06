@@ -33,6 +33,15 @@ project(':libs-testlib').projectDir = file('libs/testlib')
 include ':libs-composition-drawer'
 project(':libs-composition-drawer').projectDir = file('libs/composition-drawer')
 
+include ':libs-gradle-transform'
+project(':libs-gradle-transform').projectDir = file('libs/gradle/transform')
+
+include ':libs-gradle-github'
+project(':libs-gradle-github').projectDir = file('libs/gradle/github')
+
+include ':libs-gradle-utils'
+project(':libs-gradle-utils').projectDir = file('libs/gradle/utils')
+
 // examples
 
 include ':mods-examples-suite'

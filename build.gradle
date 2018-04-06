@@ -1,3 +1,14 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+  }
+}
+
+import com.satori.libs.gradle.transform.*
+
 gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 
 apply plugin: 'idea'
@@ -15,16 +26,6 @@ idea {
     inheritOutputDirs = false
     outputDir = file(".out/idea")
     testOutputDir = file(".out/idea-tests")
-  }
-}
-
-buildscript {
-  repositories {
-    mavenCentral()
-  }
-
-  dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   }
 }
 
@@ -202,7 +203,10 @@ def publishingProjects = [
   ':libs-async-core',
   ':libs-async-kotlin',
   ':libs-gtfs',
-  ':libs-composition-drawer'
+  ':libs-composition-drawer',
+  ':libs-gradle-utils',
+  ':libs-gradle-transform',
+  ':libs-gradle-github'
 ].collect { project(it) }
 
 configure(publishingProjects) {

@@ -1,0 +1,14 @@
+buildDir = '.out'
+
+sourceSets.main.java.srcDirs = ['src']
+sourceSets.main.resources.srcDirs = ['res']
+
+repositories {
+  mavenCentral()
+  maven {url "https://oss.sonatype.org/content/repositories/snapshots/"}
+}
+dependencies {
+  compile "com.satori:satori-libs-gradle-transform:$scaffoldingVersion"
+  compile "com.satori:satori-libs-gradle-github:$scaffoldingVersion"
+  compile "com.satori:satori-libs-composition-drawer:$scaffoldingVersion"
+}

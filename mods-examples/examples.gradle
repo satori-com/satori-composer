@@ -1,17 +1,5 @@
 import groovy.text.*
 
-buildscript{
-  repositories {
-    mavenCentral()
-    maven {
-      url('https://oss.sonatype.org/content/repositories/snapshots/')
-    }
-  }
-  dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.14-SNAPSHOT"
-  }
-}
-
 task generateCompositionImage(type: GenerateCompositionDiagramTask) {
   group "codegen"
   cfgPath = file("res/com/satori/mods/resources/config.json")

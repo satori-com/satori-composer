@@ -1,5 +1,8 @@
+package com.satori.libs.gradle.transform
+
 import groovy.lang.*
 import groovy.text.*
+import org.codehaus.groovy.runtime.*
 import org.gradle.api.*
 import java.io.*
 import java.util.*
@@ -22,7 +25,7 @@ open class TemplateScope(val engine: GStringTemplateEngine, val project: Project
         return null// writable.toString()
       }
       else -> {
-        return super.invokeMethod(name, args)
+        return InvokerHelper.invokeMethod(project, name, args);
       }
     }
   }
@@ -32,6 +35,6 @@ open class TemplateScope(val engine: GStringTemplateEngine, val project: Project
   }
   
   override fun getProperty(key: String): Any? {
-    return props.get(key)
+    return props.get(key) ?: InvokerHelper.getProperty(project, key)
   }
 }

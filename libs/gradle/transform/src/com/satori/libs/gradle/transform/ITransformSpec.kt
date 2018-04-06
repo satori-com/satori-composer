@@ -1,3 +1,5 @@
+package com.satori.libs.gradle.transform
+
 import java.io.*
 
 interface ITransformSpec {
