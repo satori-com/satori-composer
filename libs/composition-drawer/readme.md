@@ -17,14 +17,35 @@ Generate diagram image for composer configuration
 buildscript{
   repositories {
     mavenCentral()
-    maven {
-      url('https://oss.sonatype.org/content/repositories/snapshots/')
-    }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
   }
   dependencies {
     classpath "com.satori:satori-libs-composition-drawer:0.5.22-SNAPSHOT"
   }
 }
+
+task generateCompositionDiagram(type: com.satori.libs.composition.drawer.GenerateCompositionDiagramTask) {
+  group "codegen"
+  
+  cfgPath = file("path/to/config.json")
+  imgPath = file("path/to/diagram.png")
+  blockWidth = 230
+  blockHeight = 45
+}
+```
+
+#### Example using gradle plugin 'com.satori.composition.drawer'
+```gradle
+buildscript{
+  repositories {
+    mavenCentral()
+    maven {url "https://oss.sonatype.org/content/repositories/snapshots"}
+  }
+  dependencies {
+    classpath "com.satori:satori-libs-composition-drawer:0.5.22-SNAPSHOT"
+  }
+}
+apply plugin: "com.satori.composition.drawer"
 
 task generateCompositionDiagram(type: GenerateCompositionDiagramTask) {
   group "codegen"
@@ -40,9 +61,7 @@ task generateCompositionDiagram(type: GenerateCompositionDiagramTask) {
 ```gradle
 repositories {
   mavenCentral()
-  maven {
-    url('https://oss.sonatype.org/content/repositories/snapshots/')
-  }
+  maven {url "https://oss.sonatype.org/content/repositories/snapshots"}
 }
   
 configurations{compositionDrawer}
