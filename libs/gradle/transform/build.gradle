@@ -1,6 +1,8 @@
 
 // main dependencies
 dependencies {
+  compile project(":libs-gradle-utils")
+
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
   compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
   compile gradleApi()

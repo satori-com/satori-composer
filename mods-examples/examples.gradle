@@ -1,4 +1,4 @@
-import groovy.text.*
+examples.add(project)
 
 task generateCompositionImage(type: GenerateCompositionDiagramTask) {
   group "codegen"

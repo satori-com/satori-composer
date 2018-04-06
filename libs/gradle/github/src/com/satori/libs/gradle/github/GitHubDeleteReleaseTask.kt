@@ -1,3 +1,5 @@
+package com.satori.libs.gradle.github
+
 import org.gradle.api.tasks.*
 
 open class GitHubDeleteReleaseTask : GitHubTask() {

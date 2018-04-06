@@ -22,7 +22,7 @@ buildscript{
     }
   }
   dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.17-SNAPSHOT"
+    classpath "com.satori:satori-libs-composition-drawer:0.5.22-SNAPSHOT"
   }
 }
 
@@ -47,7 +47,7 @@ repositories {
   
 configurations{compositionDrawer}
 dependencies {
-  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.17-SNAPSHOT"
+  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.22-SNAPSHOT"
 }
 
 task generateCompositionDiagram(type: JavaExec) {
@@ -85,7 +85,7 @@ task generateCompositionDiagram(type: JavaExec) {
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-composition-drawer</artifactId>
-    <version>0.5.17-SNAPSHOT</version>
+    <version>0.5.22-SNAPSHOT</version>
 </dependency>
 ```
 

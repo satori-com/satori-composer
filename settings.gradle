@@ -1,6 +1,8 @@
-include 'mods'
-include 'mods-suite'
-include 'composer'
+rootProject.name = 'root'
+
+include ':mods'
+include ':mods-suite'
+include ':composer'
 
 // codegen
 

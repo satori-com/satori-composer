@@ -1,5 +1,6 @@
+package com.satori.libs.composition.drawer
+
 import com.mxgraph.util.*
-import com.satori.libs.composition.drawer.*
 import org.gradle.api.*
 import org.gradle.api.tasks.*
 import java.awt.*
@@ -26,10 +27,9 @@ open class GenerateCompositionDiagramTask : DefaultTask() {
   @TaskAction
   fun generateImage() {
     println(MetaInfo)
-  
     
     val cfgPath = cfgPath ?: throw Exception("cfgPath not specified")
-  
+    
     cfgPath.toPath().parent.toFile().mkdirs()
     val graph = createGraph(
       cfgPath ?: throw Exception("cfgPath not specified"),

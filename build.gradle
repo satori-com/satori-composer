@@ -1,15 +1,22 @@
+gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
+
 buildscript {
   repositories {
     mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
   }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
+    classpath "com.satori:satori-libs-gradle-transform:$scaffoldingVersion"
+    classpath "com.satori:satori-libs-gradle-github:$scaffoldingVersion"
+    classpath "com.satori:satori-libs-composition-drawer:$scaffoldingVersion"
   }
 }
 
-import com.satori.libs.gradle.transform.*
-
-gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
+apply plugin: "com.satori.transform"
+apply plugin: "com.satori.github"
+apply plugin: "com.satori.composition.drawer"
 
 apply plugin: 'idea'
 
@@ -32,50 +39,28 @@ idea {
 ext {
   pckg = group
   pckgDir = pckg.replace('.', '/')
+  examples = container(Object)
 }
 
-afterEvaluate {
-  task generateBigBlueBusImage(type: JavaExec) {
-    group 'codegen'
-
-    def cfgPath = project(":mods-examples-big-blue-bus").file("res/com/satori/mods/resources/config.json")
-    def imgPath = rootProject.file("docs/files/big-blue-bus-composition.png")
-
-    inputs.file(cfgPath)
-    outputs.file(imgPath)
-
-    classpath project(":libs-composition-drawer").sourceSets.main.output
-    classpath project(":libs-composition-drawer").configurations.runtime
-
-    main = "${project(":libs-composition-drawer").pckg}.App"
-    args "--cfg-path", cfgPath
-    args "--img-path", imgPath
-
-    doFirst {
-      println "generating composition diagram ...."
-      println commandLine.join(" ")
-    }
-  }
-
-  task generateReadme(type: TransformTask) {
-    group 'codegen'
-    dependsOn generateBigBlueBusImage
-    template = file('readme.template.md')
-    output = file('readme.md')
-    outputs.upToDateWhen { false }
-  }
-
-  tasks.generateReadme.execute()
-
+task generateCode {
+  group "codegen"
+}
+task classes {
+  dependsOn generateCode
+  group "build"
+}
+task build {
+  dependsOn classes
+  group "build"
 }
 
-void transform(Closure closure) {
-  def spec = new TransformSpec(project)
-  closure.delegate = spec
-  closure.resolveStrategy = Closure.DELEGATE_FIRST
-  closure()
-  Transform.execute(spec, project)
+task generateReadme(type: TransformTask) {
+  group 'codegen'
+  template = file('readme.template.md')
+  output = file('readme.md')
+  //outputs.upToDateWhen { false }
 }
+generateCode.dependsOn generateReadme
 
 allprojects {
   task info() {
@@ -146,7 +131,7 @@ subprojects {
   dependencies {
   }
 
-  sourceSets.all {sourceSet ->
+  sourceSets.all { sourceSet ->
     def n = sourceSet.name
     n = n != "main" ? n.capitalize() : ""
     def taskName = "generate${n}Code"
@@ -267,6 +252,7 @@ task githubListReleases(type: GitHubListReleasesTask) {
 }
 
 task githubPublishRelease(type: GitHubPublishReleaseTask) {
+  dependsOn generateCode
   url = githubUrl
   if (project.hasProperty('githubAuthToken')) {
     authToken = githubAuthToken

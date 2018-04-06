@@ -1,3 +1,5 @@
+package com.satori.libs.gradle.github
+
 import com.fasterxml.jackson.core.*
 import com.fasterxml.jackson.core.type.*
 import com.fasterxml.jackson.databind.*
@@ -8,16 +10,15 @@ import java.io.*
 import java.net.*
 import java.nio.charset.*
 
-
 open class GitHubTask : DefaultTask() {
-
+  
   init {
     group = "github"
   }
-
+  
   var url: String? = null
   var authToken: String? = null
-
+  
   data class ApiResult(val status: Int, val message: String?, val content: JsonNode?) {
     fun isSucceeded() = status in 200..299
     fun notFound() = status == HttpURLConnection.HTTP_NOT_FOUND
@@ -27,36 +28,36 @@ open class GitHubTask : DefaultTask() {
       }
       return content
     }
-
+    
     inline fun <reified T> getAs(): T? = jsonMap<T>(get())
   }
-
+  
   fun get(path: String) = request("GET", path)
   fun head(path: String) = request("HEAD", path)
   fun post(path: String, content: JsonNode?) = request("POST", path, content)
   fun delete(path: String) = request("DELETE", path)
-
+  
   fun upload(path: String, contentType: String? = null, content: InputStream): ApiResult {
     val uri = URI(url).resolve(path)
     val con = uri.toURL().openConnection() as HttpURLConnection
     con.requestMethod = "POST"
-
+    
     if (!authToken.isNullOrBlank()) {
       con.setRequestProperty("Authorization", "token $authToken")
     }
     //con.setChunkedStreamingMode(-1);
     con.setRequestProperty("Accept", "application/json")
-
+    
     if (contentType !== null) {
       con.setRequestProperty("Content-Type", contentType)
     }
     con.doOutput = true
-
+    
     println("${con.requestMethod} '$uri' ...")
     con.connect()
     try {
       con.outputStream.use { out ->
-
+        
         val buf = ByteArray(1024)
         while (true) {
           val read = content.read(buf)
@@ -67,7 +68,7 @@ open class GitHubTask : DefaultTask() {
         }
         out.flush()
       }
-
+      
       (if (con.responseCode >= 400) con.errorStream else con.inputStream).use { inputStream ->
         val apiResult = ApiResult(
           status = con.responseCode,
@@ -81,23 +82,23 @@ open class GitHubTask : DefaultTask() {
       con.disconnect()
     }
   }
-
+  
   fun request(method: String, path: String, content: JsonNode? = null): ApiResult {
-
+    
     val uri = URI(url).resolve(path)
     val con = uri.toURL().openConnection() as HttpURLConnection
     con.requestMethod = method
-
+    
     if (!authToken.isNullOrBlank()) {
       con.setRequestProperty("Authorization", "token $authToken")
     }
     con.setRequestProperty("Accept", "application/json")
-
+    
     if (content !== null && !content.isMissingNode) {
       con.setRequestProperty("Content-Type", "application/json")
       con.doOutput = true
     }
-
+    
     println("$method '$uri' ${jsonFormat(content)}...")
     con.connect()
     try {
@@ -107,7 +108,7 @@ open class GitHubTask : DefaultTask() {
           w.flush()
         }
       }
-
+      
       (if (con.responseCode >= 400) con.errorStream else con.inputStream).use { inputStream ->
         val apiResult = ApiResult(
           status = con.responseCode,
@@ -121,8 +122,7 @@ open class GitHubTask : DefaultTask() {
       con.disconnect()
     }
   }
-
-
+  
   companion object {
     val mapper = ObjectMapper()
       .configure(JsonParser.Feature.ALLOW_COMMENTS, true)
@@ -133,7 +133,7 @@ open class GitHubTask : DefaultTask() {
       .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
       .registerModule(AfterburnerModule())
       .registerModule(Jdk8Module())
-
+    
     fun jsonTree(value: Any?): JsonNode? {
       if (value == null) {
         return null
@@ -141,20 +141,20 @@ open class GitHubTask : DefaultTask() {
         return mapper.valueToTree(value)
       }
     }
-
+    
     fun jsonParse(json: String) = mapper.readTree(json)
-
+    
     inline fun <reified T> jsonMap(json: JsonNode?): T? {
       if (json === null) {
         return null
       }
       return mapper.readValue(mapper.treeAsTokens(json), object : TypeReference<T>() {})
     }
-
+    
     fun jsonFormat(json: String): String = jsonFormat(
       jsonParse(json)
     )
-
+    
     fun jsonFormat(json: JsonNode?): String {
       if (json === null || json.isMissingNode) {
         return ""
@@ -166,7 +166,7 @@ open class GitHubTask : DefaultTask() {
         w.toString()
       }
     }
-
+    
     fun urlEncode(value: String) = URLEncoder.encode(value, StandardCharsets.UTF_8.name())
   }
 }

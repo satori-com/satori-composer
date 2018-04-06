@@ -1,3 +1,5 @@
+package com.satori.libs.gradle.github
+
 import com.damnhandy.uri.template.*
 import com.fasterxml.jackson.annotation.*
 import org.gradle.api.*
@@ -61,7 +63,7 @@ open class GitHubPublishReleaseTask : GitHubTask() {
       request("DELETE", "releases/${release["id"].asText()}").get()
     }
     
-    val body = jsonTree(Request().apply {
+    val body = GitHubTask.jsonTree(Request().apply {
       tagName = releaseTag
       targetCommitish = releaseBranch
       name = releaseName

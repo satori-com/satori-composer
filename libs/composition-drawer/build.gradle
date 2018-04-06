@@ -4,6 +4,7 @@ apply from: rootProject.file('readme.gradle')
 // main dependencies
 dependencies {
   compile project(":composer")
+  compile project(":libs-gradle-utils")
 
   compile "org.slf4j:slf4j-api:$slf4jVersion"
 
