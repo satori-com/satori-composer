@@ -12,28 +12,6 @@ Generate diagram image for composer configuration
 | --block-width  | blockWidth   |  block width. default is 260                                 |
 | --block-height | blockHeight  |  block height. default is 40                                 |
 
-#### Example using dedicated 'GenerateCompositionDiagram' gradle task
-```gradle
-buildscript{
-  repositories {
-    mavenCentral()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
-  }
-  dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.30-SNAPSHOT"
-  }
-}
-
-task generateCompositionDiagram(type: com.satori.libs.composition.drawer.GenerateCompositionDiagramTask) {
-  group "codegen"
-  
-  cfgPath = file("path/to/config.json")
-  imgPath = file("path/to/diagram.png")
-  blockWidth = 230
-  blockHeight = 45
-}
-```
-
 #### Example using gradle plugin 'com.satori.composition.drawer'
 ```gradle
 buildscript{
@@ -55,6 +33,34 @@ task generateCompositionDiagram(type: GenerateCompositionDiagramTask) {
   blockWidth = 230
   blockHeight = 45
 }
+```
+
+#### Example using dedicated 'GenerateCompositionDiagram' gradle task
+```gradle
+buildscript{
+  repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
+  }
+  dependencies {
+    classpath "com.satori:satori-libs-composition-drawer:0.5.30-SNAPSHOT"
+  }
+}
+
+task generateCompositionDiagram(type: com.satori.libs.composition.drawer.GenerateCompositionDiagramTask) {
+  group "codegen"
+  
+  cfgPath = file("path/to/config.json")
+  imgPath = file("path/to/diagram.png")
+  blockWidth = 230
+  blockHeight = 45
+}
+```
+NOTE: without applying plugin you may not be able to use 'GenerateCompositionDiagram' task in included gradle files 
+(`apply from: 'some.gradle'`) since they are class loader isolated. In this case you can repeat buildscript 
+block in included file, or make it accessible via extensions:
+```
+project.ext.GenerateCompositionDiagramTask = com.satori.libs.composition.drawer.GenerateCompositionDiagramTask
 ```
 
 ### Example using 'JavaExec' gradle task
@@ -108,6 +114,10 @@ task generateCompositionDiagram(type: JavaExec) {
 </dependency>
 ```
 
+
+### Download
+[satori-libs-composition-drawer.v0.5.30-SNAPSHOT.zip](https://github.com/satori-com/satori-composer/releases/download/v0.5.30-SNAPSHOT/satori-libs-composition-drawer.v0.5.30-SNAPSHOT.zip)<br/>
+[or see latest releases](https://github.com/satori-com/satori-composer/releases/latest)
 
 ### Example of generated diagram
 input config:
