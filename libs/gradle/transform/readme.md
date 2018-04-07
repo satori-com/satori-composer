@@ -10,7 +10,7 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
   }
   dependencies {
-    classpath "com.satori:satori-libs-gradle-transform:0.5.25-SNAPSHOT"
+    classpath "com.satori:satori-libs-gradle-transform:0.5.30-SNAPSHOT"
   }
 }
 apply plugin: "com.satori.transform"
@@ -36,6 +36,6 @@ apply plugin: "com.satori.composition.drawer"
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-gradle-transform</artifactId>
-    <version>0.5.25-SNAPSHOT</version>
+    <version>0.5.30-SNAPSHOT</version>
 </dependency>
 ```

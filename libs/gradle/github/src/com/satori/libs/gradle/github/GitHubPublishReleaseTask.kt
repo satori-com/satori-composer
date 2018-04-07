@@ -9,22 +9,22 @@ import java.nio.file.*
 
 open class GitHubPublishReleaseTask : GitHubTask() {
   
-  @Input
+  @Input @Optional
   var releaseTag: String? = "v${project.version}"
   
-  @Input
+  @Input @Optional
   var releaseName: String? = "composer $releaseTag"
   
-  @Input
+  @Input @Optional
   var releaseBranch: String? = null//"dev"
   
-  @Input
+  @Input @Optional
   var releaseDescription: String? = "experimental version, API may change"
   
-  @Input
+  @Input @Optional
   var releaseDraft: Boolean? = false
   
-  @Input
+  @Input @Optional
   var releasePrerelease: Boolean? = false
   
   @JsonInclude(JsonInclude.Include.NON_DEFAULT)

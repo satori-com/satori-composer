@@ -20,7 +20,7 @@ open class GitHubTask : DefaultTask() {
   @Input
   var url: String? = null
   
-  @Input
+  @Input @Optional
   var authToken: String? = null
   
   data class ApiResult(val status: Int, val message: String?, val content: JsonNode?) {
