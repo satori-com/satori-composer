@@ -1,6 +1,6 @@
 ## Satori Composer (preview)
 [![Build Status](https://travis-ci.org/satori-com/satori-composer.svg?branch=dev)](https://travis-ci.org/satori-com/satori-composer)
-[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-composer.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-composer/0.5.33-SNAPSHOT/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-composer.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-composer/0.5.34-SNAPSHOT/)
 
 #### Example
 ![diagram](mods-examples/big-blue-bus/docs/files/diagram.png)
@@ -98,7 +98,7 @@
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-composer</artifactId>
-    <version>0.5.33-SNAPSHOT</version>
+    <version>0.5.34-SNAPSHOT</version>
 </dependency>
 ```
 

@@ -3,12 +3,12 @@ package com.satori.libs.gradle.docker
 import org.gradle.api.tasks.*
 
 open class DockerRunContainerTask : DockerBaseTask() {
-  @Input var imageName: String? = null
-  @Input var containerName: String? = null
-  @Input var runArgs = ArrayList<String>()
-  @Input var cmdArgs = ArrayList<String>()
+  @Input @Optional var imageName: String? = null
+  @Input @Optional var containerName: String? = null
   @Input @Optional var logOptions: LogOptions? = LogOptions()
   @Input @Optional var restart: String? = "always"
+  @Input var runArgs = ArrayList<String>()
+  @Input var cmdArgs = ArrayList<String>()
   
   class LogOptions{
     var maxSize: String? = "32m"

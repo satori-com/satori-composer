@@ -3,10 +3,10 @@
 package com.satori.libs.gradle.docker
 
 object MetaInfo {
-  val version = "0.5.32-SNAPSHOT"
+  val version = "0.5.34-SNAPSHOT"
   val project = "libs-gradle-docker"
   
-  val sha:String? = "1ddaddfc23931bb176822c61b122bcecf2e476c2"
+  val sha:String? = "8a10a565521bfc519b232a32cf11ce0e604da2e0"
   
   
   val tags:Array<String>? = null

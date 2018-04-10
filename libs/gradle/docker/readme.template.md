@@ -6,6 +6,7 @@ task wrappers for docker cli
 https://docs.docker.com/engine/reference/commandline/cli/
 
 ### apply plugin example
+
 ```gradle
 buildscript{
   repositories {
@@ -20,6 +21,7 @@ apply plugin: "com.satori.docker"
 ```
 
 #### Examples
+
 ```gradle
 
 task buildDockerImage(type: DockerBuildImageTask) {
@@ -67,26 +69,31 @@ task listDockerImages(type: DockerBaseTask) {
 ```
 
 ### DockerBaseTask 
+
 Provides common functionality for all docker tasks
 ```
 <cmd> [-H <host>] [--tls] [--tlsverify] [--tlskey <tlsKey>] [--tlscert <tlsCert>] [--tlscacert <tlsCaCert>]
 ```
+
 ####properties
+
 | property   | type     | description                            |
 |------------|----------|----------------------------------------|
 | cmd        | string[] | docker executable, default ["docker"]  |
-| host       | string?  | --host <host>                          |
-| tls        | bool     | --tls                                  |
-| tlsVerify  | bool     | --tlsverify                            |
-| tlsKey     | string?  | --tlskey <tlsKey>                      |
-| tlsCert    | string?  | --tlscert <tlsCert>                    |
-| tlsCaCert  | string?  | --tlscacert <tlsCaCert>                |
+| host       | string?  | `--host <host>`                        |
+| tls        | bool     | `--tls`                                |
+| tlsVerify  | bool     | `--tlsverify`                          |
+| tlsKey     | string?  | `--tlskey <tlsKey>`                    |
+| tlsCert    | string?  | `--tlscert <tlsCert>`                  |
+| tlsCaCert  | string?  | `--tlscacert <tlsCaCert>`              |
 
 ####methods
+
 - exec(String... args): executes docker command with specified arguments, 
 for example `exec("images", "-qa")` will execute `<dockerCmd> images -qa`
 
 ### DockerBuildImageTask 
+
 build docker image
 ```
 <prepareContext>
@@ -94,7 +101,9 @@ build docker image
 <dockerCmd> tag <imageName:imageTag> <imageName> <contextDir>
 <clenupContext>
 ```
+
 ####properties
+
 | property      | type        | description                      |
 |---------------|-------------|----------------------------------|
 | imageName     | string?     | image name                       |
@@ -103,17 +112,21 @@ build docker image
 | contextDir    | File?       | build context dir                |
 
 ####methods
+
 - `prepareContext(Closure closure)`: runs closure before build in order to prepare context
 - `cleanupContext(Closure closure)`: runs closure after build in order to cleanup context
 
 ### DockerRunContainerTask 
+
 run docker container
 ```
 <dockerCmd> rm -f <containerName>
 <dockerCmd> run -d --name <containerName> <logOptions> [--restart=<restart>] <runArgs> <imageName> <cmdArgs>
 <dockerCmd> ps --filter name=<containerName>
 ```
+
 ####properties
+
 | property      | type        | description                                             |
 |---------------|-------------|---------------------------------------------------------|
 | imageName     | string?     | image name                                              |
@@ -124,11 +137,14 @@ run docker container
 | cmdArgs       | string[]    | command arguments to be passed to entry point           |
 
 ### DockerStopContainerTask 
+
 stop docker container
 ```
 <dockerCmd> rm -f <containerName>
 ```
+
 ####properties
+
 | property      | type        | description      |
 |---------------|-------------|------------------|
 | containerName | string?     | container name   |
