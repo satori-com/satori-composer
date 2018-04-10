@@ -25,7 +25,6 @@ task generateReadme(type: TransformTask) {
 }
 generateCode.dependsOn generateReadme
 
-
 task generateLogProperties(type: TransformTask) {
   group 'codegen'
   template = new File(buildscript.sourceFile.parentFile, "log.template.properties")
@@ -42,9 +41,6 @@ task buildDockerImage(type: DockerBuildImageTask) {
   group 'docker'
   dependsOn 'installDist'
 
-  imageName = project.name
-  imageTag = project.version
-
   contextDir = installDist.destinationDir
   prepareContext {
     copy {
@@ -60,14 +56,9 @@ task buildDockerImage(type: DockerBuildImageTask) {
 task runDockerContainer(type: DockerRunContainerTask) {
   group 'docker'
   dependsOn 'buildDockerImage'
-
-  imageName = project.name
-  containerName = project.name
 }
 
 
 task stopDockerContainer(type: DockerStopContainerTask) {
   group 'docker'
-
-  containerName = project.name
 }

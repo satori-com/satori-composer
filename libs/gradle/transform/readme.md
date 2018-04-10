@@ -1,4 +1,4 @@
-[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-transform.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-transform/0.5.33-SNAPSHOT/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-transform.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-transform/0.5.34-SNAPSHOT/)
 ## Gradle plugin 'com.satori.transform' 
 
 gradle task wrappers around groovy GStringTemplateEngine
@@ -11,7 +11,7 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
   }
   dependencies {
-    classpath "com.satori:satori-libs-gradle-transform:0.5.33-SNAPSHOT"
+    classpath "com.satori:satori-libs-gradle-transform:0.5.34-SNAPSHOT"
   }
 }
 apply plugin: "com.satori.transform"
@@ -37,6 +37,6 @@ apply plugin: "com.satori.composition.drawer"
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-gradle-transform</artifactId>
-    <version>0.5.33-SNAPSHOT</version>
+    <version>0.5.34-SNAPSHOT</version>
 </dependency>
 ```
