@@ -23,6 +23,14 @@ open class GitHubTask : DefaultTask() {
   @Input @Optional
   var authToken: String? = null
   
+  fun url(value: String){
+    url = value
+  }
+  
+  fun authToken(value: String){
+    authToken = value
+  }
+  
   data class ApiResult(val status: Int, val message: String?, val content: JsonNode?) {
     fun isSucceeded() = status in 200..299
     fun notFound() = status == HttpURLConnection.HTTP_NOT_FOUND

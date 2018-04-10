@@ -17,13 +17,13 @@ startScripts {
 task generateReadme(type: TransformTask) {
   group 'codegen'
   dependsOn generateCompositionImage
+  generateCode.dependsOn(it)
 
   println projectDir.name
   template new File(buildscript.sourceFile.parentFile, "readme.template.md")
   output file("readme.md")
   outputs.upToDateWhen { false }
 }
-generateCode.dependsOn generateReadme
 
 task generateLogProperties(type: TransformTask) {
   group 'codegen'
@@ -38,7 +38,6 @@ task generateDockerFile(type: TransformTask) {
 }
 
 task buildDockerImage(type: DockerBuildImageTask) {
-  group 'docker'
   dependsOn 'installDist'
 
   contextDir = installDist.destinationDir
@@ -54,11 +53,9 @@ task buildDockerImage(type: DockerBuildImageTask) {
 }
 
 task runDockerContainer(type: DockerRunContainerTask) {
-  group 'docker'
   dependsOn 'buildDockerImage'
 }
 
 
 task stopDockerContainer(type: DockerStopContainerTask) {
-  group 'docker'
 }

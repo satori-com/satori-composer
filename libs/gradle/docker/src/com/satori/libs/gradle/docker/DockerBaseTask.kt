@@ -21,6 +21,10 @@ open class DockerBaseTask : DefaultTask() {
   @Input @Optional var tlsCert: File? = null
   @Input @Optional var tlsCaCert: File? = null
   
+  init {
+    group = "docker"
+  }
+  
   fun host(value: String?) {
     host = value
   }
