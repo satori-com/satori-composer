@@ -58,13 +58,7 @@ task publishRelease{
   group 'build'
 }
 
-task generateReadme(type: TransformTask) {
-  group 'codegen'
-  template = file('readme.template.md')
-  output = file('readme.md')
-  //outputs.upToDateWhen { false }
-}
-generateCode.dependsOn generateReadme
+apply from: file("readme.gradle")
 
 allprojects {
   task info() {
