@@ -1,6 +1,6 @@
 ## Satori Composer (preview)
 [![Build Status](https://travis-ci.org/satori-com/satori-composer.svg?branch=dev)](https://travis-ci.org/satori-com/satori-composer)
-[![Build Status](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-composer.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-composer/${project.version}/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-composer.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-composer/${project.version}/)
 
 #### Example
 ![diagram](mods-examples/big-blue-bus/docs/files/diagram.png)
@@ -15,10 +15,13 @@
 - [Building and Running](https://www.satori.com/docs/opensource/composer#building-and-running)
 - [Async support library](docs/async/readme.md)
 - [Composition diagram drawer](libs/composition-drawer/readme.md)
-- [Gradle plugin 'com.satori.transform'](libs/gradle/transform/readme.md)
 - Examples: <% examples.forEach{ %> 
   - [${it.description}](${rootProject.projectDir.toPath().relativize(it.projectDir.toPath()).toString().replace("\\", "/")})<% } %>
-### Common Libraries
+### Common gradle plugins
+- [transform](libs/gradle/transform/readme.md)
+- [docker](libs/gradle/docker/readme.md)
+- [github](libs/gradle/github)
+### Other Common Libraries
 - [Gtfs Library For Real-Time](https://github.com/satori-com/satori-composer/tree/dev/libs/gtfs)
 
 <% if(!project.version.endsWith("-SNAPSHOT")) {%>

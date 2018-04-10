@@ -5,8 +5,8 @@ import org.gradle.api.tasks.*
 import java.io.*
 
 open class DockerBuildImageTask : DockerBaseTask() {
-  @Input var imageName: String? = null
-  @Input var imageTag: String? = null
+  @Input @Optional var imageName: String? = null
+  @Input @Optional var imageTag: String? = null
   @Input var buildArgs = arrayOf<String>()
   @Input @Optional var contextDir: File? = null
   

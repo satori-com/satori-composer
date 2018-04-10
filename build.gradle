@@ -9,6 +9,7 @@ buildscript {
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
+    classpath "com.satori:satori-libs-gradle-docker:$scaffoldingVersion"
     classpath "com.satori:satori-libs-gradle-transform:$scaffoldingVersion"
     classpath "com.satori:satori-libs-gradle-github:$scaffoldingVersion"
     classpath "com.satori:satori-libs-composition-drawer:$scaffoldingVersion"
@@ -17,6 +18,7 @@ buildscript {
 
 apply plugin: "com.satori.transform"
 apply plugin: "com.satori.github"
+apply plugin: "com.satori.docker"
 apply plugin: "com.satori.composition.drawer"
 
 apply plugin: 'idea'

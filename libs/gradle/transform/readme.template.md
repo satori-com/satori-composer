@@ -1,3 +1,4 @@
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-transform.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-transform/${project.version}/)
 ## Gradle plugin 'com.satori.transform' 
 
 gradle task wrappers around groovy GStringTemplateEngine

@@ -1,10 +1,11 @@
-apply plugin: 'application'
-apply from: '../examples.gradle'
-
 description "queue"
+
+apply plugin: 'application'
 
 mainClassName = 'com.satori.mods.examples.App'
 applicationName = projectDir.name
+
+apply from: '../examples.gradle'
 
 dependencies {
   compile project(':mods-suite')

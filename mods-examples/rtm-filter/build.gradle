@@ -1,10 +1,10 @@
-apply plugin: 'application'
-apply from: '../examples.gradle'
-
 description "rtm filter"
+apply plugin: 'application'
 
 mainClassName = 'com.satori.mods.examples.NwsUsaAlerts'
 applicationName = projectDir.name
+
+apply from: '../examples.gradle'
 
 dependencies {
   compile project(':composer')

@@ -14,19 +14,15 @@ startScripts {
   optsEnvironmentVar = "APP_OPTS"
 }
 
-ext {
-  dockerImageName = "${project.name}"
-  dockerImageTag = "${dockerImageName}:${version}"
-}
-
 task generateReadme(type: TransformTask) {
   group 'codegen'
+  dependsOn generateCompositionImage
+
   println projectDir.name
   template new File(buildscript.sourceFile.parentFile, "readme.template.md")
   output file("readme.md")
   outputs.upToDateWhen { false }
 }
-generateReadme.dependsOn generateCompositionImage
 generateCode.dependsOn generateReadme
 
 
@@ -42,80 +38,36 @@ task generateDockerFile(type: TransformTask) {
   output = file("Dockerfile")
 }
 
-// copy docker file
-installDist {
-  inputs.file 'Dockerfile'
-  outputs.file "$destinationDir/Dockerfile"
-  doLast {
-    copy {
-      from 'Dockerfile'
-      into destinationDir
-    }
-  }
-}
-
-task buildDockerImage() {
+task buildDockerImage(type: DockerBuildImageTask) {
   group 'docker'
   dependsOn 'installDist'
 
-  doLast {
+  imageName = project.name
+  imageTag = project.version
+
+  contextDir = installDist.destinationDir
+  prepareContext {
     copy {
       from 'Dockerfile'
-      into installDist.destinationDir
+      into contextDir
     }
-    exec {
-      commandLine 'docker', 'build', '-t', dockerImageTag, installDist.destinationDir
-      println "building docker image '${dockerImageTag}'..."
-      println "> ${commandLine.join(' ')}"
-    }
-    exec {
-      commandLine 'docker', 'tag', dockerImageTag, dockerImageName
-      println "tagging docker image '${dockerImageTag}'..."
-      println "> ${commandLine.join(' ')}"
-    }
-    delete file("${installDist.destinationDir}/Dockerfile")
-    exec {
-      commandLine 'docker', 'images', dockerImageName
-      println "> ${commandLine.join(' ')}"
-    }
+  }
+  cleanupContext {
+    //delete new File(contextDir, "Dockerfile")
   }
 }
 
-task runDockerContainer() {
+task runDockerContainer(type: DockerRunContainerTask) {
   group 'docker'
   dependsOn 'buildDockerImage'
 
-  doFirst {
-    exec {
-      commandLine 'docker', 'run', '--rm', '-ti', "${dockerImageTag}"
-      println "running docker container '${dockerImageTag}'..."
-      println "> ${commandLine.join(' ')}"
-    }
-    exec {
-      commandLine 'docker', 'images', '--rm', '-ti', "${dockerImageTag}"
-      println "running docker container '${dockerImageTag}'..."
-      println "> ${commandLine.join(' ')}"
-    }
-  }
+  imageName = project.name
+  containerName = project.name
 }
 
-/*
-class TemplateTask extends DefaultTask {
-  TemplateEngine engine = new GStringTemplateEngine()
 
-  @InputFile
-  File template
+task stopDockerContainer(type: DockerStopContainerTask) {
+  group 'docker'
 
-  @OutputFile
-  File output
-
-  @TaskAction
-  def process() {
-    println "transforming '${template}'-> '${output}'..."
-    def writable = engine.createTemplate(template).make()
-    writable.setDelegate(project)
-    output.withWriter {
-      writable.writeTo(it)
-    }
-  }
-}*/
+  containerName = project.name
+}

@@ -1,11 +1,10 @@
-
+apply from: rootProject.file('readme.gradle')
 apply from: rootProject.file('metainfo.gradle')
 
 model {
   tasks.testPreapare {
     dependsOn tasks.publishJarPublicationToMavenLocal
   }
-
 }
 
 // main dependencies
