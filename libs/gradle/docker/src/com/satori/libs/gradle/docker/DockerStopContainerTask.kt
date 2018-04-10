@@ -8,20 +8,16 @@ open class DockerStopContainerTask : DockerBaseTask() {
   @TaskAction
   fun runContainer() {
     val containerName = containerName ?: getDefaultContainerName()
-    
+  
+    println("stopping docker container '$containerName'...")
     exec {
       isIgnoreExitValue = true
       setCommandLine(*cmd.toArray(),
         "rm", "-f", containerName
       )
-      println("stopping docker container '$containerName'...")
     }
     
-    exec {
-      setCommandLine(*cmd.toArray(),
-        "ps", "--filter", "name=$containerName"
-      )
-    }
+    exec ("ps", "--filter", "name=$containerName")
   }
 }
 

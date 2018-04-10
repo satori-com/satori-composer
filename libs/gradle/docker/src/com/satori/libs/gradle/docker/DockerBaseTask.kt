@@ -2,23 +2,24 @@ package com.satori.libs.gradle.docker
 
 import org.gradle.api.*
 import org.gradle.api.plugins.*
+import org.gradle.api.tasks.*
 import org.gradle.process.*
 import java.io.*
 
 open class DockerBaseTask : DefaultTask() {
-  val basePluginConvention = project.convention.plugins.get("base") as BasePluginConvention
-  val archivesBaseName: String get() = basePluginConvention.archivesBaseName
-  val buildDir: File get() = project.buildDir
+  val basePluginConvention = project.convention.plugins.get("base") as? BasePluginConvention
+  val archivesBaseName: String? get() = basePluginConvention?.archivesBaseName
   val rootProject: Project get() = project.rootProject
+  val buildDir: File get() = project.buildDir
   
-  var cmd = arrayListOf("docker")
+  @Input var cmd = arrayListOf("docker")
   
-  var host: String? = null
-  var tls: Boolean = false
-  var tlsVerify: Boolean = false
-  var tlsKey: File? = null
-  var tlsCert: File? = null
-  var tlsCaCert: File? = null
+  @Input @Optional var host: String? = null
+  @Input @Optional var tls: Boolean = false
+  @Input @Optional var tlsVerify: Boolean = false
+  @Input @Optional var tlsKey: File? = null
+  @Input @Optional var tlsCert: File? = null
+  @Input @Optional var tlsCaCert: File? = null
   
   fun host(value: String?) {
     host = value
@@ -55,11 +56,16 @@ open class DockerBaseTask : DefaultTask() {
       result.add("--tlscacert")
       result.add(it.path)
     }
+    result.addAll(args)
     return result
   }
   
   fun getDefaultImageName(): String {
-    return "${rootProject.name}/${archivesBaseName}".toLowerCase()
+    return if (archivesBaseName != null) {
+      "${rootProject.name}/${archivesBaseName}".toLowerCase()
+    } else {
+      rootProject.name.toLowerCase()
+    }
   }
   
   fun getDefaultImageTag(): String {
@@ -67,7 +73,11 @@ open class DockerBaseTask : DefaultTask() {
   }
   
   fun getDefaultContainerName(): String {
-    return "${rootProject.name}-${archivesBaseName}".toLowerCase()
+    return if (archivesBaseName != null) {
+      "${rootProject.name}-${archivesBaseName}".toLowerCase()
+    } else {
+      rootProject.name.toLowerCase()
+    }
   }
   
   fun exec(vararg args: String) {
@@ -78,10 +88,14 @@ open class DockerBaseTask : DefaultTask() {
   }
   
   fun exec(builder: ExecSpec.() -> Unit) {
-    project.exec {execSpec->
+    project.exec { execSpec ->
       execSpec.builder()
       println("> ${execSpec.getCommandLineAsString()}")
     }
+  }
+  
+  fun buildDockerCommandAsString(vararg args: String): String{
+    return buildDockerCommand(*args).joinToString(" ")
   }
   
   companion object {

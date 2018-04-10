@@ -1,4 +1,13 @@
 
+apply from: rootProject.file('metainfo.gradle')
+
+model {
+  tasks.testPreapare {
+    dependsOn tasks.publishJarPublicationToMavenLocal
+  }
+
+}
+
 // main dependencies
 dependencies {
   compile project(":libs-gradle-utils")

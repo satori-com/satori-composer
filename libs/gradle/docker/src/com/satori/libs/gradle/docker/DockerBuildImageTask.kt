@@ -5,11 +5,10 @@ import org.gradle.api.tasks.*
 import java.io.*
 
 open class DockerBuildImageTask : DockerBaseTask() {
-  
-  var imageName: String? = null
-  var imageTag: String? = null
-  var buildArgs = arrayOf<String>()
-  var contextDir: File? = null
+  @Input var imageName: String? = null
+  @Input var imageTag: String? = null
+  @Input var buildArgs = arrayOf<String>()
+  @Input @Optional var contextDir: File? = null
   
   private var _prepareContext: Closure<*>? = null
   private var _cleanupContext: Closure<*>? = null
@@ -40,7 +39,6 @@ open class DockerBuildImageTask : DockerBaseTask() {
     return File(buildDir, "docker")
   }
   
-  
   @TaskAction
   fun buildImage() {
     
@@ -50,21 +48,17 @@ open class DockerBuildImageTask : DockerBaseTask() {
     
     prepareContext()
     
-    exec {
-      setCommandLine(*cmd.toArray(),
-        "build", *buildArgs, "-t", taggedImageName, contextDir
-      )
+    try {
+      
       println("building docker image '$taggedImageName'...")
-    }
-    
-    exec {
-      setCommandLine(*cmd.toArray(),
-        "tag", taggedImageName, imageName
-      )
+      exec("build", *buildArgs, "-t", taggedImageName, contextDir.path)
+      
       println("tagging docker image '${imageName}'...")
+      exec("tag", taggedImageName, imageName)
+      
+    } finally {
+      cleanupContext()
     }
-    
-    cleanupContext()
   }
 }
 

@@ -118,6 +118,12 @@ subprojects {
     }
   }
 
+  task testPreapare{
+    group "verification"
+  }
+  test.dependsOn testPreapare
+
+
   ext {
     // define project base package
     pckg = "${project.parent.pckg}.${name.replaceAll("[^\\w]+", ".")}"
@@ -194,7 +200,8 @@ def publishingProjects = [
   ':libs-composition-drawer',
   ':libs-gradle-utils',
   ':libs-gradle-transform',
-  ':libs-gradle-github'
+  ':libs-gradle-github',
+  ':libs-gradle-docker'
 ].collect { project(it) }
 
 configure(publishingProjects) {

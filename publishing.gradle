@@ -133,6 +133,14 @@ publishing {
 
 model {
 
+  tasks.publishJarPublicationToMavenLocal{
+    configurations.compile.dependencies.forEach{
+      if(it instanceof ProjectDependency){
+        dependsOn it.dependencyProject.publishJarPublicationToMavenLocal
+      }
+    }
+  }
+
   tasks.publishJarPublicationToSnapshotsRepository {
     if (signing.signatory) {
       dependsOn(project.tasks.signArchives)

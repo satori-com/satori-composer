@@ -3,13 +3,12 @@ package com.satori.libs.gradle.docker
 import org.gradle.api.tasks.*
 
 open class DockerRunContainerTask : DockerBaseTask() {
-  var imageName: String? = null
-  var containerName: String? = null
-  var runArgs = ArrayList<String>()
-  var cmdArgs = ArrayList<String>()
-  
-  var logOptions: LogOptions? = null
-  var restart: String? = "always"
+  @Input var imageName: String? = null
+  @Input var containerName: String? = null
+  @Input var runArgs = ArrayList<String>()
+  @Input var cmdArgs = ArrayList<String>()
+  @Input @Optional var logOptions: LogOptions? = LogOptions()
+  @Input @Optional var restart: String? = "always"
   
   class LogOptions{
     var maxSize: String? = "32m"
@@ -23,28 +22,35 @@ open class DockerRunContainerTask : DockerBaseTask() {
     
     exec {
       isIgnoreExitValue = true
-      setCommandLine(*cmd.toArray(),
+      setCommandLine(*buildDockerCommand().toArray(),
         "rm", "-f", containerName
       )
       println("stopping docker container '$containerName'...")
-      println("> ${commandLine.joinToString(" ")}")
+    }
+  
+    println("running docker container '$containerName'...")
+    exec{
+      val cmd = buildDockerCommand("run", "-d", "--name", containerName)
+      logOptions?.apply {
+        maxSize?.also{
+          cmd.add("--log-opt")
+          cmd.add("max-size=$it")
+        }
+        maxFile?.also{
+          cmd.add("--log-opt")
+          cmd.add("max-file=$it")
+        }
+      }
+      restart?.also {
+        cmd.add("--restart=$it")
+      }
+      cmd.addAll(runArgs)
+      cmd.add(imageName)
+      cmd.addAll(cmdArgs)
+      setCommandLine(cmd)
     }
     
-    exec {
-      setCommandLine(*cmd.toArray(),
-        "run", "-d", "--name", containerName,
-        "--log-opt", "max-size=32m", "--log-opt", "max-file=16",
-        "--restart=always", *runArgs.toArray(), imageName, *cmdArgs.toArray()
-      )
-      println("running docker container '$containerName'...")
-      println("> ${commandLine.joinToString(" ")}")
-    }
-    
-    exec {
-      setCommandLine(*cmd.toArray(),
-        "ps", "--filter", "name=$containerName"
-      )
-    }
+    exec ("ps", "--filter", "name=$containerName")
   }
 }
 
