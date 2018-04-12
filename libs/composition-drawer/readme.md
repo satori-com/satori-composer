@@ -20,7 +20,7 @@ buildscript{
     maven {url "https://oss.sonatype.org/content/repositories/snapshots"}
   }
   dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.35-SNAPSHOT"
+    classpath "com.satori:satori-libs-composition-drawer:0.5.36-SNAPSHOT"
   }
 }
 apply plugin: "com.satori.composition.drawer"
@@ -43,7 +43,7 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
   }
   dependencies {
-    classpath "com.satori:satori-libs-composition-drawer:0.5.35-SNAPSHOT"
+    classpath "com.satori:satori-libs-composition-drawer:0.5.36-SNAPSHOT"
   }
 }
 
@@ -72,7 +72,7 @@ repositories {
   
 configurations{compositionDrawer}
 dependencies {
-  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.35-SNAPSHOT"
+  compositionDrawer "com.satori:satori-libs-composition-drawer:0.5.36-SNAPSHOT"
 }
 
 task generateCompositionDiagram(type: JavaExec) {
@@ -110,13 +110,13 @@ task generateCompositionDiagram(type: JavaExec) {
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-composition-drawer</artifactId>
-    <version>0.5.35-SNAPSHOT</version>
+    <version>0.5.36-SNAPSHOT</version>
 </dependency>
 ```
 
 
 ### Download
-[satori-libs-composition-drawer.v0.5.35-SNAPSHOT.zip](https://github.com/satori-com/satori-composer/releases/download/v0.5.35-SNAPSHOT/satori-libs-composition-drawer.v0.5.35-SNAPSHOT.zip)<br/>
+[satori-libs-composition-drawer.v0.5.36-SNAPSHOT.zip](https://github.com/satori-com/satori-composer/releases/download/v0.5.36-SNAPSHOT/satori-libs-composition-drawer.v0.5.36-SNAPSHOT.zip)<br/>
 [or see latest releases](https://github.com/satori-com/satori-composer/releases/latest)
 
 ### Example of generated diagram

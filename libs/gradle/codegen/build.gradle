@@ -1,0 +1,24 @@
+apply from: rootProject.file('readme.gradle')
+apply from: rootProject.file('metainfo.gradle')
+
+model {
+  tasks.testPreapare {
+    dependsOn tasks.publishJarPublicationToMavenLocal
+  }
+}
+
+// main dependencies
+dependencies {
+  compile project(":libs-gradle-utils")
+
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
+
+  compile gradleApi()
+}
+
+// test dependencies
+dependencies {
+  testCompile project(':libs-testlib')
+  testCompile gradleTestKit()
+}

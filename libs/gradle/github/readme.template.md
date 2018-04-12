@@ -36,8 +36,8 @@ task githubPublishRelease(type: GitHubPublishReleaseTask) {
 ### Maven (releases)
 ```xml
 <dependency>
-    <groupId>com.satori</groupId>
-    <artifactId>satori-libs-gradle-github</artifactId>
+    <groupId>${project.group}</groupId>
+    <artifactId>satori-${project.name}</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```
@@ -50,8 +50,8 @@ task githubPublishRelease(type: GitHubPublishReleaseTask) {
 ```
 ```xml
 <dependency>
-    <groupId>com.satori</groupId>
-    <artifactId>satori-libs-gradle-github</artifactId>
+    <groupId>${project.group}</groupId>
+    <artifactId>satori-${project.name}</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```

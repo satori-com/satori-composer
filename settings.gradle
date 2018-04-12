@@ -65,6 +65,9 @@ project(':libs-gradle-github').projectDir = file('libs/gradle/github')
 include ':libs-gradle-docker'
 project(':libs-gradle-docker').projectDir = file('libs/gradle/docker')
 
+include ':libs-gradle-codegen'
+project(':libs-gradle-codegen').projectDir = file('libs/gradle/codegen')
+
 // examples
 
 include ':mods-examples-suite'

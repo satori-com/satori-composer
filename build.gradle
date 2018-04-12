@@ -25,7 +25,7 @@ apply plugin: 'idea'
 
 group group
 version version
-buildDir = '.out'
+buildDir = ".out"
 
 idea {
   project {
@@ -197,10 +197,15 @@ def publishingProjects = [
   ':libs-gradle-utils',
   ':libs-gradle-transform',
   ':libs-gradle-github',
-  ':libs-gradle-docker'
+  ':libs-gradle-docker',
+  ':libs-gradle-codegen'
 ].collect { project(it) }
 
 configure(publishingProjects) {
+  ext {
+    publishingArtifactId = "satori-${project.name}"
+  }
+
   apply from: rootProject.file('publishing.gradle')
 
   afterEvaluate {

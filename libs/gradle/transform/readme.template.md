@@ -52,8 +52,8 @@ task generateReadme {
 ### Maven (releases)
 ```xml
 <dependency>
-    <groupId>com.satori</groupId>
-    <artifactId>satori-libs-gradle-transform</artifactId>
+    <groupId>${project.group}</groupId>
+    <artifactId>satori-${project.name}</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```
@@ -66,8 +66,8 @@ task generateReadme {
 ```
 ```xml
 <dependency>
-    <groupId>com.satori</groupId>
-    <artifactId>satori-libs-gradle-transform</artifactId>
+    <groupId>${project.group}</groupId>
+    <artifactId>satori-${project.name}</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```

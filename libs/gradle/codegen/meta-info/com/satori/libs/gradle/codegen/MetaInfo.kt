@@ -1,10 +1,10 @@
 // auto generated
 // don't modify
-package com.satori.libs.gradle.docker
+package com.satori.libs.gradle.codegen
 
 object MetaInfo {
   val version = "0.5.36-SNAPSHOT"
-  val project = "libs-gradle-docker"
+  val project = "libs-gradle-codegen"
   
   val sha:String? = "21acba83fd33d96b97f3e45c7f661c167d1bb85c"
   

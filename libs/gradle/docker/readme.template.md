@@ -1,4 +1,4 @@
-[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-docker.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-docker/${project.version}/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-${project.name}.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-${project.name}/${project.version}/)
 
 ## Gradle plugin 'com.satori.transform' 
 
@@ -14,7 +14,7 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
   }
   dependencies {
-    classpath "com.satori:satori-libs-gradle-docker:${project.version}"
+    classpath "com.satori:satori-${project.name}:${project.version}"
   }
 }
 apply plugin: "com.satori.docker"
@@ -139,8 +139,8 @@ stop docker container
 ### Maven (releases)
 ```xml
 <dependency>
-    <groupId>com.satori</groupId>
-    <artifactId>satori-libs-gradle-docker</artifactId>
+    <groupId>${project.group}</groupId>
+    <artifactId>satori-${project.name}</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```
@@ -153,8 +153,8 @@ stop docker container
 ```
 ```xml
 <dependency>
-    <groupId>com.satori</groupId>
-    <artifactId>satori-libs-gradle-docker</artifactId>
+    <groupId>${project.group}</groupId>
+    <artifactId>satori-${project.name}</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```

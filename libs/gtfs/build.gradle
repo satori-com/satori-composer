@@ -1,3 +1,5 @@
+import java.util.concurrent.Callable
+
 buildscript {
   repositories {
     mavenCentral()
@@ -45,9 +47,18 @@ tasks.withType(com.google.protobuf.gradle.ProtobufExtract).all {
 task generateGtfsSchema(type: JavaExec) {
   group "codegen"
 
-  classpath configurations.create(name)
-  dependencies.add(name,  project(':codegen-pbuf2jschema'), null)
-  main project(':codegen-pbuf2jschema').startScripts.mainClassName
+  def p = project(':codegen-pbuf2jschema')
+
+  classpath p.sourceSets.main.runtimeClasspath
+  main p.mainClassName
+  jvmArgs p.applicationDefaultJvmArgs
+  /*it.getConventionMapping().map("main", {
+    return javaPluginConv.getMainClassName()
+  })*/
+  //main javaPluginConvention.getMainClassName()
+  //classpath configurations.create(name)
+  //dependencies.add(name, project(':codegen-pbuf2jschema'), null)
+  //main project(':codegen-pbuf2jschema').startScripts.mainClassName
 
   inputs.files pbufSchema
   outputs.files jsonSchema
@@ -55,7 +66,7 @@ task generateGtfsSchema(type: JavaExec) {
   args '-schema', pbufSchema
   args '-out', jsonSchema
 
-  doFirst{
+  doFirst {
     println "generating gtfs json schema..."
     println getCommandLine().join(" ")
   }
@@ -71,7 +82,7 @@ task generateGtfsTypes(type: JavaExec) {
   def out = file('gen-types/')
 
   classpath = configurations.create(name)
-  dependencies.add(name,  project(':codegen-jmodel'), null)
+  dependencies.add(name, project(':codegen-jmodel'), null)
   main = project(":codegen-jmodel").startScripts.mainClassName
 
   inputs.files schema
@@ -79,14 +90,14 @@ task generateGtfsTypes(type: JavaExec) {
   outputs.dirs out
 
   args '-prefix', "Gtfs"
-  args '-pckg', "${project.group}.${project.name.replace('-','.')}"
+  args '-pckg', "${project.group}.${project.name.replace('-', '.')}"
   args '-data', schema
   args '-template', template
   args '-out', out
 
   sourceSets.main.java.srcDirs += out
 
-  doFirst{
+  doFirst {
     delete out
     println "generating gtfs types..."
     println getCommandLine().join(" ")
@@ -103,7 +114,7 @@ task generateGtfsConverter(type: JavaExec) {
   def out = file('gen-converter/')
 
   classpath = configurations.create(name)
-  dependencies.add(name,  project(':codegen-jmodel'), null)
+  dependencies.add(name, project(':codegen-jmodel'), null)
   main = project(":codegen-jmodel").startScripts.mainClassName
 
   inputs.files schema
@@ -111,14 +122,14 @@ task generateGtfsConverter(type: JavaExec) {
   outputs.dirs out
 
   args '-prefix', "Gtfs"
-  args '-pckg', "${project.group}.${project.name.replace('-','.')}"
+  args '-pckg', "${project.group}.${project.name.replace('-', '.')}"
   args '-data', schema
   args '-template', template
   args '-out', out
 
   sourceSets.main.java.srcDirs += out
 
-  doFirst{
+  doFirst {
     delete out
     println "generating gtfs converter..."
     println getCommandLine().join(" ")
