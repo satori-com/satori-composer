@@ -1,0 +1,136 @@
+
+/agencies:
+  get:
+    operationId: get_agencies
+    description: |
+      Collection of all agencies the user has access to
+      Returns full list for infrastructure users and the equivalent of /agencies/organization-id
+      for everyone else
+    security:
+    - cas: []
+    tags:
+      - Agency
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Agency'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  post:
+    operationId: create_agency
+    summary: Create a new agency
+    description: |
+      Creates a new agency.
+    security:
+    - cas: [ 'infrastructure' ]
+    tags:
+      - Agency
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Agency'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Agency'
+      default:
+        $ref: '#/responses/default'
+
+/agencies/organization-id/{id}:
+  get:
+    operationId: get_agencies_by_org_id
+    description: |
+      Returns the agencies for organization.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Agency
+    responses:
+      '200':
+        description: 'List of or one agency'
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Agency'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/agencies/id/{id}:
+  get:
+    operationId: get_agency_by_id
+    description: |
+      Returns the details of one agency.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Agency
+    responses:
+      '200':
+        description: ''
+        schema:
+          $ref: '#/definitions/Agency'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    operationId: update_agency
+    summary: Update a agency
+    description: |
+      Updates details about a Agency
+    security:
+      - cas: [ 'infrastructure' ]
+    tags:
+      - Agency
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Agency'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Agency'
+      default:
+        $ref: '#/responses/default'
+  delete:
+    operationId: delete_agency
+    summary: Delete a agency
+    description: |
+      Permatently removes a agency
+    security:
+      - cas: [ 'infrastructure' ]
+    tags:
+      - Agency
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Agency'
+      default:
+        $ref: '#/responses/default'

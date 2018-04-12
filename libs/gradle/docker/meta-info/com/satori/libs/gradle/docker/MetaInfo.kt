@@ -6,7 +6,7 @@ object MetaInfo {
   val version = "0.5.35-SNAPSHOT"
   val project = "libs-gradle-docker"
   
-  val sha:String? = "de8cddfe796a5f593ec4d405a97fc621f08de7e8"
+  val sha:String? = "7af3f19b61ccacc6c426b35a5341e202397078a5"
   
   
   val tags:Array<String>? = null

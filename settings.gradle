@@ -6,6 +6,12 @@ include ':composer'
 
 // codegen
 
+include ':codegen-yaml-file-merger'
+project(':codegen-yaml-file-merger').projectDir = file('codegen/yaml-file-merger')
+
+include ':codegen-utils'
+project(':codegen-utils').projectDir = file('codegen/utils')
+
 include ':codegen-pbuf2jschema'
 project(':codegen-pbuf2jschema').projectDir = file('codegen/pbuf2jschema')
 
@@ -15,10 +21,13 @@ project(':codegen-jmodel').projectDir = file('codegen/jmodel')
 include ':codegen-groovy'
 project(':codegen-groovy').projectDir = file('codegen/groovy')
 
-// libs
+include ':codegen-codemodel-dsl'
+project(':codegen-codemodel-dsl').projectDir = file('codegen/codemodel-dsl')
 
-include ':libs-gtfs'
-project(':libs-gtfs').projectDir = file('libs/gtfs')
+include ':codegen-mustache-builder'
+project(':codegen-mustache-builder').projectDir = file('codegen/mustache-builder')
+
+// libs
 
 include ':libs-async-api'
 project(':libs-async-api').projectDir = file('libs/async-api')
@@ -26,11 +35,20 @@ project(':libs-async-api').projectDir = file('libs/async-api')
 include ':libs-async-core'
 project(':libs-async-core').projectDir = file('libs/async-core')
 
+include ':libs-testlib'
+project(':libs-testlib').projectDir = file('libs/testlib')
+
+include ':libs-common-kotlin'
+project(':libs-common-kotlin').projectDir = file('libs/common-kotlin')
+
 include ':libs-async-kotlin'
 project(':libs-async-kotlin').projectDir = file('libs/async-kotlin')
 
-include ':libs-testlib'
-project(':libs-testlib').projectDir = file('libs/testlib')
+include ':libs-vertx-kotlin'
+project(':libs-vertx-kotlin').projectDir = file('libs/vertx-kotlin')
+
+include ':libs-gtfs'
+project(':libs-gtfs').projectDir = file('libs/gtfs')
 
 include ':libs-composition-drawer'
 project(':libs-composition-drawer').projectDir = file('libs/composition-drawer')

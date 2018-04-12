@@ -1,0 +1,120 @@
+
+/organizations:
+  get:
+    operationId: list_organizations
+    summary: List all organizations
+    description: |
+      Retrieve a list of all organizations
+    security:
+    - cas: [ 'infrastructure' ]
+    tags:
+      - Organization
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/OrganizationResult'
+      default:
+        $ref: '#/responses/default'
+  post:
+    operationId: create_organization
+    summary: Create a new organization
+    description: |
+      # Create a new organization.
+    security:
+      # security calls for NO ROLES
+      - cas: []
+    tags:
+      - Organization
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Organization'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/OrganizationResult'
+      default:
+        $ref: '#/responses/default'
+'/organizations/{organization_id}':
+  parameters:
+    - $ref: '#/parameters/organization_id'
+  get:
+    operationId: get_organization
+    summary: Get organization by id
+    description: |
+      Retrives details about organization
+    security:
+      - cas: []
+    tags:
+      - Organization
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/OrganizationResult'
+      default:
+        $ref: '#/responses/default'
+  put:
+    operationId: update_organization
+    summary: Update organization
+    description: |
+      # Update organization.
+    security:
+      - cas: [ 'admin']
+    tags:
+      - Organization
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Organization'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/OrganizationResult'
+      default:
+        $ref: '#/responses/default'
+  patch:
+    operationId: set_gtfs_url
+    summary: Set GTFS url
+    description: |
+      # Set GTFS url
+    security:
+      - cas: [ 'admin' ]
+    tags:
+      - Organization
+    parameters:
+      - name: gtfs_url
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/GtfsUrl'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/OrganizationResult'
+      default:
+        $ref: '#/responses/default'
+  delete:
+    security:
+      - cas: [ 'infrastructure' ]
+    operationId: delete_organization
+    summary: Delete organization
+    description: |
+      Permatently removes organization
+    tags:
+      - Organization
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/OrganizationResult'
+      default:
+        $ref: '#/responses/default'

@@ -1,0 +1,98 @@
+/NOT_IMPLEMENTED/car_counts/{id}:
+  get:
+    description: |
+      NOT IMPLEMENTED: API discussion for phase 2 of car counting
+      Return detailed car counting results
+    parameters:
+      - name: id
+        description: |
+          The id of this car counting feed
+          Comes from the camera definition object (`car_counting_service_id`)
+        in: path
+        required: true
+        type: string
+      - name: from
+        description: FROM timestamp
+        in: query
+        required: true
+        type: string
+        format: Unix timestamp (seconds)
+      - name: to
+        description: TO timestamp
+        in: query
+        required: true
+        type: string
+        format: Unix timestamp (seconds)
+      - name: resolution
+        description: Resolution of the search
+        in: query
+        required: false
+        default: "5m"
+        type: string
+        enum: ["1m", "5m", "hourly", "daily", "full"]
+      - name: format
+        description: Type of the output format
+        in: query
+        required: false
+        type: string
+        enum: ["json", "csv"]
+        default: "json"
+    tags:
+      - CarCount
+    responses:
+      '200':
+        description: |
+          An array of resulting counts (unless CSV requested)
+          The timestamps are expanded to match existing data points, for example:
+          specifying from/to as 17:31 - 18:02 returns 17:30-18:05 period
+        schema:
+          $ref: '#/definitions/CarCountResult'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+
+/car_counts/{id}/csv:
+  get:
+    description: |
+      Returns daily car counting CSV report.
+      Only reports for past days are available
+    produces:
+      - text/csv
+    parameters:
+      - name: id
+        description: |
+          The id of this car counting feed
+          Comes from the camera definition object (`car_counting_service_id`)
+        in: path
+        required: true
+        type: string
+      - name: date
+        description: |
+          Date for which the CSV should be sent in ISO 8601
+          Example: 2017-10-17
+        in: query
+        required: true
+        type: string
+        format: date
+    tags:
+      - CarCount
+    responses:
+      '200':
+        description: |
+          A csv report
+        schema:
+          type: string
+          format: binary
+      '404':
+        description: |
+          The report is not available (the error message details the reason)
+          The report may have been not generated for that day yet or the date is too far into the past
+          The provided car counter id may not exist
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

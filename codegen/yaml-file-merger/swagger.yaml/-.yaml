@@ -1,0 +1,28 @@
+swagger: '2.0'
+
+info:
+  version: 0.1.9
+  title: Smart City Backend API
+  description: |
+    # Smart City Backend API
+
+#host: scbe.api.satori.com
+
+basePath: /v1
+
+security:
+  - cas: []
+
+#schemes: [http, https]
+
+consumes:
+  - application/json
+
+produces:
+  - application/json
+
+responses:
+  default:
+    description: Error
+    schema:
+      $ref: '#/definitions/Error'

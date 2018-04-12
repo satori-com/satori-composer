@@ -1,0 +1,91 @@
+/status:
+  get:
+    operationId: get_status
+    description: |
+      Application services health status
+    tags:
+      - General
+    responses:
+      default: {$ref: '#/responses/default'}
+      200:
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ServiceStatus'
+
+/version:
+  get:
+    operationId: get_version
+    tags:
+      - General
+    responses:
+      default: {$ref: '#/responses/default'}
+      200:
+        description: OK
+        schema:
+          $ref: '#/definitions/Version'
+
+
+/scene_state:
+  get:
+    operationId: get_scene_state
+    description: |
+      DEPRECATED: use `/current_state/feed_transportation`, `/current_state/feed_cameras` instead
+      Returns the list of current scene objects for this client, together with
+      updated RTM feed subscription instructions
+    tags:
+      - General
+    responses:
+      default: {$ref: '#/responses/default'}
+      200:
+        description: OK
+        schema:
+          $ref: '#/definitions/SceneState'
+
+/current_state/{feed_type}:
+  get:
+    operationId: get_current_state_by_feed_type
+    description: |
+      Returns the list of current scene objects of this category for this client, together with
+      updated RTM feed subscription instructions
+    parameters:
+      - name: feed_type
+        in: path
+        required: true
+        type: string
+        enum: ["feed_transportation", "transportation-v1.2", "shuttle", "cameras", "incidents"]
+    tags:
+      - General
+    responses:
+      default: {$ref: '#/responses/default'}
+      200:
+        description: OK
+        schema:
+          $ref: '#/definitions/FeedCurrentState'
+
+/meta:
+
+  get:
+    operationId: get_meta
+    summary: 'Get initial client configuration'
+    description: |
+      Get initial client configuration
+
+      The client should subscribe to all channels listed in the `rtFeeds` object,
+      following the suggested subscription method, using the connection details from `rtm_endpoint`.
+
+
+      `features` lists the feaures available for this client and the corresponding endpoint.
+
+
+      The subscription gives the client a stream scene object updates
+
+    tags:
+      - General
+    responses:
+      default: {$ref: '#/responses/default'}
+      200:
+        description: OK
+        schema:
+          $ref: '#/definitions/Meta'

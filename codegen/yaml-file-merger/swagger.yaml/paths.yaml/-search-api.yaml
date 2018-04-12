@@ -1,0 +1,76 @@
+/search:
+  get:
+    operationId: search
+    description: |
+      Search for stops, trip groups and places.
+    parameters:
+      - name: query
+        in: query
+        description: Search query that a user entered.
+        required: true
+        type: string
+      - name: loc
+        in: query
+        description: latitude and longitude
+        required: true
+        type: string
+        format: two comma separated doubles
+      - name: limit
+        in: query
+        description: Limit number of results
+        required: false
+        default: 20
+        type: integer
+      - name: exc
+        in: query
+        description: |
+          Comma separated list of types to exclude, all ather types not specified in the list will be included.
+          example: place,stop
+        required: false
+        type: array
+        items:
+          type: string
+      - name: inc
+        in: query
+        description: |
+          Comma separated list of types to include, all ather types not specified in the list will be excluded.
+          example: route,stop
+        required: false
+        type: array
+        items:
+          type: string
+    tags:
+      - Search
+    responses:
+      '200':
+        description: |
+          An array of result items sorted by relevance starting from most relevant.
+          Type can be stop, route, or place. Accordingly id can hold stop_id, trip_group_id, place_id.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/SearchResult'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/search/types:
+  get:
+    operationId: get_search_types
+    description: |
+      Types of search possible
+    tags:
+      - Search
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            type: string
+            enum: ["stop", "route", "place"]
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

@@ -1,0 +1,349 @@
+# after generation route for "/incidents/types" should be before "/incidents/{incident_id}"
+# now generator doesn't following the order (https://jira.addsrv.com/browse/SATSER-442)
+/incident_types:
+  get:
+    operationId: get_incident_types
+    summary: Get incident types
+    description: |
+      Retrives details about incident types
+    tags:
+      - Incident
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/IncidentType'
+      default:
+        $ref: '#/responses/default'
+
+/incidents:
+  get:
+    operationId: list_incidents
+    summary: List all incidents
+    description: |
+      Retrieve a list of all incidents and their details (without comments or notes)
+    tags:
+      - Incident
+    parameters:
+      - name: source_asset_id
+        in: query
+        type: string
+        description: optional param for filtering incidents
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/IncidentReport'
+      default:
+        $ref: '#/responses/default'
+  post:
+    operationId: create_incident
+    summary: Create a new incident with comments
+    description: |
+      Creates a new incidents.
+    security:
+    - cas: ["driver", "passenger", "admin", "operator"]
+    tags:
+      - Incident
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/IncidentReport'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentReport'
+      default:
+        $ref: '#/responses/default'
+
+/incidents/{incident_id}:
+  parameters:
+    - $ref: '#/parameters/incident_id'
+  get:
+    operationId: get_incident
+    summary: Get a incident by id
+    description: |
+      Retrives details about an incident
+    tags:
+      - Incident
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentReport'
+      default:
+        $ref: '#/responses/default'
+  put:
+    operationId: update_incident
+    summary: Update an incident
+    description: |
+      Updates details about an incident (without comments)
+    security:
+    - cas: ["driver", "passenger", "admin", "operator"]
+    tags:
+      - Incident
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/IncidentReport'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentReport'
+      default:
+        $ref: '#/responses/default'
+  delete:
+    operationId: delete_incident
+    summary: Delete an incident
+    description: |
+      Permatently removes an incident
+    security:
+    - cas: ["driver", "passenger", "admin", "operator"]
+    tags:
+      - Incident
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentReport'
+      default:
+        $ref: '#/responses/default'
+
+
+/incidents/{incident_id}/comments:
+  parameters:
+    - $ref: '#/parameters/incident_id'
+  post:
+    operationId: create_incident_comment
+    summary: Create a new comment
+    description: |
+      Creates a new comment.
+    security:
+    - cas: ["driver", "passenger", "admin", "operator"]
+    tags:
+      - Incident
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/IncidentComment'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+  get:
+    operationId: get_incident_comments
+    summary: Get all comments for incident
+    description: |
+      List of comments for incident
+    tags:
+      - Incident
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+
+/incidents/{incident_id}/comments/{comment_id}:
+  parameters:
+    - $ref: '#/parameters/incident_id'
+    - $ref: '#/parameters/comment_id'
+  get:
+    operationId: get_incident_comment
+    summary: Get a comment by id
+    description: |
+      Retrives details about an comment
+    tags:
+      - Incident
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+  put:
+    operationId: update_incident_comment
+    summary: Update a comment
+    description: |
+      Updates details about a comment
+    security:
+    - cas: ["driver", "passenger", "admin", "operator"]
+    tags:
+      - Incident
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/IncidentComment'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+  delete:
+    operationId: delete_incident_comment
+    summary: Delete an incident's comment
+    description: |
+      Permatently removes a comment
+    security:
+    - cas: ["driver", "passenger", "admin", "operator"]
+    tags:
+      - Incident
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+
+/incidents/{incident_id}/notes:
+  parameters:
+    - $ref: '#/parameters/incident_id'
+  post:
+    operationId: create_incident_note
+    summary: Create a new note
+    description: Creates a new note
+    security:
+    - cas: ["admin", "operator"]
+    tags:
+      - Incident
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/IncidentComment'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+  get:
+    operationId: get_incident_notes
+    summary: Get all notes for incident
+    description: get all notes for incident
+    tags:
+      - Incident
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+
+/incidents/{incident_id}/notes/{note_id}:
+  parameters:
+    - $ref: '#/parameters/incident_id'
+    - $ref: '#/parameters/note_id'
+  get:
+    operationId: get_incident_note
+    summary: Get a note by id
+    description: Get a note by id
+    tags:
+      - Incident
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+  put:
+    operationId: update_incident_note
+    summary: Update a note
+    description: Update a note
+    security:
+    - cas: ["admin", "operator"]
+    tags:
+      - Incident
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/IncidentComment'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+  delete:
+    operationId: delete_incident_note
+    summary: Delete an incident's note
+    description: Delete an incident's note
+    security:
+    - cas: ["admin", "operator"]
+    tags:
+      - Incident
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/IncidentComment'
+      default:
+        $ref: '#/responses/default'
+
+/incidents/notifications:
+  get:
+    operationId: list_notifications
+    summary: List all open notifications
+    description: |
+      Retrieve a list of all incidents with open notifications and their details (without comments or notes)
+    tags:
+      - Incident
+    parameters:
+      - name: source_asset_id
+        in: query
+        type: string
+        description: optional param for filtering incidents
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/IncidentReport'
+      default:
+        $ref: '#/responses/default'
+
+/incidents/{incident_id}/notification:
+  parameters:
+    - $ref: '#/parameters/incident_id'
+  delete:
+    operationId: close_incident_notification
+    summary: Close an incident's notification
+    description:
+      User clicks CLOSE on an incident's notification
+    security:
+    - cas: ["admin", "operator"]
+    tags:
+      - Incident
+    responses:
+      '204':
+        description: OK
+      default:
+        $ref: '#/responses/default'

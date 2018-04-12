@@ -1,0 +1,57 @@
+/places/id/{id}:
+  get:
+    operationId: get_places_by_id
+    description: |
+      Place from Google Places API.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Place
+    responses:
+      '200':
+        description: ''
+        schema:
+          $ref: '#/definitions/LocEntity'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/geocode:
+  get:
+    description: |
+      Geocoding is the process of converting addresses (like "1600 Amphitheatre Parkway, Mountain View, CA")
+      into geographic coordinates (like latitude 37.423021 and longitude -122.083739), which you can use
+      to place markers on a map, or position the map.
+
+      Reverse geocoding is the process of converting geographic coordinates into a human-readable address.
+    parameters:
+      - name: lat
+        in: query
+        description: The latitude specifying the location for which you wish to obtain the closest, human-readable address.
+        required: true
+        type: number
+        format: float
+      - name: lng
+        in: query
+        description: The longitude specifying the location for which you wish to obtain the closest, human-readable address.
+        required: true
+        type: number
+        format: float
+    tags:
+      - Place
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/LocEntity'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+

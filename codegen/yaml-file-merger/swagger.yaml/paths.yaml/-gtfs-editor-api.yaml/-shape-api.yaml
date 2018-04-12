@@ -1,0 +1,110 @@
+/shapes:
+  get:
+    operationId: get_shapes
+    description: |
+      Get a all shapes.
+    tags:
+      - Shape
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Shape'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/shapes/id/{id}:
+  get:
+    operationId: get_shape_by_id
+    description: |
+      Get a trip shape.
+    parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+    tags:
+      - Shape
+    responses:
+      '200':
+        description: ''
+        schema:
+          $ref: '#/definitions/Shape'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/shapes/route-short-name/{name}:
+  get:
+    operationId: get_shapes_by_route_name
+    description: |
+      Get the shapes corresponding to a specific route short name (or label)
+    parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
+    tags:
+      - Shape
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RouteShape'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/shapes/trip-id/{id}:
+  get:
+    operationId: get_shape_by_trip_id
+    description: |
+      Get a trip shape.
+    parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+    tags:
+      - Shape
+    responses:
+      '200':
+        description: ''
+        schema:
+          $ref: '#/definitions/Shape'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/shapes/route-id/{id}:
+    get:
+      operationId: get_shapes_by_route_id
+      description: |
+        Get a route shape.
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+      tags:
+        - Shape
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Shape'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'

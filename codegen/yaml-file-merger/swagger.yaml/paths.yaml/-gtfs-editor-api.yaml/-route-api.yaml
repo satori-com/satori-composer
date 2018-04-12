@@ -1,0 +1,202 @@
+/routes/{id}/schedule-urls:
+  get:
+    operationId: get_schedule_urls
+    description: |
+      Returns schedule urls for route.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Route
+    responses:
+      '200':
+        description: 'List of or one FileUrls'
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/FileUrl'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/routes/short-name/{name}:
+  get:
+    operationId: get_route_by_short_name
+    parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
+    tags:
+      - Route
+    responses:
+      '200':
+        description: 'List of or one route'
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Route'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/routes/id/{id}:
+  get:
+    operationId: get_route_by_id
+    description: |
+      Returns the details of one route.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Route
+    responses:
+      '200':
+        description: 'Details of one route'
+        schema:
+          $ref: '#/definitions/Route'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    operationId: update_route
+    summary: Update a route
+    description: |
+      Updates details about a route
+    security:
+    - cas: ["admin"]
+    tags:
+      - Route
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Route'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Route'
+      default:
+        $ref: '#/responses/default'
+  delete:
+    operationId: delete_route
+    summary: Delete a route
+    description: |
+      Permatently removes a route
+    security:
+    - cas: ["admin"]
+    tags:
+      - Route
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Route'
+      default:
+        $ref: '#/responses/default'
+
+/routes/agency-id/{id}:
+  get:
+    operationId: get_routes_by_agency_id
+    description: |
+      Returns routes for agency.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Route
+    responses:
+      '200':
+        description: 'List of or one route'
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Route'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/routes/stop-id/{id}:
+  get:
+    operationId: get_routes_by_stop_id
+    description: |
+      Returns routes for stop.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Route
+    responses:
+      '200':
+        description: 'List of or one route'
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Route'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/routes:
+  get:
+    operationId: get_routes
+    description: |
+      Returns the collection of all routes'
+      information.
+    tags:
+      - Route
+    responses:
+      '200':
+        description: 'List of or one route'
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Route'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  post:
+    operationId: create_route
+    summary: Create a new route
+    description: |
+      Creates a new route.
+    security:
+    - cas: ["admin"]
+    tags:
+      - Route
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Route'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Route'
+      default:
+        $ref: '#/responses/default'

@@ -1,0 +1,151 @@
+incident_id:
+  description: unique id of the incident
+  name: incident_id
+  type: string
+  required: true
+  in: path
+comment_id:
+    description: unique id of the comment for incident
+    name: comment_id
+    type: string
+    required: true
+    in: path
+note_id:
+    description: unique id of an incident note
+    name: note_id
+    type: string
+    required: true
+    in: path
+agency_id:
+  description: unique id of the agency
+  name: agency_id
+  type: string
+  required: true
+  in: path
+device_id:
+  description: unique id of the device
+  name: device_id
+  type: string
+  required: true
+  in: path
+vehicle_id:
+  description: unique id of the vehicle
+  name: vehicle_id
+  type: string
+  required: true
+  in: path
+organization_id:
+  description: unique id of an organization
+  name: organization_id
+  type: string
+  required: true
+  in: path
+place_id:
+  description: unique id of a LocEntity
+  name: place_id
+  type: string
+  required: true
+  in: path
+registration_id:
+  description: unique id of a registration
+  name: registration_id
+  type: string
+  required: true
+  in: path
+route_id:
+  description: unique id of the route
+  name: route_id
+  type: string
+  required: true
+  in: path
+shape_id:
+  description: unique id of a shape
+  name: shape_id
+  type: string
+  required: true
+  in: path
+stop_id:
+  description: unique id of the stop
+  name: stop_id
+  type: string
+  required: true
+  in: path
+trip_id:
+  description: unique id of the trip
+  name: trip_id
+  type: string
+  required: true
+  in: path
+user_id:
+  description: unique id of the user
+  name: user_id
+  type: string
+  required: true
+  in: path
+time_window:
+  description: |
+    size of the window in seconds from `from_time`.
+    If from_time is not specified, current time is used server side
+  name: time_window
+  type: integer
+  required: false
+  in: query
+from_time:
+  description: 'usually current datetime, i.e. 2016-02-03T18:49:00+01:00'
+  name: from_time
+  type: string
+  format: date-time
+  required: false
+  in: query
+limit:
+  description: Number of trips per page (10 by default)
+  name: limit
+  type: integer
+  required: false
+  minimum: 10
+  maximum: 20
+  in: query
+agency:
+  description: unique id of an agency
+  name: agency_id
+  type: string
+  in: query
+organization:
+  description: unique id of an organization
+  name: organization_id
+  type: string
+  in: query
+trip:
+  description: unique id of a trip
+  name: trip
+  type: string
+  in: query
+region_center:
+  description: >-
+    center of a bounding box. Must be lat,lng: two comma separated floats
+    (e.g.: `37.419972,-122.146508`)
+  name: center
+  type: string
+  in: query
+region_span:
+  description: >-
+    span of a bounding box. Must be span_lat,span_lng: two comma separated
+    positivie floats (e.g.: `1,1`)
+  name: span
+  type: string
+  in: query
+route:
+  description: unique id of a route
+  name: route
+  type: string
+  in: query
+route_name:
+  description: unique short name of a route
+  name: route_name
+  type: string
+  in: query
+stop:
+  description: unique id of a stop
+  name: stop
+  type: string
+  in: query

@@ -1,8 +1,8 @@
 package com.satori.mods.suite
 
 import com.fasterxml.jackson.module.jsonSchema.*
+import com.satori.libs.common.kotlin.json.*
 import com.satori.libs.testlib.*
-import com.satori.libs.testlib.json.*
 import io.vertx.ext.unit.*
 import io.vertx.ext.unit.junit.*
 import org.junit.*

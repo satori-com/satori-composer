@@ -1,0 +1,141 @@
+/schedule/stop-id/{id}:
+  get:
+    operationId: get_schedule_for_stop
+    description: |
+      Trips for the given stop.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: stop id
+      - name: from_time
+        description: Usually current datetime, i.e. 2016-02-03T18:49:00+01:00
+        in: query
+        required: false
+        type: string
+        format: date-time
+      - name: time_window
+        description: Time window in seconds starting at from_time to search for trip departures
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        description: Number of trips per page (10 by default)
+        in: query
+        required: false
+        type: integer
+    tags:
+      - Schedule
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/StopSchedule'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/schedule/trip-id/{id}:
+    get:
+      operationId: get_schedule_for_trip
+      description: |
+        Get a stop sequence of the given trip.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: trip id
+        - name: time
+          in: query
+          required: false
+          type: string
+          format: date-time
+          description: Usually current datetime, i.e. 2016-02-03T18:49:00+01:00
+      tags:
+        - Schedule
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TripSchedule'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+/schedule/route-id/{id}:
+  get:
+    operationId: get_schedule_for_route
+    summary: Get schedule for route
+    description: |
+      Get schedule by route
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: route id
+      - name: time
+        in: query
+        required: false
+        type: string
+        format: date-time
+        description: Usually current datetime, i.e. 2016-02-03T18:49:00+01:00
+    tags:
+      - Schedule
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RouteSchedule'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+/schedule/stop-id/{stop_id}/trip-id/{trip_id}:
+  get:
+    operationId: get_schedule_for_stop_and_trip
+    description: |
+      Schedule for for the given stop and trip.
+    parameters:
+      - name: stop_id
+        in: path
+        required: true
+        type: string
+        description: stop id
+      - name: trip_id
+        in: path
+        required: true
+        type: string
+        description: trip id
+      - name: stop_sequence
+        in: query
+        required: true
+        type: integer
+        description: stop sequence
+      - name: from_time
+        description: Trip start day, i.e. 2016-11-27T00:00Z
+        in: query
+        required: false
+        type: string
+        format: date-time
+    tags:
+      - Schedule
+    responses:
+      '200':
+        description: ''
+        schema:
+          $ref: '#/definitions/StopTripSchedule'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

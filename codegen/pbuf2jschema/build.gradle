@@ -4,7 +4,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.sun.codemodel:codemodel:+'
+    classpath "com.sun.codemodel:codemodel:$codemodelVersion"
     classpath 'net.java.dev.javacc:javacc:+'
   }
 }

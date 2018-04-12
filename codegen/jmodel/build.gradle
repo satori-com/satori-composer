@@ -23,5 +23,5 @@ dependencies {
 
   compile "org.codehaus.groovy:groovy-all:$groovyVersion"
 
-  compile 'com.sun.codemodel:codemodel:+'
+  compile "com.sun.codemodel:codemodel:$codemodelVersion"
 }

@@ -5,8 +5,9 @@ import com.satori.composer.runtime.*
 import com.satori.libs.async.api.*
 import com.satori.libs.async.core.*
 import com.satori.libs.async.kotlin.*
+import com.satori.libs.common.kotlin.json.*
 import com.satori.libs.testlib.*
-import com.satori.libs.testlib.json.*
+import com.satori.libs.vertx.kotlin.*
 import io.vertx.ext.unit.*
 import io.vertx.ext.unit.junit.*
 import org.junit.*

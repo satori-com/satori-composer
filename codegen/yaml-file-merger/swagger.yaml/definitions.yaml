@@ -1,0 +1,1641 @@
+Error:
+  type: object
+  properties:
+    type:
+      type: string
+      default: Error
+      example: Error
+    code:
+      type: integer
+      format: int32
+    message:
+      type: string
+  required:
+    - code
+    - message
+Address:
+  type: object
+  properties:
+    address1:
+      type: string
+    address2:
+      type: string
+    city:
+      type: string
+    state:
+      type: string
+    zip:
+      type: string
+  required:
+    - address1
+    - city
+    - zip
+Agency:
+  type: object
+  properties:
+    id:
+      type: string
+    type:
+      type: string
+      default: Agency
+      example: Agency
+    name:
+      type: string
+  required:
+    - id
+    - type
+    - name
+Device:
+  type: object
+  description: tracking device that sends location info
+  properties:
+    id:
+      type: string
+    type:
+      type: string
+      default: Device
+    agency_id:
+      type: string
+    external_id:
+      type: string
+    platform:
+      type: string
+    imei:
+      type: string
+  required:
+    - id
+    - type
+    - agency_id
+DeviceInfo:
+  type: object
+  description: Info used to create device in vehicle
+  properties:
+    platform:
+      type: string
+    id:
+      type: string
+      description: 'this will be kept in the system as external_id'
+    imei:
+      type: string
+  required:
+    - id
+VehicleCommon:
+  type: object
+  properties:
+    id:
+      type: string
+    type:
+      type: string
+      default: Shuttle
+    name:
+      type: string
+    capacity:
+      type: integer
+  required:
+    - id
+    - type
+    - name
+
+OccupancyInfo:
+  x-doc: |
+    This data is only sent if the backend is aware of the capacity / occupancy numbers
+    TBD: calculate occupancy for NZ on the backend (bdc based)
+    TBD: store NZ capacity data on the backend (static file on the client currently)
+    TBD: (phase 1) DriverApp to inject capacity data
+    TBD: (phase 2) BE to inject capacity data based on vehicle database
+  type: object
+  properties:
+    capacity:
+      type: integer
+      format: int32
+    occupancy:
+      type: integer
+      format: int32
+
+
+Vehicle:
+  allOf:
+    - $ref: '#/definitions/VehicleCommon'
+    - properties:
+        route_id:
+          type: string
+        agency_id:
+          type: string
+      required:
+        - agency_id
+VehicleResult:
+  type: object
+  allOf:
+    - $ref: '#/definitions/VehicleCommon'
+    - properties:
+        route:
+          $ref: '#/definitions/Route'
+        agency:
+          $ref: '#/definitions/Agency'
+        device:
+          $ref: '#/definitions/Device'
+BoardingCount:
+  type: object
+  description: the boarding count at a stop
+  properties:
+    stop_id:
+      type: string
+    route_id:
+      type: string
+    device_id:
+      type: string
+    count:
+      type: integer
+      format: int32
+    timestamp:
+      type: integer
+      format: int64
+  required:
+    - stop_id
+    - route_id
+    - count
+ShuttleRequest:
+  type: object
+  description: shuttle request submitted by a passenger
+  properties:
+    from_stop_id:
+      type: string
+    to_stop_id:
+      type: string
+    route_id:
+      type: string
+    count:
+      type: integer
+  required:
+    - from_stop_id
+    - route_id
+    - count
+
+
+Location:
+  type: object
+  properties:
+    city:
+      type: string
+    center:
+      $ref: '#/definitions/LatLng'
+  required:
+    - city
+    - center
+
+Version:
+  type: object
+  properties:
+    environment:
+      type: string
+    sha:
+      type: string
+    tag:
+      type: string
+  required:
+    - environment
+    - sha
+
+FeedCurrentState:
+  type: object
+  properties:
+    rt_feed:
+      $ref: '#/definitions/RTFeed'
+    current_state:
+      type: array
+      items:
+        type: object
+
+SceneState:
+  type: object
+  properties:
+    rt_feeds:
+      type: array
+      items:
+        $ref: '#/definitions/RTFeed'
+    scene_state:
+      type: array
+      items:
+         $ref: '#/definitions/SceneObject'
+
+CarCountResult:
+  type: object
+  properties:
+    lane_id:
+      type: string
+    counts:
+      type: array
+      items:
+        type: integer
+        format: int64
+        x-doc: |
+          Array format: [[ts1, count1], [ts2, count2], [ts3, count3], ...]
+          `ts` = timestamp
+          count1 represents the amount of cars between ts1 and ts2,
+          count2 represents the amount of cars between ts2 and ts3, etc
+
+ServiceStatus:
+  type: object
+  properties:
+    service_id:
+      type: string
+    status:
+      type: string
+    last_updated:
+      type: string
+    service_name:
+      type: string
+    service_desc:
+      type: string
+    service_url:
+      type: string
+    rtm_based:
+      type: boolean
+    attempt_count:
+      type: integer
+    extra:
+      type: string
+    source:
+      type: string
+    supplier:
+      type: string
+    tags:
+      type: object
+      properties:
+        project: { type: string }
+        service: { type: string }
+        env:     { type: string }
+        version: { type: string }
+    service_headers:
+      type: object
+      properties:
+        Accept:                    { type: string }
+        Ocp-Apim-Subscription-Key: { type: string }
+
+
+Meta:
+  type: object
+  required:
+    - features
+  properties:
+    rtm_endpoint:
+      $ref: '#/definitions/RTMConnection'
+    rt_feeds:
+      type: array
+      items:
+        $ref: '#/definitions/RTFeed'
+    map_data:
+      type: object
+      properties:
+        starting_location:
+          $ref: '#/definitions/StartingLocation'
+    features:
+      $ref: '#/definitions/Features'
+    organization_id:
+      type: string
+    private:
+      $ref: '#/definitions/PrivateConfig'
+
+StartingLocation:
+  type: object
+  properties:
+    city:
+      type: string
+    center:
+      $ref: '#/definitions/LatLng'
+    zoom_level:
+      type: number
+      format: float
+    web:
+      $ref: '#/definitions/StartingLocation'
+    mobile:
+      $ref: '#/definitions/StartingLocation'
+
+
+Note:
+  type: object
+  properties:
+    name:
+      type: string
+OrganizationCommon:
+  type: object
+  properties:
+    id:
+      type: string
+    type:
+      type: string
+      default: Organization
+    name:
+      type: string
+    domain:
+      type: string
+    domains:
+      type: array
+      items:
+        type: string
+    address:
+      $ref: '#/definitions/Address'
+    logo_url:
+      type: string
+    agency_phone:
+      type: string
+    onboarding_state:
+      type: string
+    gtfs_url:
+      type: string
+    gtfs_update_interval:
+      description: 'in sec.'
+      type: integer
+    gtfs_update_status:
+      type: string
+      enum: ["new", "in process", "finish", "error"]
+  required:
+    - id
+    - type
+    - name
+    - domain
+    - address
+    - agency_phone
+Organization:
+  allOf:
+    - $ref: '#/definitions/OrganizationCommon'
+    - properties:
+        agency_name:
+          type: string
+      required:
+        - agency_name
+OrganizationResult:
+  allOf:
+    - $ref: '#/definitions/OrganizationCommon'
+    - properties:
+        agency:
+          $ref: '#/definitions/Agency'
+      required:
+        - agency
+
+SignupFormData:
+  x-doc: |
+    Should contain _all_ fields of the create user POST request apart from the password
+    Here only fields used by the BE currently are listed, but the list can be extended
+    at any point
+  type: object
+  properties:
+    client_id: { type: string }
+    email:     { type: string }
+  required:
+    - client_id
+    - email
+
+SignupPreparationResponse:
+  type: object
+  properties:
+    data:
+      $ref: '#/definitions/SignupPreparationData'
+
+SignupPreparationData:
+  type: object
+  properties:
+    organization_id:
+      type: string
+    roles:
+      type: array
+      items:
+        type: string
+
+User:
+  type: object
+  properties:
+    id:
+      type: string
+    email:
+      type: string
+      format: email
+    organization:
+      type: string
+    status:
+      type: string
+      enum: ["active", "inactive", "invited"]
+    first_name:
+      type: string
+    last_name:
+      type: string
+    phone:
+      type: string
+    role:
+      type: string
+    password:
+      x-doc: This value is never returned
+      type: string
+  required:
+  - id
+
+CreateDriver:
+  type: object
+  properties:
+    email:
+      type: string
+    password:
+      x-doc: This value is never returned
+      type: string
+  required:
+  - email
+  - password
+
+UserInfo:
+  type: object
+  properties:
+    sub:
+      type: string
+    active:
+      type: boolean
+    scope:
+      type: string
+    email:
+      type: string
+      format: email
+    given_name:
+      type: string
+    family_name:
+      type: string
+    phone_number:
+      type: string
+    pending_invitation:
+      type: boolean
+    organization:
+      type: string
+    roles:
+      type: array
+      items:
+        type: string
+    expires_at:
+      type: string
+      format: date-time
+
+Invitation:
+  type: object
+  properties:
+    emails:
+      type: string
+    role:
+      type: string
+  required:
+  - emails
+  - role
+
+InvitationReport:
+  type: object
+  properties:
+    users:
+      type: array
+      items:
+        $ref: '#/definitions/User'
+    failures:
+      type: array
+      items:
+        type: 'string'
+    ignored:
+      type: array
+      items:
+        type: 'string'
+  required:
+  - users
+  - failures
+  - ignored
+
+RTFeed:
+  type: object
+  properties:
+    name:
+      type: string
+    channel:
+      type: string
+    use_history:
+      type: boolean
+      default: false
+    age:
+      type: integer
+    count:
+      type: integer
+    position:
+      type: string
+    filter:
+      type: string
+    period:
+      type: integer
+    format:
+      type: string
+      enum: ["scene-v1", "scene-v1.2", "shuttle-v1", "incidents-v1", "notifications-v1"]
+  required:
+    - channel
+    - name
+
+Features:
+  type: object
+  x-doc: Switch TODOs to Generic Features once verified noone uses the endpoint
+  properties:
+    device_management:
+#TODO:         $ref: '#/definitions/GenericFeature'
+      $ref: '#/definitions/HTTPFeature'
+    self_service:
+#TODO:        $ref: '#/definitions/GenericFeature'
+      $ref: '#/definitions/HTTPFeature'
+    shuttle_request:
+#TODO:        $ref: '#/definitions/GenericFeature'
+      $ref: '#/definitions/HTTPFeature'
+    gtfs_lookup:
+      $ref: '#/definitions/HTTPFeature'
+    health_monitor:
+      $ref: '#/definitions/HealthMonitorFeature'
+    streams_search:
+      $ref: '#/definitions/StreamsSearchFeature'
+    places:
+      $ref: '#/definitions/PlacesFeature'
+    gps_tracker:
+      $ref: '#/definitions/RTMFeature'
+    transportation_options:
+      $ref: '#/definitions/TransportationOptionsFeature'
+    welcome_tour:
+      $ref: '#/definitions/WelcomeTourFeature'
+    locational_chat:
+      $ref: '#/definitions/LocationalChatFeature'
+    cc_ui:
+      $ref: '#/definitions/CCUIFeature'
+    taxi_booking:
+      $ref: '#/definitions/RTMFeature'
+    error_reporting:
+      $ref: '#/definitions/RTMFeature'
+    historic_data:
+      $ref: '#/definitions/RTMFeature'
+    trip_planning:
+      $ref: '#/definitions/RTMFeature'
+    incidents:
+#TODO:        $ref: '#/definitions/GenericFeature'
+      $ref: '#/definitions/HTTPFeature'
+    demo:
+#TODO:        $ref: '#/definitions/GenericFeature'
+      $ref: '#/definitions/HTTPFeature'
+
+
+GenericFeature:
+  type: object
+  properties:
+    enabled:
+      type: boolean
+      default: true
+
+TransportationOptionsFeature:
+  allOf:
+    - $ref: '#/definitions/GenericFeature'
+    - type: object
+      properties:
+        options:
+          type: array
+          items:
+            $ref: '#/definitions/TransportationOption'
+
+HTTPFeature:
+  allOf:
+    - $ref: '#/definitions/GenericFeature'
+    - type: object
+      properties:
+        endpoint:
+          type: string
+
+TransportationOption:
+  type: object
+  properties:
+    label:       { type: string }
+    description: { type: string }
+    name:        { type: string }
+
+RTMFeature:
+  allOf:
+    - $ref: '#/definitions/GenericFeature'
+    - type: object
+      properties:
+        rtm_endpoint:
+          $ref: '#/definitions/RTMConnection'
+        channel:
+          type: string
+
+StreamsSearchFeature:
+  allOf:
+    - $ref: '#/definitions/RTMFeature'
+    - type: object
+      properties:
+        radius:
+          type: number
+          format: int32
+          description: unit is meters
+        source:
+          type: string
+        googleApiSource:
+          type: string
+
+PlacesFeature:
+  allOf:
+    - $ref: '#/definitions/RTMFeature'
+    - type: object
+      properties:
+        radius:
+          type: number
+          format: double
+          description: unit is meters
+        googleApiSource:
+          type: string
+
+HealthMonitorFeature:
+  allOf:
+    - $ref: '#/definitions/HTTPFeature'
+    - type: object
+      properties:
+        data_source:
+          type: string
+
+WelcomeTourFeature:
+  allOf:
+    - $ref: '#/definitions/GenericFeature'
+    - type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/definitions/TourItem'
+        splash:
+          $ref: '#/definitions/SplashData'
+
+SplashData:
+  type: object
+  properties:
+    logo:
+      $ref: '#/definitions/ClientImageSpec'
+    background:
+      $ref: '#/definitions/ClientImageSpec'
+
+TourItem:
+  type: object
+  properties:
+    actionText: { type: string }
+    decription: { type: string }
+    title:      { type: string }
+    images:
+      $ref: '#/definitions/ClientImageSpec'
+
+ClientImageSpec:
+  type: object
+  properties:
+    desktop: { type: string }
+    mobile:  { type: string }
+
+IncidentReport:
+  type: object
+  properties:
+    id:
+      type: string
+    creator:
+      x-doc: Reference to the user who created the incident
+      type: string
+    type:
+      x-doc: |
+        Possible values: "Road Hazard", "Accident", "Cabin Incident", "Traffic Report", "Assistance", "Other", etc
+      type: string
+    subtype:
+      x-doc: Depends on the "type" field
+      type: string
+    description:
+      type: string
+    comments:
+      type: array
+      items:
+        $ref: '#/definitions/IncidentComment'
+    notes:
+      type: array
+      items:
+        $ref: '#/definitions/IncidentComment'
+    created:
+      type: integer
+      format: int64
+      readOnly: true
+    updated:
+      type: integer
+      format: int64
+      readOnly: true
+    status:
+      type: string
+      enum: [ "open", "in_progress", "closed" ]
+    photo_url:
+      type: array
+      items:
+        $ref: '#/definitions/FileUrl'
+    location:
+      $ref: '#/definitions/Position'
+    source_asset_id:
+      type: string
+    source_asset:
+      type: object
+    notification_closed:
+      type: boolean
+  required:
+    - id
+    - type
+IncidentComment:
+  type: object
+  properties:
+    id:
+      type: string
+    incident_id:
+      type: string
+    created:
+      type: integer
+      format: int64
+      readOnly: true
+    updated:
+      type: integer
+      format: int64
+      readOnly: true
+    content:
+      type: string
+    creator:
+      x-doc: Reference to the user who created the comment
+      type: string
+      readOnly: true
+  required:
+    - id
+    - incident_id
+    - content
+IncidentType:
+  type: object
+  properties:
+    type:
+      type: string
+    subtypes:
+      type: array
+      items:
+        type: string
+    icon:
+      type: string
+    comment_required:
+      type: boolean
+  required:
+    - type
+
+LocationalChatFeature:
+  allOf:
+    - $ref: '#/definitions/GenericFeature'
+    - type: object
+      properties:
+        hierarchy:
+          type: array
+          items:
+            $ref: '#/definitions/ChatNode'
+        markers:
+          type: array
+          items:
+            $ref: '#/definitions/ChatMarker'
+        zoom_level:
+          type: number
+          format: float
+
+ChatNode:
+  type: object
+  properties:
+    children:
+      type: array
+      items:
+        $ref: '#/definitions/ChatNode'
+    name:   { type: string }
+    title:  { type: string }
+
+ChatMarker:
+  type: object
+  properties:
+    content: { type: string }
+    id:      { type: string }
+    label:   { type: string }
+    lat:
+      type: number
+      format: float
+    lng:
+      type: number
+      format: float
+    name:    { type: string }
+    type:    { type: string }
+    url:     { type: string }
+
+CCUIFeature:
+  allOf:
+    - $ref: '#/definitions/GenericFeature'
+    - type: object
+      properties:
+        logo:
+          $ref: '#/definitions/FileUrl'
+        title:
+          type: string
+        map_type:
+          type: array
+          items:
+            type: string
+            enum: ["nz_generic", "nz_satellite", "default"]
+
+RTMConnection:
+  type: object
+  properties:
+    endpoint:
+      type: string
+    appkey:
+      type: string
+    authorization_type:
+      type: string
+      enum: ["role", "token", "none"]
+    role_secret:
+      type: string
+    role:
+      type: string
+  required:
+    - endpoint
+    - appkey
+
+FileUrl:
+  type: object
+  properties:
+    url:
+      type: string
+    description:
+      type: string
+  required:
+    - url
+
+GtfsUrl:
+  type: object
+  properties:
+    gtfs_url:
+      type: string
+    gtfs_update_interval:
+      type: integer
+  required:
+    - gtfs_url
+
+# GTFS/KRest definitions
+
+Stop:
+  type: object
+  properties:
+    id:
+      type: string
+    code:
+      type: string
+    name:
+      type: string
+    location:
+      $ref: '#/definitions/LatLng'
+  required:
+    - id
+    - location
+Id:
+  type: object
+  properties:
+    id:
+      type: string
+Trip:
+  type: object
+  properties:
+    id:
+      type: string
+    route:
+      $ref: '#/definitions/Route'
+    headsign:
+      type: string
+    shape_id:
+      type: string
+    ext_destination:
+      type: string
+    direction_id:
+      type: integer
+    frequency:
+      $ref: '#/definitions/Frequency'
+SchedInfo:
+  type: object
+  properties:
+    arrival_time:
+      type: string
+      format: date-time
+      description: Scheduled arrival time
+    departure_time:
+      type: string
+      format: date-time
+      description: Scheduled departure time
+    stop_sequence:
+      type: integer
+    pickup_type:
+      type: integer
+      description: The pickup type for the stop
+    drop_off_type:
+      type: integer
+      description: The drop off type for the stop
+TripStop:
+  type: object
+  properties:
+    stop:
+      $ref: '#/definitions/Stop'
+    stop_sequence:
+      type: integer
+  required:
+    - stop
+    - stop_sequence
+RouteStop:
+  type: object
+  properties:
+    trip_id:
+      type: string
+    trip_stops:
+      type: array
+      items:
+        $ref: '#/definitions/TripStop'
+  required:
+    - trip_stops
+StopTrip:
+  description: Trip info for Stop Card
+  type: object
+  properties:
+    trip:
+      $ref: '#/definitions/Trip'
+    sched_info:
+      $ref: '#/definitions/SchedInfo'
+Shape:
+  type: object
+  description: ''
+  properties:
+    id:
+      type: string
+    points:
+      description: '[lat, lng, lat, lng, ...]'
+      type: array
+      items:
+        type: number
+        format: float
+RouteShape:
+  type: object
+  description: ''
+  properties:
+    route_id:
+      type: string
+    shapes:
+      type: array
+      items:
+        $ref: '#/definitions/Shape'
+RouteDiscoveryRequest:
+  type: object
+  description: data needed to initiate route discovery
+  properties:
+    rtmInfo:
+      $ref: '#/definitions/RTMFeature'
+    bot_id:
+      type: string
+    route_id:
+      type: string
+    trips:
+      type: array
+      items:
+        $ref: '#/definitions/RouteStop'
+  required:
+    - rtmInfo
+    - route_id
+    - bot_id
+    - trips
+TripRecord:
+  type: object
+  description: record of a trip taken for route discovery
+  properties:
+    trip_id:
+      type: string
+    shape:
+      $ref: '#/definitions/Shape'
+    stops:
+      type: array
+      items:
+        $ref: '#/definitions/TripStop'
+  required:
+    - trip_id
+RouteDiscoveryResult:
+  type: object
+  description: route discovery result that's a collection of trips taken
+  properties:
+    trips:
+      type: array
+      items:
+        $ref: '#/definitions/TripRecord'
+RouteDiscoveryInProgress:
+  type: object
+  description: an in-progress discovery for route by bot
+  properties:
+    route_id:
+      type: string
+    bot_id:
+      type: string
+  required:
+    - route_id
+    - bot_id
+RouteDiscoveryBotIds:
+  type: object
+  description: array of discovery bot IDs
+  properties:
+    ids:
+      type: array
+      items:
+        type: string
+LatLng:
+  type: object
+  properties:
+    lat:
+      type: number
+      format: float
+    lng:
+      type: number
+      format: float
+LocEntity:
+  type: object
+  properties:
+    id:
+      type: string
+    primary_text:
+      type: string
+    secondary_text:
+      type: string
+    location:
+      $ref: '#/definitions/LatLng'
+SearchExtraInfo:
+  type: object
+  properties:
+    icon:
+      type: string
+    type:
+      type: string
+      enum: ["stop", "route", "place"]
+      description: 'Available values: stop, route, place'
+    relevance:
+      type: number
+      format: float
+    types:
+      type: array
+      items:
+        type: string
+SearchResult:
+  type: object
+  properties:
+    entity:
+      $ref: '#/definitions/LocEntity'
+    extrainfo:
+      $ref: '#/definitions/SearchExtraInfo'
+
+
+Route:
+  type: object
+  properties:
+    id:
+      type: string
+    long_name:
+      type: string
+    short_name:
+      type: string
+    agency_id:
+      type: string
+    route_color:
+      type: string
+    is_manually:
+      type: boolean
+  required:
+    - id
+    - short_name
+    - agency_id
+    - is_manually
+StopSchedule:
+    description: Trip info for Stop Card
+    type: object
+    properties:
+      trip:
+        $ref: '#/definitions/Trip'
+      arrival_time:
+        type: string
+        format: date-time
+        description: Scheduled arrival time
+      departure_time:
+        type: string
+        format: date-time
+        description: Scheduled departure time
+      stop_sequence:
+        type: integer
+      pickup_type:
+        type: integer
+        description: The pickup type for the stop
+      drop_off_type:
+        type: integer
+        description: The drop off type for the stop
+StopTripSchedule:
+      description: Stop schedule
+      type: object
+      properties:
+        trip:
+          $ref: '#/definitions/Trip'
+        stop:
+          $ref: '#/definitions/Stop'
+        arrival_time:
+          type: string
+          format: date-time
+          description: Scheduled arrival time
+        departure_time:
+          type: string
+          format: date-time
+          description: Scheduled departure time
+        stop_sequence:
+          type: integer
+        pickup_type:
+          type: integer
+          description: The pickup type for the stop
+        drop_off_type:
+          type: integer
+          description: The drop off type for the stop
+TripSchedule:
+      description: Trip info for Stop Card
+      type: object
+      properties:
+        stop:
+          $ref: '#/definitions/Stop'
+        arrival_time:
+          type: string
+          format: date-time
+          description: Scheduled arrival time
+        departure_time:
+          type: string
+          format: date-time
+          description: Scheduled departure time
+        stop_sequence:
+          type: integer
+        pickup_type:
+          type: integer
+          description: The pickup type for the stop
+        drop_off_type:
+          type: integer
+          description: The drop off type for the stop
+Frequency:
+    type: object
+    properties:
+      trip_id:
+        type: string
+      group_id:
+        type: string
+      start_time:
+        type: string
+      end_time:
+        type: string
+      headway_secs:
+        type: string
+StopDestination:
+    description: Stops which a reachable from current stop
+    type: object
+    properties:
+      stop:
+        $ref: '#/definitions/Stop'
+      stop_schedule:
+        type: array
+        items:
+          $ref: '#/definitions/StopSchedule'
+RouteSchedule:
+  description: Route schedual
+  type: object
+  properties:
+    trip:
+      $ref: '#/definitions/Trip'
+    stop_schedule:
+      type: array
+      items:
+        $ref: '#/definitions/TripSchedule'
+
+SceneObject:
+  type: object
+  properties:
+    id:
+      type: string
+    fleet_id:
+      x-doc: |
+        External ID meaningful for the provider
+        Only present if the provider uses IDs different then our ID
+      type: string
+    api_version:
+      type: string
+    type:
+      type: string
+      enum: ["bus", "shuttle", "train", "camera", "shuttle_request"]
+    source_agency:
+      type: string
+    timestamp:
+      x-doc: When the data in this update was generated (if known)
+      format: int64
+      type: integer
+    last_updated:
+      x-doc: When the data in this update last changed (if known)
+      format: int64
+      type: integer
+    version:
+      type: string
+    description:
+      type: string
+    label:
+      type: string
+    vehicle_state:
+      type: string
+      enum: ["unavailable", "locked", "active"]
+    has_incident:
+      type: boolean
+    latest_incident_timestamp:
+      type: integer
+      format: int64
+#      labels:
+#        type: array
+#        items:
+#          type: string
+    service:
+      $ref: '#/definitions/Service'
+    position:
+      $ref: '#/definitions/Position'
+    transportation:
+      $ref: '#/definitions/Transportation'
+    shuttle_request:
+      $ref: '#/definitions/ShuttleRequest'
+    occupancy_info:
+      $ref: '#/definitions/OccupancyInfo'
+    camera:
+      $ref: '#/definitions/Camera'
+    information_source:
+      $ref: '#/definitions/Ref'
+    proprietary:
+      $ref: '#/definitions/Proprietary'
+
+PrivateConfig:
+  type: object
+  x-doc: |
+    Private meta service data. Should be ignored by clients
+  properties:
+    public_organization:
+      type: boolean
+      default: false
+
+SimpleSceneObjectNoArray:
+  type: object
+  x-doc: |
+    This is a hack to avoid rewriting code generation to accept null fields which should be arrays
+    Specifically for stop_time_update and stop_eta
+    Used in acceptance tests
+    Proper solution is to rewrite the generator to be able to handle this
+  properties:
+    id:
+      type: string
+    source_agency:
+      type: string
+    label:
+      type: string
+    transportation:
+      $ref: '#/definitions/SimpleTransportationNoArray'
+
+SimpleTransportationNoArray:
+  x-doc: See SimpleSceneObjectNoArray
+  properties:
+    trip:
+      $ref: '#/definitions/Ref'
+    route:
+      $ref: '#/definitions/Ref'
+    shape:
+      $ref: '#/definitions/Ref'
+
+Service:
+  x-doc: |
+    The service state matrix should be represented here
+  type: object
+  properties:
+    power_on:
+      x-doc: (DEPRECATED by vehicle_state) Whether the device is powered up
+      type: boolean
+    in_service:
+      type: boolean
+    online:
+      x-doc: Whether the device can broadcast data
+      type: boolean
+    exception:
+      $ref: '#/definitions/Exception'
+
+Exception:
+  x-doc: |
+    (WIP - NOT IMPLEMENTED)
+    Information about an exception
+  type: object
+  properties:
+    type:
+      x-doc: Type of an exception
+      type: string
+      enum: ["out-of-route", "ghost", "speeding", "late", "early", "wrong_vehicle", "at_capacity"]
+    message:
+      x-doc: Details of an exception
+      type: string
+
+
+Proprietary:
+  x-doc: Placeholder for all customer-specific attributes that have not been generalized yet
+  type: object
+  properties:
+    bdc:
+      $ref: '#/definitions/BDC'
+    trip_state:
+      x-customer: AT
+      x-doc: |
+        Keep it proprietary until we verify it's generic enough (relates to key_on/off)
+        Shuttles MVP does not have elaborate trip state differentiation (a shuttle always
+        reports its trip as "commenced")
+      type: string
+      enum: ["Commenced", "Not Commenced", "Not specified", "Invalid", "Ended"]
+    stop_time_update:
+      x-customer: AT
+      x-doc: |
+        Shuttles MVP does not have  have per-stop arrival / departure tracking, and the concept
+        does not exist for frequency based routes at all
+      type: array
+      items:
+        $ref: '#/definitions/StopTimeUpdate'
+    current_stop_sequence:
+      x-doc: |
+        TBD: Migrate from stop_sequence to stop_ref across the board
+             Assumption: presently only used in CC
+      type: integer
+      format: int32
+    errors:
+      x-customer: AT
+      type: array
+      items:
+        $ref: '#/definitions/VehicleError'
+
+StopTimeUpdate:
+    type: object
+    properties:
+      stop_sequence:
+        type: integer
+        format: int32
+      stop_id:
+        type: string
+      arrival:
+        $ref: '#/definitions/ArrivalDeparture'
+      departure:
+        $ref: '#/definitions/ArrivalDeparture'
+
+ArrivalDeparture:
+  type: object
+  properties:
+    delay:
+      type: integer
+      format: int64
+    time:
+      type: integer
+      format: int64
+
+VehicleError:
+    type: object
+    properties:
+      text:
+        type: string
+      code:
+        type: string
+      data:
+        type: object
+
+BDC:
+  x-customer: AT
+  type: object
+  properties:
+    passengersInCnt:
+      type: integer
+      format: int32
+    passengersOutCnt:
+      type: integer
+      format: int32
+    paperTicketsSold:
+      type: integer
+      format: int32
+
+Position:
+  type: object
+  description: https://developers.google.com/transit/gtfs-realtime/reference/
+  properties:
+    lat:
+      type: number
+      format: float
+    lng:
+      type: number
+      format: float
+    bearing:
+      type: number
+      format: float
+    speed:
+      type: number
+      format: float
+    accuracy:
+      type: number
+      format: float
+    location:
+      type: string
+    location_description:
+      type: string
+
+Camera:
+  type: object
+  properties:
+    video_feed:
+      $ref: '#/definitions/VideoFeed'
+    car_counting_service_id:
+      type: string
+
+VideoFeed:
+  type: object
+  properties:
+    rtm_endpoint:
+      $ref: '#/definitions/RTMConnection'
+    rt_feed:
+      $ref: '#/definitions/RTFeed'
+
+Transportation:
+  x-doc: |
+    Backend may not advertise some or all transportation properties if they are unknown
+    E.g., the trip (and therefore the shape) may not be known until the vehicle cruised
+    long enough for the BE to determine the correct vehicle-to-trip mapping
+
+    TBD: As much as posible discover all this automatically
+    TBD: Potentially integrate gtfs-rt "current_status" fields
+  type: object
+  properties:
+    trip:
+      $ref: '#/definitions/Ref'
+    route:
+      $ref: '#/definitions/Ref'
+    shape:
+      $ref: '#/definitions/Ref'
+    trip_state:
+      x-doc: Defines whether the vehicle is assigned to a trip
+      type: string
+      enum: ["in_service", "out_of_service"]
+    trip_direction:
+      x-doc: Not present if we do not have enough information to infer it
+      type: string
+      enum: ["inbound", "outbound", "clockwise", "counterclockwise", "southbound", "northbound", "eastbound", "westbound"]
+    stop_eta:
+      x-doc: |
+        Array of ETA for the remaining stop on this trip - if known
+        Currently only supported by mzshuttle
+        The array is ordered in natural stop progression
+      type: array
+      items:
+        $ref: '#/definitions/StopETA'
+
+StopETA:
+  type: object
+  properties:
+    eta:
+      type: integer
+      format: int64
+    stop:
+      $ref: '#/definitions/Ref'
+
+Ref:
+  type: object
+  properties:
+    ref_id:
+       type: string
+    ref_type:
+       type: string
+  required:
+    - ref_id
+
+NotificationMessage:
+  type: object
+  description: a generic notification message
+  properties:
+    type:
+      type: string
+    payload:
+      type: object
+  required:
+    - type
+
+NotifyDeviceVehicleLink:
+  type: object
+  description: notification payload after creating devcie-vehicle link
+  properties:
+    device_id:
+      type: string
+    vehicle_id:
+      type: string
+  required:
+    - device_id
+    - vehicle_id
+
+NotifyIncident:
+  description: |
+    Whenever there is a change to any incident/comment, that object will be sent into the channel.
+    If "incident" has been changed then "comment" filed will be absent, the same with "comment"'s changes (incident will be absent)
+    "event_type" and "type" are required
+  type: object
+  properties:
+    operation:
+      type: string
+      enum: ["create", "update", "delete"]
+    payload_type:
+      type: string
+      enum: ["incident", "comment", "note"]
+    payload:
+      type: object
+
+
+##########################
+## MAAS DEFINITIONS ######
+##########################
+
+MaaSHeader:
+  type: object
+  properties:
+    sourceId:
+      type: string
+    timestamp:
+      type: string
+    sessionId:
+      type: string
+    requestId:
+      type: integer
+
+MaaSError:
+  type: object
+  properties:
+    message: { type: string }
+    code: { type: integer }
+
+MaaSRequest:
+  type: object
+  properties:
+    header: { type: object }
+    data:   { type: object }
+
+MaaSReply:
+  type: object
+  properties:
+    header:
+      $ref: '#/definitions/MaaSHeader'
+    error:
+      $ref: '#/definitions/MaaSError'
+
+MaaSSearchV1Request:
+  type: object
+  properties:
+    fragment:        { type: string }
+    maxResults:      { type: string }
+    source:          { type: string }
+    location:        { type: string }
+    googleApiSource: { type: string }
+    strictbounds:
+      type: boolean
+      default: true
+    types:
+      type: array
+      items:
+        type: string
+    radius:
+      type: integer
+
+MaaSSearchV1Header:
+  allOf:
+    - $ref: '#/definitions/MaaSHeader'
+    - type: object
+      required:
+        - messageType
+      properties:
+        messageType:
+          type: string
+          default: "cc_search_request_v1"
+
+MaaSSearchV1ReplyExtra:
+  type: object
+  properties:
+    source: { type: string }
+    stopCode: { type: string }
+
+MaaSSearchV1ReplyUnit:
+  type: object
+  properties:
+    type: { type: string }
+    description: { type: string }
+    id: { type: string }
+    extra:
+      $ref: '#/definitions/MaaSSearchV1ReplyExtra'
+
+MaaSSearchV1Reply:
+  allOf:
+    - $ref: '#/definitions/MaaSReply'
+    - type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/definitions/MaaSSearchV1ReplyUnit'

@@ -1,0 +1,136 @@
+/trips/id/{id}:
+  get:
+    operationId: get_trip_by_id
+    summary: Get a trip by id.
+    description: |
+      Get a trip by id.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Trip
+    responses:
+      '200':
+        description: ''
+        schema:
+          $ref: '#/definitions/Trip'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    operationId: delete_trip
+    summary: Delete trip
+    description: |
+      Delete trip
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    security:
+    - cas: ["admin", "operator"]
+    tags:
+      - Trip
+    responses:
+      '200':
+        description: ''
+        schema:
+          $ref: '#/definitions/Trip'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/trips/id/{id}/shape:
+  post:
+    operationId: add_shape_to_trip
+    summary: Add a shape to trip
+    description: |
+      Add a shape to trip
+    security:
+    - cas: ["admin"]
+    tags:
+      - Trip
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Shape'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Trip'
+      default:
+        $ref: '#/responses/default'
+
+/trips/route-id/{id}:
+    get:
+      operationId: get_trips_by_route_id
+      description: |
+        Get a trips by route id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      tags:
+        - Trip
+      responses:
+        '200':
+          description: 'List of trips'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Trip'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+/trips:
+  get:
+    operationId: get_trips
+    description: |
+      Returns the collection of all trips' information.
+    tags:
+      - Trip
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Trip'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  post:
+    operationId: create_trip
+    summary: Create a new trip
+    description: |
+      Creates a new trip
+    security:
+    - cas: ["driver", "admin", "operator"]
+    tags:
+      - Trip
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Trip'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Trip'
+      default:
+        $ref: '#/responses/default'

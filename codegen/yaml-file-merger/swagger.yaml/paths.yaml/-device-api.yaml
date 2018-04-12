@@ -1,0 +1,99 @@
+/devices:
+  get:
+    operationId: list_devices
+    summary: List all devices
+    description: |
+      Retrieve a list of all devices managed by the organization
+    security:
+    - cas: ["admin"]
+    tags:
+      - Device
+    parameters:
+      - $ref: '#/parameters/agency'
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Device'
+      default:
+        $ref: '#/responses/default'
+  post:
+    operationId: create_device
+    summary: Create a new device
+    description: |
+      Creates a new device.
+      This device will need to be activated through the activation flow.
+    security:
+    - cas: ["admin"]
+    tags:
+      - Device
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Device'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Device'
+      default:
+        $ref: '#/responses/default'
+'/devices/{device_id}':
+  parameters:
+    - $ref: '#/parameters/device_id'
+  get:
+    operationId: get_device
+    summary: Get a device by id
+    description: |
+      Retrives details about a Device
+    security:
+    - cas: ["admin", "operator"]
+    tags:
+      - Device
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Device'
+      default:
+        $ref: '#/responses/default'
+  put:
+    operationId: update_device
+    summary: Update a device
+    description: |
+      Updates details about a Device
+    security:
+    - cas: ["admin"]
+    tags:
+      - Device
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Device'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Device'
+      default:
+        $ref: '#/responses/default'
+  delete:
+    operationId: delete_device
+    summary: Delete a device
+    description: |
+      Permatently removes a device
+    security:
+    - cas: ["admin"]
+    tags:
+      - Device
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Device'
+      default:
+        $ref: '#/responses/default'

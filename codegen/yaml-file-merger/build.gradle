@@ -1,0 +1,16 @@
+apply from: rootProject.file('metainfo.gradle')
+
+// main dependencies
+dependencies {
+  compile project(":libs-common-kotlin")
+  compile project(":codegen-utils")
+
+  compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"
+}
+
+// test dependencies
+dependencies {
+  testCompile project(":libs-testlib")
+  testCompile "ch.qos.logback:logback-classic:$logbackVersion"
+  testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
+}

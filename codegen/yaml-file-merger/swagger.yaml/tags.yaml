@@ -1,0 +1,38 @@
+- name: Agency
+  description: Agency API
+- name: CarCount
+  description: Car Count API
+- name: Device
+  description: Device API
+- name: Discovery
+  description: Discovery API
+- name: File
+  description: File API
+- name: General
+  description: General API
+- name: Incident
+  description: Incident API
+- name: Organization
+  description: Organization API
+- name: Place
+  description: Places API
+- name: Route
+  description: Routes API
+- name: Schedule
+  description: Schedule API
+- name: Search
+  description: Search API
+- name: Shape
+  description: Shape API
+- name: Shuttle
+  description: Shuttle API
+- name: Stop
+  description: Stops API
+- name: Trip
+  description: Trips API
+- name: User
+  description: Users API
+- name: Signup
+  description: Signup API
+- name: Vehicle
+  description: Vehicle API

@@ -1,0 +1,125 @@
+
+/discovery/routes:
+  post:
+    operationId: start_route_discovery
+    summary: initiate discovery of specified route
+    description: initiate discovery of specified route
+    security:
+    - cas: [ 'admin' ]
+    tags:
+      - Discovery
+    parameters:
+      - name: payload
+        description: ID of route
+        in: body
+        schema:
+          $ref: '#/definitions/Id'
+    responses:
+      '204':
+        description: OK
+      default:
+        $ref: '#/responses/default'
+'/discovery/routes/{route_id}':
+  parameters:
+    - $ref: '#/parameters/route_id'
+  get:
+    operationId: get_route_discovery_result
+    summary: return the route discovery result
+    description: return the route discovery result, which is a collection of trips taken.  The trips would contain stops and shapes
+    security:
+    - cas: [ 'admin', 'operator' ]
+    tags:
+      - Discovery
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/RouteDiscoveryResult'
+      default:
+        $ref: '#/responses/default'
+  put:
+    operationId: put_route_discovery_result
+    summary: set the discovery result for specified route
+    description: set the discovery result for specified route
+    security:
+    - cas: [ 'infrastructure' ]
+    tags:
+      - Discovery
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/RouteDiscoveryResult'
+    responses:
+      '204':
+        description: OK
+      default:
+        $ref: '#/responses/default'
+'/discovery/in_progress':
+  get:
+    operationId: get_route_discovery_in_progress
+    summary: get route discoveries in progress
+    description: shows the in-progress routes and the bots responsible
+    security:
+    - cas: [ 'infrastructure' ]
+    tags:
+      - Discovery
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RouteDiscoveryInProgress'
+      default:
+        $ref: '#/responses/default'
+'/discovery/all_bots':
+  get:
+    operationId: get_all_route_discovery_bots
+    summary: get all route discovery bot IDs
+    description: get all route discovery bot IDs
+    security:
+    - cas: [ 'infrastructure' ]
+    tags:
+      - Discovery
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/RouteDiscoveryBotIds'
+      default:
+        $ref: '#/responses/default'
+  put:
+    operationId: put_all_route_discovery_bots
+    summary: put all route discovery bot IDs
+    description: put all route discovery bot IDs
+    security:
+    - cas: [ 'infrastructure' ]
+    tags:
+      - Discovery
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/RouteDiscoveryBotIds'
+    responses:
+      '204':
+        description: OK
+      default:
+        $ref: '#/responses/default'
+'/discovery/busy_bots':
+  get:
+    operationId: get_busy_route_discovery_bots
+    summary: get busy route discovery bot IDs
+    description: get busy route discovery bot IDs
+    security:
+    - cas: [ 'infrastructure' ]
+    tags:
+      - Discovery
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/RouteDiscoveryBotIds'
+      default:
+        $ref: '#/responses/default'

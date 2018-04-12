@@ -1,0 +1,12 @@
+cas:
+  type: oauth2
+  # this is ignored
+  flow: implicit
+  authorizationUrl: https://example.com/oauth/authorize
+  # tokenUrl: https://example.com/oauth/token
+  scopes:
+    infrastructure: Backend services (client access is prohibited)
+    admin: Command center UI administartor
+    operator: Command center UI operator
+    driver: Driver
+    passenger: Authenticated passenger

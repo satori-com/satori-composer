@@ -1,0 +1,17 @@
+// main dependencies
+dependencies {
+  //compile "org.slf4j:slf4j-api:$slf4jVersion"
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
+
+  compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+  compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+  compile "com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion"
+}
+
+// test dependencies
+dependencies {
+  testCompile project(':libs-testlib')
+  testCompile "ch.qos.logback:logback-classic:$logbackVersion"
+  testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
+}

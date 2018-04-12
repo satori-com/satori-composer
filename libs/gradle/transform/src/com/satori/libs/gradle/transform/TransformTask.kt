@@ -6,6 +6,10 @@ import java.io.*
 
 open class TransformTask : DefaultTask(), ITransformSpec {
   
+  init {
+    group = "codegen"
+  }
+  
   @InputFile
   override var template: File? = null
   

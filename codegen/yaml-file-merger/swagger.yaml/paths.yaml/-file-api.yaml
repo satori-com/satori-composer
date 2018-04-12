@@ -1,0 +1,95 @@
+
+/file:
+  post:
+    operationId: upload_file
+    summary: Upload file
+    description: |
+      Upload file
+    security:
+    - cas: ["passenger", "driver", "admin", "operator"]
+    tags:
+      - File
+    consumes:
+      - multipart/form-data  # and/or application/x-www-form-urlencoded
+    parameters:
+      - in: formData
+        name: file
+        type: file
+        required: true
+        description: The file to upload.
+      - in: formData
+        name: type
+        type: string
+        enum:
+          - logos
+          - gtfs
+          - incidents
+          - icons
+          - car-counting-csv
+        required: true
+        description: Type of file contents.
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/FileUrl'
+      default:
+        $ref: '#/responses/default'
+
+/file/gtfs/{organization_id}:
+  parameters:
+    - $ref: '#/parameters/organization_id'
+  get:
+    operationId: get_organization_gtfs
+    description: |
+      Get latest version of organization's gtfs
+    produces:
+    - 'application/octet-stream'
+    security:
+    - cas: ["admin", "operator"]
+    tags:
+      - File
+    parameters:
+      - in: header
+        name: if-none-match
+        type: string
+        required: false
+    responses:
+      '200':
+        description: A zip file
+        schema:
+          type: string
+          format: binary
+        headers:
+          etag:
+            type: string
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/file/logo/{organization_id}:
+  parameters:
+    - $ref: '#/parameters/organization_id'
+  get:
+    operationId: get_organization_logo
+    summary: Retrieve the logo of an organization
+    description: |
+      Retrieve the logo of an organization
+    produces:
+    - 'application/octet-stream'
+    tags:
+      - File
+    responses:
+      '200':
+        description: OK
+        headers:
+          Content-Type:
+            type: string
+        schema:
+          type: string
+          format: binary
+      default:
+        $ref: '#/responses/default'
+    # TODO: remove once we have a proper security definition of each individual call
+    x-skip-authentication: true

@@ -1,6 +1,7 @@
 package com.satori.libs.testlib
 
 import com.satori.libs.async.kotlin.*
+import com.satori.libs.vertx.kotlin.*
 import io.vertx.core.*
 import io.vertx.ext.unit.*
 import io.vertx.ext.unit.impl.*
@@ -41,7 +42,6 @@ open class TestScope(val context: TestContext, vertx: Vertx) : VertxFutureScope(
   fun assertNotNull(expected: Any?) {
     context.assertNotNull(expected)
   }
-  
 }
 
 inline fun <reified T> asyncTest(context: TestContext, noinline test: suspend TestScope.() -> T) {

@@ -1,0 +1,150 @@
+/users:
+  get:
+    operationId: list_users
+    summary: List all users for user's current organization
+    description: |
+      Retrieve a list of all users who belong to the current organization
+    security:
+    - cas: ['admin']
+    tags:
+      - User
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/User'
+      default:
+        $ref: '#/responses/default'
+  post:
+    operationId: admin_create_user
+    summary: Create a new user
+    description: |
+      Endpoint for management tools only. Normal user registration flow should use /registration
+      in CAS or /signup in BE (TBD)
+    security:
+    - cas: ['infrastructure']
+    tags:
+      - User
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/User'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/UserInfo'
+      default:
+        $ref: '#/responses/default'
+
+'/users/{user_id}':
+  parameters:
+    - $ref: '#/parameters/user_id'
+  get:
+    operationId: admin_get_user
+    summary: Get information about the user
+    description: |
+      Endpoint for management tools only.
+    security:
+    - cas: ['infrastructure']
+    tags:
+      - User
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/UserInfo'
+      default:
+        $ref: '#/responses/default'
+  put:
+    operationId: update_user
+    summary: Change a user's attribute
+    description: |
+      Update a user info
+    security:
+    - cas: ['admin']
+    tags:
+    - User
+    parameters:
+      - name: payload
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/User'
+      default:
+        $ref: '#/responses/default'
+
+  delete:
+    operationId: delete_user
+    summary: Delete a user registered with CAS
+    description: |
+      Delete a user
+    security:
+    - cas: ['admin']
+    tags:
+    - User
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/User'
+      default:
+        $ref: '#/responses/default'
+
+'/invitations':
+  post:
+    operationId: invite_users
+    summary: Invites one or more user
+    description: |
+      Invite users to join the organization.
+    security:
+    - cas: ['admin']
+    tags:
+      - User
+    parameters:
+      - name: payload
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Invitation'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/InvitationReport'
+      default:
+        $ref: '#/responses/default'
+
+'/drivers':
+  post:
+    operationId: create_driver
+    summary: Creates a new driver user.
+    description: |
+      Creates a new driver object. The underlying CAS user is also created.
+    security:
+    - cas: ['admin']
+    tags:
+    - User
+    parameters:
+      - name: payload
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateDriver'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/User'
+      default:
+        $ref: '#/responses/default'
+
+

@@ -1,0 +1,82 @@
+/shuttle/requests:
+  get:
+    summary: get current request levels
+    operationId: get_shuttle_requests
+    security:
+    - cas: [ 'driver', 'admin' ]
+    tags:
+      - Shuttle
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ShuttleRequest'
+      default:
+        $ref: '#/responses/default'
+
+  post:
+    summary: submit a new shuttle request
+    operationId: post_shuttle_request
+    description: submit a new request at a stop
+    security:
+    - cas: [ 'passenger', 'admin', 'operator' ]
+    tags:
+      - Shuttle
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/ShuttleRequest'
+    responses:
+      '204':
+        description: OK
+      default:
+        $ref: '#/responses/default'
+/shuttle/boarding_count:
+#    get:
+#      summary: get boarding count of a route over a period
+#      description: get boarding count of a route over a period
+#      tags:
+#        - Shuttle
+#      parameters:
+#        - name: route_id
+#          in: query
+#          required: true
+#          type: string
+#        - name: from
+#          in: query
+#          required: true
+#          type: string
+#          format: date
+#        - name: to
+#          in: query
+#          required: true
+#          type: string
+#          format: date
+#      responses:
+#        '200':
+#          description: OK
+#          schema:
+#            $ref: '#/definitions/SimpleCount'
+#        default:
+#          $ref: '#/responses/default'
+  post:
+    summary: submit boarding count at a stop
+    operationId: post_boarding_count
+    description: submit boarding count of a route at a stop.  It also resets request count of stop for the route to zero.
+    security:
+    - cas: [ 'driver' ]
+    tags:
+      - Shuttle
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/BoardingCount'
+    responses:
+      '204':
+        description: OK
+      default:
+        $ref: '#/responses/default'

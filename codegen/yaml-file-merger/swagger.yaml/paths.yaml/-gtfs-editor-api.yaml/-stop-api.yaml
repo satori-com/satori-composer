@@ -1,0 +1,351 @@
+/stops:
+  get:
+    operationId: get_stops
+    description: |
+      Get a all stops.
+    tags:
+      - Stop
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Stop'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  post:
+    operationId: create_stop
+    summary: Create a new stop
+    description: |
+      Creates a new stop
+    security:
+    - cas: ["admin"]
+    tags:
+      - Stop
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Stop'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Stop'
+      default:
+        $ref: '#/responses/default'
+
+/stops/id/{id}:
+  get:
+    operationId: get_stop_by_id
+    description: |
+      Get a stop by stop_id.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Stop
+    responses:
+      '200':
+        description: ''
+        schema:
+          $ref: '#/definitions/Stop'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    operationId: update_stop
+    summary: Update stop
+    description: |
+      # Update stop.
+    security:
+    - cas: ["admin"]
+    tags:
+      - Stop
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Stop'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Stop'
+      default:
+        $ref: '#/responses/default'
+  delete:
+    operationId: delete_stop
+    summary: Delete stop
+    description: |
+      Permatently removes stop
+    security:
+    - cas: ["admin"]
+    tags:
+      - Stop
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      #- name: force
+      #  in: query
+      #  required: false
+      #  type: boolean
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Stop'
+      default:
+        $ref: '#/responses/default'
+
+/stops/location:
+  get:
+    operationId: get_stops_by_location
+    description: |
+      Find stops within rectangular bounds.
+    parameters:
+      - name: center
+        in: query
+        description: latitude and longitude (37.419972, -122.146508)
+        required: true
+        type: string
+        format: two comma separated doubles
+      - name: span
+        in: query
+        description: span of latitude and longitude (1,1)
+        required: true
+        type: string
+        format: two comma separated doubles
+    tags:
+      - Stop
+    responses:
+      '200':
+        description: An array of stops
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Stop'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/stops/route-short-name/{name}:
+  get:
+    operationId: get_stops_for_route_short_name
+    description: |
+      get stops on a route by short-name.
+    parameters:
+      - name: name
+        in: path
+        required: true
+        type: string
+    tags:
+      - Stop
+    responses:
+      '200':
+        description: 'Array of stops'
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Stop'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/stops/route-id/{id}/sequence:
+  get:
+    operationId: get_stops_for_route_with_sequence
+    description: |
+      get stops on a route by route id with sequence.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: trip_direction
+        in: query
+        required: false
+        type: integer
+    tags:
+      - Stop
+    responses:
+      '200':
+        description: 'Array of stops with sequence'
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RouteStop'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  post:
+    operationId: create_stops_for_route_with_sequence
+    summary: Create new stop(s) for route
+    description: |
+      Create new stop(s) for route
+    security:
+    - cas: ["admin"]
+    tags:
+      - Stop
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: trip_direction
+        in: query
+        required: false
+        type: integer
+      - name: payload
+        in: body
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RouteStop'
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RouteStop'
+      default:
+        $ref: '#/responses/default'
+
+/stops/route-id/{id}:
+    get:
+      operationId: get_stops_for_route
+      description: |
+        get stops on a route by route id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      tags:
+        - Stop
+      responses:
+        '200':
+          description: 'Array of stops with sequence'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Stop'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      operationId: delete_all_stops_for_route
+      summary: Delete all stops for route
+      description: |
+        Delete all stops for route
+      security:
+      - cas: ["admin"]
+      tags:
+        - Stop
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RouteStop'
+        default:
+          $ref: '#/responses/default'
+
+/stops/trip-id/{trip_id}/stop-id/{stop_id}:
+  delete:
+    operationId: delete_stop_for_trip
+    summary: Delete stop for trip
+    description: |
+      Update stop for trip
+    security:
+    - cas: ["admin"]
+    tags:
+      - Stop
+    parameters:
+      - name: trip_id
+        in: path
+        required: true
+        type: string
+      - name: stop_id
+        in: path
+        required: true
+        type: string
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/TripStop'
+      default:
+        $ref: '#/responses/default'
+
+/stops/trip-id/{id}:
+  get:
+    operationId: get_stop_by_trip_id
+    description: |
+      Get a stop sequence of the given trip.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: trip id
+    tags:
+      - Stop
+    responses:
+      '200':
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/TripStop'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+
+/stops/{id}/destinations:
+  get:
+    operationId: get_stop_destinations
+    description: |
+      get all stops which a reachable from current stop
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    tags:
+      - Stop
+    responses:
+      '200':
+        description: 'Array of stops destinations'
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/StopDestination'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

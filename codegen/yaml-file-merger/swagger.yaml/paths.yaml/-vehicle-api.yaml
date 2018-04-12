@@ -1,0 +1,151 @@
+/vehicles:
+  get:
+    operationId: list_vehicles
+    summary: List all vehicles
+    description: |
+      Retrieve a list of all vehicles managed by the organization
+    security:
+          - cas: ["admin"]
+    tags:
+      - Vehicle
+    parameters:
+      - $ref: '#/parameters/agency'
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/VehicleResult'
+      default:
+        $ref: '#/responses/default'
+  post:
+    operationId: create_vehicle
+    summary: Create a new vehicle
+    description: |
+      Creates a new vehicle.
+    security:
+    - cas: ["admin"]
+    tags:
+      - Vehicle
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Vehicle'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Vehicle'
+      default:
+        $ref: '#/responses/default'
+'/vehicles/{vehicle_id}':
+  parameters:
+    - $ref: '#/parameters/vehicle_id'
+  get:
+    operationId: get_vehicle
+    summary: Get a vehicle by id
+    description: |
+      Retrives details about a Vehicle
+    tags:
+      - Vehicle
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/VehicleResult'
+      default:
+        $ref: '#/responses/default'
+  put:
+    operationId: update_vehicle
+    summary: Update a vehicle
+    description: |
+      Updates details about a Vehicle
+    security:
+    - cas: ["admin"]
+    tags:
+      - Vehicle
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Vehicle'
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Vehicle'
+      default:
+        $ref: '#/responses/default'
+  delete:
+    operationId: delete_vehicle
+    summary: Delete a vehicle
+    description: |
+      Permatently removes a vehicle
+    security:
+    - cas: ["admin"]
+    tags:
+      - Vehicle
+    responses:
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Vehicle'
+      default:
+        $ref: '#/responses/default'
+'/vehicles/{vehicle_id}/device':
+  parameters:
+    - $ref: '#/parameters/vehicle_id'
+  post:
+    operationId: create_device_in_vehicle
+    summary: create device-vehicle link
+    description: create device-vehicle link.  If device doesn't exist in system, it will be created
+    tags:
+      - Vehicle
+    security:
+      - cas: [ 'driver' ]
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/DeviceInfo'
+    responses:
+      '204':
+        description: OK
+      default:
+        $ref: '#/responses/default'
+  delete:
+    operationId: delete_device_from_vehicle
+    summary: delete device-vehicle link
+    description: delete device-vehicle link without actually deleting the device
+    tags:
+      - Vehicle
+    security:
+      - cas: [ 'admin' ]
+    responses:
+      '204':
+        description: OK
+      default:
+        $ref: '#/responses/default'
+'/vehicles/{vehicle_id}/route':
+  parameters:
+    - $ref: '#/parameters/vehicle_id'
+  patch:
+    operationId: assign_vehicle_to_route
+    summary: assign vehicle to route
+    description: assign vehicle to route
+    tags:
+      - Vehicle
+    security:
+      - cas: [ 'admin' ]
+    parameters:
+      - name: payload
+        in: body
+        schema:
+          $ref: '#/definitions/Id'
+    responses:
+      '204':
+        description: OK
+      default:
+        $ref: '#/responses/default'

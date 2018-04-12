@@ -1,0 +1,534 @@
+/gtfs-lookup/agencies:
+  get:
+    operationId: get_agencies
+    tags:
+      - GtfsLookup
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Agency'
+
+/gtfs-lookup/agencies/organization-id/{org_id}:
+  get:
+    operationId: get_agencies_by_org_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: org_id
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Agency'
+
+/gtfs-lookup/agencies/id/{agency_id}:
+  get:
+    operationId: get_agency_by_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: agency_id
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Agency'
+
+/gtfs-lookup/routes/short-name/{short_name}:
+  get:
+    operationId: get_route_by_short_name
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: short_name
+        in: path
+        type: string
+        required: true
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Route'
+
+/gtfs-lookup/routes/id/{route_id}:
+  get:
+    operationId: get_route_by_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: route_id
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Route'
+
+/gtfs-lookup/routes/agency-id/{agency_id}:
+  get:
+    operationId: get_routes_by_agency_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: agency_id
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Route'
+
+/gtfs-lookup/routes/stop-id/{stop_id}:
+  get:
+    operationId: get_routes_by_stop_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: stop_id
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Route'
+
+/gtfs-lookup/routes:
+  get:
+    operationId: get_routes
+    tags:
+      - GtfsLookup
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Route'
+
+/gtfs-lookup/schedule/stop-id/{stop_id}:
+  get:
+    operationId: get_schedule_for_stop
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: stop_id
+        in: path
+        required: true
+        type: string
+        description: stop id
+      - name: from_time
+        description: Usually current datetime, i.e. 2016-02-03T18:49:00+01:00
+        in: query
+        required: false
+        type: string
+        format: date-time
+      - name: time_window
+        description: Time window in seconds starting at from_time to search for trip departures
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        description: Number of trips per page (10 by default)
+        in: query
+        required: false
+        type: integer
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/StopSchedule'
+
+/gtfs-lookup/schedule/trip-id/{trip_id}:
+  get:
+    operationId: get_schedule_for_trip
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: trip_id
+        in: path
+        required: true
+        type: string
+        description: trip id
+      - name: time
+        in: query
+        required: false
+        type: string
+        format: date-time
+        description: Usually current datetime, i.e. 2016-02-03T18:49:00+01:00
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/TripSchedule'
+
+/gtfs-lookup/schedule/route-id/{route_id}:
+  get:
+    operationId: get_schedule_for_route
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: route_id
+        in: path
+        required: true
+        type: string
+        description: route id
+      - name: time
+        in: query
+        required: false
+        type: string
+        format: date-time
+        description: Usually current datetime, i.e. 2016-02-03T18:49:00+01:00
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RouteSchedule'
+
+/gtfs-lookup/schedule/stop-id/{stop_id}/trip-id/{trip_id}:
+  get:
+    operationId: get_schedule_for_stop_and_trip
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: stop_id
+        in: path
+        required: true
+        type: string
+        description: stop id
+      - name: trip_id
+        in: path
+        required: true
+        type: string
+        description: trip id
+      - name: stop_sequence
+        in: query
+        required: true
+        type: integer
+        description: stop sequence
+      - name: from_time
+        description: Trip start day, i.e. 2016-11-27T00:00Z
+        in: query
+        required: false
+        type: string
+        format: date-time
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/StopTripSchedule'
+
+/gtfs-lookup/trips/id/{trip_id}:
+  get:
+    operationId: get_trip_by_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: trip_id
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Trip'
+
+/gtfs-lookup/trips/route-id/{route_id}:
+  get:
+    operationId: get_trips_by_route_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: route_id
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Trip'
+
+/gtfs-lookup/trips:
+  get:
+    operationId: get_trips
+    tags:
+      - GtfsLookup
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Trip'
+
+/gtfs-lookup/stops:
+  get:
+    operationId: get_stops
+    tags:
+      - GtfsLookup
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Stop'
+
+/gtfs-lookup/stops/id/{stop_id}:
+  get:
+    operationId: get_stop_by_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: stop_id
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Stop'
+
+/gtfs-lookup/stops/location:
+  get:
+    operationId: get_stops_by_location
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: center
+        in: query
+        description: latitude and longitude (37.419972, -122.146508)
+        required: true
+        type: string
+        format: two comma separated doubles
+      - name: span
+        in: query
+        description: span of latitude and longitude (1,1)
+        required: true
+        type: string
+        format: two comma separated doubles
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Stop'
+
+/gtfs-lookup/stops/route-short-name/route_short_name:
+  get:
+    operationId: get_stops_for_route_short_name
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: route_short_name
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Stop'
+
+/gtfs-lookup/stops/route-id/{route_id}/sequence:
+  get:
+    operationId: get_stops_by_route_id_with_sequence
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: route_id
+        in: path
+        required: true
+        type: string
+      - name: trip_direction
+        in: query
+        required: false
+        type: integer
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RouteStop'
+
+/gtfs-lookup/stops/route-id/{route_id}:
+  get:
+    operationId: get_stops_by_route_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: route_id
+        in: path
+        required: true
+        type: string
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Stop'
+
+/gtfs-lookup/stops/trip-id/{trip_id}:
+  get:
+    operationId: get_stops_by_trip_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: trip_id
+        in: path
+        required: true
+        type: string
+        description: trip id
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/TripStop'
+
+/gtfs-lookup/shapes:
+  get:
+    operationId: get_shapes
+    tags:
+      - GtfsLookup
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Shape'
+
+/gtfs-lookup/shapes/id/{shapes_id}:
+  get:
+    operationId: get_shape_by_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: shapes_id
+        in: path
+        type: string
+        required: true
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Shape'
+
+/gtfs-lookup/shapes/route-short-name/route_short_name:
+  get:
+    operationId: get_shapes_by_route_name
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: route_short_name
+        in: path
+        type: string
+        required: true
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RouteShape'
+
+/gtfs-lookup/shapes/trip-id/{trip_id}:
+  get:
+    operationId: get_shape_by_trip_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: trip_id
+        in: path
+        type: string
+        required: true
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          $ref: '#/definitions/Shape'
+
+/gtfs-lookup/shapes/route-id/{route_id}:
+  get:
+    operationId: get_shapes_by_route_id
+    tags:
+      - GtfsLookup
+    parameters:
+      - name: route_id
+        in: path
+        type: string
+        required: true
+    responses:
+      default: {$ref: '#/responses/default'}
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Shape'
