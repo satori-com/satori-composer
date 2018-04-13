@@ -19,14 +19,14 @@ buildscript{
 apply plugin: "com.satori.codegen"
 ```
 
-### ProjectExec gradle task, extends JavaExec 
-allow to execute specified gradle project with provided args
+### Task: ProjectExec(ProjectExecTask), extends JavaExec 
+Task to execute specified gradle project with provided args
 #### methods
 - forProject(project): specify project to execute
 #### example
 ```gradle
-task generateGtfsSchema2(type: ProjectExec) {
-  forProject ':codegen-pbuf2jschema'
+task generateGtfsSchema(type: ProjectExec) {
+  forProject ":codegen-pbuf2jschema"
 
   inputs.files pbufSchema
   outputs.files jsonSchema
@@ -39,6 +39,77 @@ task generateGtfsSchema2(type: ProjectExec) {
   }
 }
 ```
+### Extension: projectExec
+Extension to execute specified gradle project with provided args
+#### example
+```gradle
+task generateGtfsSchema {
+  group "codegen"
+
+  inputs.files pbufSchema
+  outputs.files jsonSchema
+
+  projectExec (":codegen-pbuf2jschema") {
+    args '-schema', pbufSchema
+    args '-out', jsonSchema
+    println "generating gtfs json schema..."
+  }
+}
+```
+
+### Task: SourceSetExec(SourceSetExecTask), extends JavaExec 
+Task to execute specified sourceSet with provided args
+#### methods
+- forSourceSet(sourceSet): specify sourceSet to execute
+#### example
+```gradle
+task generateGraphqlClasses(type: SourceSetExec) {
+  forSourceSet("codegen")
+  
+  inputs.file(schema)
+  outputs.dir(out)
+
+  sourceSets.main.java.srcDir out
+
+  main = "com.satori.libs.gradle.codegen.App"
+
+  args "-schema", schema
+  args "-pckg", pckg
+  args "-out", out
+
+  doFirst {
+    delete out
+    println "generating code...."
+  }
+
+  clean.doFirst {
+    delete out
+  }
+}
+```
+### Extension: sourceSetExec
+Extension to execute specified sourceSet with provided args
+#### example
+```gradle
+task generateGraphqlClasses {
+  group "codegen"
+  
+  inputs.file(schema)
+  outputs.dir(out)
+  
+  sourceSets.main.java.srcDir out
+
+  sourceSetExec("codegen"){
+    main = "com.satori.libs.gradle.codegen.App"
+  
+    args "-schema", schema
+    args "-pckg", pckg
+    args "-out", out
+  }
+
+}
+```
+
 
 
 ### Maven (snapshots)

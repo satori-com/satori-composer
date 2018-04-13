@@ -35,7 +35,7 @@ open class CodeGenPluginConvention(val project: Project) {
     val forSourceSet = javaConv.sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME)
   
     project.javaexec { spec ->
-      spec.classpath = javaConv.sourceSets.getByName(name).runtimeClasspath
+      spec.classpath = forSourceSet.runtimeClasspath
       closure.execute(spec)
       println(spec.commandLine.joinToString(" "))
     }

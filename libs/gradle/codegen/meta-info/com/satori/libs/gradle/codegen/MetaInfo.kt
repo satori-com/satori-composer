@@ -8,7 +8,7 @@ object MetaInfo {
   val group = "com.satori"
   val pckg = "com.satori.libs.gradle.codegen"
   
-  val sha:String? = "241c57ea98281b086c99ec222df2173b18dcafd2"
+  val sha:String? = "845ad89ca4cabc9584a056481ce59bcd377c2a01"
   
   
   val tags:Array<String>? = null
