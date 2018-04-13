@@ -1,4 +1,4 @@
-[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-codegen.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-codegen/0.5.39-SNAPSHOT/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-codegen.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-codegen/0.5.40-SNAPSHOT/)
 
 ## 'codegen' gradle plugin 
 
@@ -13,7 +13,7 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
   }
   dependencies {
-    classpath "com.satori:satori-libs-gradle-codegen:0.5.39-SNAPSHOT"
+    classpath "com.satori:satori-libs-gradle-codegen:0.5.40-SNAPSHOT"
   }
 }
 apply plugin: "com.satori.codegen"
@@ -51,6 +51,6 @@ task generateGtfsSchema2(type: ProjectExec) {
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-gradle-codegen</artifactId>
-    <version>0.5.39-SNAPSHOT</version>
+    <version>0.5.40-SNAPSHOT</version>
 </dependency>
 ```

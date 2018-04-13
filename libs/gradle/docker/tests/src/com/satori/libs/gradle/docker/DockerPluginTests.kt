@@ -35,7 +35,7 @@ class DockerPluginTests : Assert() {
       }
       apply plugin: "com.satori.docker"
       
-      task runContainer(type: DockerRunContainerTask){
+      task runContainer(type: DockerRunContainer){
         cmd = ["print"]
         host "open-data.api.mz.com:3375"
         tlsVerify true
@@ -48,7 +48,7 @@ class DockerPluginTests : Assert() {
         cmdArgs += ["--port", "2000"]
       }
       
-      task dockerTest(type: DockerBaseTask){
+      task dockerTest(type: DockerBase){
         //dependsOn runContainer
 
         host "open-data.api.mz.com:3375"

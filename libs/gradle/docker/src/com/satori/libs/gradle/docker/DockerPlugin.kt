@@ -7,7 +7,7 @@ open class DockerPlugin() : Plugin<Project> {
   
   override fun apply(project: Project) {
     val conv = DockerPluginConvention(project)
-    project.convention.plugins["codegen"] = conv
+    project.convention.plugins["docker"] = conv
     
     project.addExtension("DockerBaseTask", DockerBaseTask::class.java)
     project.addExtension("DockerBuildImageTask", DockerBuildImageTask::class.java)
