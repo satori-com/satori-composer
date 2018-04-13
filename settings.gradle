@@ -24,6 +24,9 @@ project(':codegen-groovy').projectDir = file('codegen/groovy')
 include ':codegen-codemodel-dsl'
 project(':codegen-codemodel-dsl').projectDir = file('codegen/codemodel-dsl')
 
+include ':codegen-jpoet-dsl'
+project(':codegen-jpoet-dsl').projectDir = file('codegen/jpoet-dsl')
+
 include ':codegen-mustache-builder'
 project(':codegen-mustache-builder').projectDir = file('codegen/mustache-builder')
 

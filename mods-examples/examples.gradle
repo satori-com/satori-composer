@@ -37,7 +37,7 @@ task generateDockerFile(type: TransformTask) {
   output = file("Dockerfile")
 }
 
-task buildDockerImage(type: DockerBuildImageTask) {
+task buildDockerImage(type: DockerBuildImage) {
   dependsOn 'installDist'
 
   contextDir = installDist.destinationDir
@@ -52,10 +52,10 @@ task buildDockerImage(type: DockerBuildImageTask) {
   }
 }
 
-task runDockerContainer(type: DockerRunContainerTask) {
+task runDockerContainer(type: DockerRunContainer) {
   dependsOn 'buildDockerImage'
 }
 
 
-task stopDockerContainer(type: DockerStopContainerTask) {
+task stopDockerContainer(type: DockerStopContainer) {
 }
