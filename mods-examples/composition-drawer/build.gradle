@@ -1,20 +1,22 @@
+
 task generateCompositionImage(type: GenerateCompositionDiagramTask) {
   group "codegen"
+  generateCode.dependsOn it
+
   cfgPath = file("res/com/satori/mods/resources/config.json")
   imgPath = file("docs/diagram.png")
   blockWidth = 220
   blockHeight = 45
 }
-generateCode.dependsOn generateCompositionImage
-
-
-configurations{compositionDrawer}
-dependencies {
-  compositionDrawer "com.satori:satori-libs-composition-drawer:$scaffoldingVersion"
-}
 
 task generateCompositionImage2(type: JavaExec) {
   group 'codegen'
+  generateCode.dependsOn it
+
+  classpath = configurations.create "generateCompositionImage2Classpath"
+  dependencies {
+    generateCompositionImage2Classpath "com.satori:satori-libs-composition-drawer:$scaffoldingVersion"
+  }
 
   def cfgPath = file("res/com/satori/mods/resources/config.json")
   def imgPath = file("docs/diagram2.png")
@@ -22,7 +24,6 @@ task generateCompositionImage2(type: JavaExec) {
   inputs.file(cfgPath)
   outputs.file(imgPath)
 
-  classpath = configurations.compositionDrawer
   main = 'com.satori.libs.composition.drawer.App'
 
   args "--cfg-path", cfgPath
@@ -35,7 +36,30 @@ task generateCompositionImage2(type: JavaExec) {
     println commandLine.join(" ")
   }
 }
-generateCode.dependsOn generateCompositionImage2
+
+task generateCompositionImage3(type: DependencyExec) {
+  group "codegen"
+  generateCode.dependsOn it
+
+  def cfgPath = file("res/com/satori/mods/resources/config.json")
+  def imgPath = file("docs/diagram3.png")
+
+  inputs.file(cfgPath)
+  outputs.file(imgPath)
+
+  dependency "com.satori:satori-libs-composition-drawer:$scaffoldingVersion"
+
+  main = "com.satori.libs.composition.drawer.App"
+
+  args "--cfg-path", cfgPath
+  args "--img-path", imgPath
+  args "--block-width", 220
+  args "--block-height", 45
+
+  doFirst {
+    println "generating composition diagram ...."
+  }
+}
 
 dependencies {
   testCompile project(':libs-testlib')

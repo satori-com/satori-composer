@@ -1,7 +1,6 @@
 package com.satori.libs.gradle.codegen
 
 import com.satori.libs.gradle.utils.*
-import org.gradle.api.*
 import org.gradle.api.plugins.*
 import org.gradle.api.tasks.*
 
@@ -25,4 +24,19 @@ open class SourceSetExecTask : JavaExec() {
     println(commandLine.joinToString(" "))
     super.exec()
   }
+  
+  /*fun test() {
+    
+    val javaConv = project.convention.getPlugin<JavaPluginConvention>()
+    val appConv = project.convention.getPlugin<ApplicationPluginConvention>()
+    
+    val dependency = project.dependencies.create(getMarkerDependency(request))
+    
+    val configurations = project.configurations
+    val configuration = configurations.detachedConfiguration()
+    
+    
+    
+    configuration.setTransitive(false)
+  }*/
 }

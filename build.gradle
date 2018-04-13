@@ -17,7 +17,7 @@ buildscript {
   }
 }
 
-allprojects{
+allprojects {
   apply plugin: "com.satori.transform"
   apply plugin: "com.satori.github"
   apply plugin: "com.satori.docker"
@@ -60,7 +60,7 @@ task build {
   dependsOn classes
   group "build"
 }
-task publishRelease{
+task publishRelease {
   group 'build'
 }
 
@@ -118,7 +118,7 @@ subprojects {
     }
   }
 
-  task testPreapare{
+  task testPreapare {
     group "verification"
   }
   test.dependsOn testPreapare
