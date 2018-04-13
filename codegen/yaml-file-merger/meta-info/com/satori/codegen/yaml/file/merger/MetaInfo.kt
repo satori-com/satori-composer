@@ -3,12 +3,12 @@
 package com.satori.codegen.yaml.file.merger
 
 object MetaInfo {
-  val version = "0.5.37-SNAPSHOT"
+  val version = "0.5.39-SNAPSHOT"
   val project = "codegen-yaml-file-merger"
   val group = "com.satori"
   val pckg = "com.satori.codegen.yaml.file.merger"
   
-  val sha:String? = "36d4f2af1403c16f83c7f46b0205e066ae0b81d7"
+  val sha:String? = "b4a3fed4b624930a6d9cb8665d2f58cb2da07e67"
   
   
   val tags:Array<String>? = null

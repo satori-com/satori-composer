@@ -15,9 +15,9 @@ open class ProjectExecTask : JavaExec() {
     forProject(project.project(value))
   }
   
-  fun forProject(value: Project) {
-    val javaConv = project.convention.getPlugin<JavaPluginConvention>()
-    val appConv = project.convention.getPlugin<ApplicationPluginConvention>()
+  fun forProject(targetProject: Project) {
+    val javaConv = targetProject.convention.getPlugin<JavaPluginConvention>()
+    val appConv = targetProject.convention.getPlugin<ApplicationPluginConvention>()
     
     classpath = javaConv.sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME).runtimeClasspath
     conventionMapping.map("main") { appConv.mainClassName }
