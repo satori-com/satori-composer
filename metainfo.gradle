@@ -4,6 +4,8 @@ task generateMetaInfo(type: TransformTask) {
   group 'codegen'
   description "generate meta information class"
 
+  generateCode.dependsOn it
+
   def outputDir = file("meta-info")
   def className = "MetaInfo"
   def classFile = file("$outputDir/$pckgDir/${className}.kt")
@@ -57,5 +59,3 @@ task generateMetaInfo(type: TransformTask) {
     delete(outputDir)
   }
 }
-
-generateCode.dependsOn(generateMetaInfo)

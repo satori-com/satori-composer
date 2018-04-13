@@ -84,6 +84,7 @@
 - [transform](libs/gradle/transform/readme.md)
 - [docker](libs/gradle/docker/readme.md)
 - [github](libs/gradle/github)
+- [codegen](libs/gradle/codegen)
 ### Other Common Libraries
 - [Gtfs Library For Real-Time](https://github.com/satori-com/satori-composer/tree/dev/libs/gtfs)
 
