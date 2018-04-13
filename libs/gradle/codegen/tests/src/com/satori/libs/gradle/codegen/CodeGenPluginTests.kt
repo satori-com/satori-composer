@@ -1,5 +1,6 @@
 package com.satori.libs.gradle.codegen
 
+import com.satori.libs.gradle.utils.*
 import org.codehaus.groovy.runtime.*
 import org.gradle.internal.installation.*
 import org.gradle.testfixtures.*
@@ -19,5 +20,16 @@ class CodeGenPluginTests : Assert() {
       ProjectExecTask::class.java,
       InvokerHelper.getProperty(project, "ProjectExec")
     )
+  
+    assertSame(
+      SourceSetExecTask::class.java,
+      InvokerHelper.getProperty(project, "SourceSetExec")
+    )
+  
+    assertSame(
+      project.convention.getPlugin("codegen"),
+      project.convention.getPlugin<CodeGenPluginConvention>()
+    )
+    
   }
 }

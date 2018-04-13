@@ -11,13 +11,13 @@ open class ProjectExecTask : JavaExec() {
     group = "codegen"
   }
   
-  fun forProject(value: String) {
-    forProject(project.project(value))
+  fun forProject(name: String) {
+    forProject(project.project(name))
   }
   
-  fun forProject(targetProject: Project) {
-    val javaConv = targetProject.convention.getPlugin<JavaPluginConvention>()
-    val appConv = targetProject.convention.getPlugin<ApplicationPluginConvention>()
+  fun forProject(forProject: Project) {
+    val javaConv = forProject.convention.getPlugin<JavaPluginConvention>()
+    val appConv = forProject.convention.getPlugin<ApplicationPluginConvention>()
     
     classpath = javaConv.sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME).runtimeClasspath
     conventionMapping.map("main") { appConv.mainClassName }

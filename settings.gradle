@@ -27,6 +27,9 @@ project(':codegen-codemodel-dsl').projectDir = file('codegen/codemodel-dsl')
 include ':codegen-jpoet-dsl'
 project(':codegen-jpoet-dsl').projectDir = file('codegen/jpoet-dsl')
 
+include ':codegen-jpoet-dsl-example'
+project(':codegen-jpoet-dsl-example').projectDir = file('codegen/jpoet-dsl-example')
+
 include ':codegen-mustache-builder'
 project(':codegen-mustache-builder').projectDir = file('codegen/mustache-builder')
 
