@@ -1,5 +1,6 @@
 package com.satori.libs.gradle.docker
 
+import org.codehaus.groovy.runtime.*
 import org.gradle.internal.installation.*
 import org.gradle.testfixtures.*
 import org.gradle.tooling.*
@@ -120,23 +121,42 @@ class DockerPluginTests : Assert() {
     
     assertSame(
       DockerBaseTask::class.java,
-      project.extensions.getByName("DockerBaseTask")
+      InvokerHelper.getProperty(project, "DockerBaseTask")
     )
     
     assertSame(
       DockerBuildImageTask::class.java,
-      project.extensions.getByName("DockerBuildImageTask")
+      InvokerHelper.getProperty(project, "DockerBuildImageTask")
     )
     
     assertSame(
       DockerRunContainerTask::class.java,
-      project.extensions.getByName("DockerRunContainerTask")
+      InvokerHelper.getProperty(project, "DockerRunContainerTask")
     )
     
     assertSame(
       DockerStopContainerTask::class.java,
-      project.extensions.getByName("DockerStopContainerTask")
+      InvokerHelper.getProperty(project, "DockerStopContainerTask")
     )
-    
+  
+    assertSame(
+      DockerBaseTask::class.java,
+      InvokerHelper.getProperty(project, "DockerBase")
+    )
+  
+    assertSame(
+      DockerBuildImageTask::class.java,
+      InvokerHelper.getProperty(project, "DockerBuildImage")
+    )
+  
+    assertSame(
+      DockerRunContainerTask::class.java,
+      InvokerHelper.getProperty(project, "DockerRunContainer")
+    )
+  
+    assertSame(
+      DockerStopContainerTask::class.java,
+      InvokerHelper.getProperty(project, "DockerStopContainer")
+    )
   }
 }

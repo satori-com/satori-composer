@@ -17,6 +17,8 @@ import org.slf4j.*;
 public class ComposerRuntime {
   public static final Logger log = LoggerFactory.getLogger(ComposerRuntime.class);
   public static Runnable onClosed = null;
+  public static VertxOptions defaultVertxOptions =  new VertxOptions()
+    .setEventLoopPoolSize(1);
   
   /**
    * Starts composer with specified config loader.
@@ -87,8 +89,8 @@ public class ComposerRuntime {
   }
   
   private static Vertx createVertx() {
-    VertxOptions vertxOpts = new VertxOptions()
-      .setEventLoopPoolSize(1);
+    VertxOptions vertxOpts = defaultVertxOptions; // TODO: clone?
+    //TODO: apply custom vertx options from config
     return Vertx.vertx(vertxOpts);
   }
   

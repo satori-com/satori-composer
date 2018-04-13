@@ -12,14 +12,18 @@ buildscript {
     classpath "com.satori:satori-libs-gradle-docker:$scaffoldingVersion"
     classpath "com.satori:satori-libs-gradle-transform:$scaffoldingVersion"
     classpath "com.satori:satori-libs-gradle-github:$scaffoldingVersion"
+    classpath "com.satori:satori-libs-gradle-codegen:$scaffoldingVersion"
     classpath "com.satori:satori-libs-composition-drawer:$scaffoldingVersion"
   }
 }
 
-apply plugin: "com.satori.transform"
-apply plugin: "com.satori.github"
-apply plugin: "com.satori.docker"
-apply plugin: "com.satori.composition.drawer"
+allprojects{
+  apply plugin: "com.satori.transform"
+  apply plugin: "com.satori.github"
+  apply plugin: "com.satori.docker"
+  apply plugin: "com.satori.codegen"
+  apply plugin: "com.satori.composition.drawer"
+}
 
 apply plugin: 'idea'
 

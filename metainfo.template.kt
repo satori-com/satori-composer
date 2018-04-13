@@ -5,6 +5,8 @@ package ${project.pckg}
 object ${model.className} {
   val version = "${project.version}"
   val project = "${project.archivesBaseName}"
+  val group = "${project.group}"
+  val pckg = "${project.pckg}"
   <% if(model.sha != null) { %>
   val sha:String? = "${model.sha}"
   <% } else { %>
