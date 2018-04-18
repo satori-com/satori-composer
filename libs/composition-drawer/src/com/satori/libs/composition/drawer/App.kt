@@ -1,12 +1,12 @@
 package com.satori.libs.composition.drawer
 
 import com.mxgraph.util.*
-import com.satori.libs.composition.drawer.json.*
+import com.satori.libs.common.kotlin.json.*
 import java.awt.*
 import java.io.*
 import javax.imageio.*
 
-object App {
+object App : IJsonContext by DefaultJsonContext {
   
   @JvmStatic
   fun main(vararg args: String) {
@@ -20,7 +20,7 @@ object App {
         if (!name.startsWith("--")) throw Exception("argument '$name' should start with '--'")
         field(name.removePrefix("--"), value)
       }
-    }.toValue<AppArgs>()
+    }.scope { toValue<AppArgs>() }
     
     val graph = createGraph(
       appArgs.cfgPath ?: throw Exception("missing --cfg-path"),

@@ -1,7 +1,6 @@
 package com.satori.mods.suite
 
 import com.fasterxml.jackson.databind.*
-import com.satori.composer.runtime.*
 import com.satori.libs.async.api.*
 import com.satori.libs.async.core.*
 import com.satori.libs.async.kotlin.*
@@ -26,7 +25,7 @@ class CompositionTests : ModTest() {
       }
     }
     
-    override fun onInput(inputName: String, data: JsonNode) = future(VertxFutureScope(context().vertx(), log)) {
+    override fun onInput(inputName: String, data: JsonNode) = future(VxFutureScope(context().vertx(), log)) {
       log.info("input: $data")
       yield(data).await()
       delay(data.asLong())
@@ -41,7 +40,7 @@ class CompositionTests : ModTest() {
       }
     }
     
-    override fun onInput(inputName: String, data: JsonNode) = future(VertxFutureScope(context().vertx(), log)) {
+    override fun onInput(inputName: String, data: JsonNode) = future(VxFutureScope(context().vertx(), log)) {
       log.info("input: $data")
       delay(data.asLong())
       yield(data).await()

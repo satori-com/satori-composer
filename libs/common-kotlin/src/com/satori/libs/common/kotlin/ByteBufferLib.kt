@@ -1,5 +1,6 @@
 package com.satori.libs.common.kotlin
 
+import java.io.*
 import java.nio.*
 import java.nio.charset.*
 
@@ -17,3 +18,6 @@ fun ByteBuffer.putString(value: String, enc: CharsetEncoder) {
   }
 }
 
+inline fun ByteBuffer.putWithStream(block: (OutputStream) -> Unit) {
+  ByteBufferOutputStream(this).use(block)
+}

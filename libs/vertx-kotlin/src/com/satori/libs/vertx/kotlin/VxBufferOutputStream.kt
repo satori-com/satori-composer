@@ -3,7 +3,7 @@ package com.satori.libs.vertx.kotlin
 import io.vertx.core.buffer.*
 import java.io.*
 
-class BufferOutputStream(var buffer: Buffer? = Buffer.buffer()) : OutputStream() {
+class VxBufferOutputStream(var buffer: Buffer? = VxBuffer.buffer()) : OutputStream() {
   override fun write(b: ByteArray) {
     buffer?.appendBytes(b)
   }

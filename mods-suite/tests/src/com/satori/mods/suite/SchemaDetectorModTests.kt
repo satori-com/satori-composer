@@ -9,7 +9,7 @@ import org.junit.*
 import org.junit.runner.*
 
 @RunWith(VertxUnitRunner::class)
-class SchemaDetectorModTests : ModTest() {
+class SchemaDetectorModTests : ModTest(), IJsonContext by DefaultJsonContext {
   
   @Test
   fun `basic test`(context: TestContext) = asyncTest(context) {

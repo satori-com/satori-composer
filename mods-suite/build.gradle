@@ -3,7 +3,7 @@
 dependencies {
   compile project(':mods')
 
-  compile 'com.google.protobuf:protobuf-java:3.3.1'
+  compile "com.google.protobuf:protobuf-java:$protobufVersion"
 
   compile 'org.freemarker:freemarker:2.3.26-incubating'
   compile 'net.sf.saxon:Saxon-HE:9.8.0-3'

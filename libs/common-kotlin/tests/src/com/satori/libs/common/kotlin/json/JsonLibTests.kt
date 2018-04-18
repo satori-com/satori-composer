@@ -3,7 +3,7 @@ package com.satori.libs.common.kotlin.json
 import com.fasterxml.jackson.annotation.*
 import org.junit.*
 
-class JsonLibTests : Assert() {
+class JsonLibTests : Assert(), IJsonContext by DefaultJsonContext {
   data class TestJsonDataClass(
     @field:JsonProperty("my-property")
     var myProp: String? = null

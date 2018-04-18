@@ -115,7 +115,7 @@ task generateGtfsConverter(type: ProjectExec) {
 
 // main dependencies
 dependencies {
-  compile 'com.google.protobuf:protobuf-java:3.5.1'
+  compile "com.google.protobuf:protobuf-java:$protobufVersion"
 
   compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
   compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"

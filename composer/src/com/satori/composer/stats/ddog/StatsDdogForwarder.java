@@ -1,8 +1,8 @@
 package com.satori.composer.stats.ddog;
 
 import com.satori.composer.ddog.*;
-import com.satori.composer.runtime.*;
 import com.satori.composer.stats.*;
+import com.satori.libs.async.core.*;
 
 import io.vertx.core.*;
 import org.slf4j.*;

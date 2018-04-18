@@ -2,6 +2,7 @@ package com.satori.composer.rtm.core;
 
 import com.satori.composer.runtime.*;
 import com.satori.libs.async.api.*;
+import com.satori.libs.async.core.*;
 
 import com.fasterxml.jackson.databind.*;
 import io.vertx.core.*;

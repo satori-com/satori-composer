@@ -1,6 +1,6 @@
 package com.satori.composer.rtm.core;
 
-import com.satori.composer.runtime.*;
+import com.satori.libs.async.core.*;
 
 import java.nio.charset.*;
 import java.util.*;

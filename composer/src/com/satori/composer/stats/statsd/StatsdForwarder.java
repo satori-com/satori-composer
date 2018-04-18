@@ -1,7 +1,7 @@
 package com.satori.composer.stats.statsd;
 
-import com.satori.composer.runtime.*;
 import com.satori.composer.stats.*;
+import com.satori.libs.async.core.*;
 
 import io.vertx.core.*;
 import io.vertx.core.buffer.*;

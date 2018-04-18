@@ -56,7 +56,7 @@ class App(val specPath: Path) {
     }
   }
   
-  companion object {
+  companion object : IJsonContext by DefaultJsonContext {
     @JvmStatic
     fun main(vararg args: String) {
       println(MetaInfo)
@@ -69,7 +69,7 @@ class App(val specPath: Path) {
           if (!name.startsWith("--")) throw Exception("argument '$name' should start with '--'")
           field(name, value)
         }
-      }.toValue<AppConfig>()
+      }.scope { toValue<AppConfig>() }
       
       file(cfg.output) {
         write { os ->

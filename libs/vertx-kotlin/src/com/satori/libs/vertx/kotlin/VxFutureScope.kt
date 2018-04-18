@@ -15,7 +15,7 @@ import kotlin.coroutines.experimental.intrinsics.*
 annotation class FutureVertxMarker
 
 @FutureVertxMarker*/
-open class VertxFutureScope(
+open class VxFutureScope(
   val vertx: Vertx,
   val log: Logger = defaultLog
 ) {
@@ -117,7 +117,7 @@ open class VertxFutureScope(
     }
   }
   
-  fun <T> future(block: suspend VertxFutureScope.() -> T) = future(
+  fun <T> future(block: suspend VxFutureScope.() -> T) = future(
     this, block
   )
   
@@ -205,6 +205,6 @@ open class VertxFutureScope(
   
   companion object {
     const val INVALID_TID: Long = Long.MIN_VALUE
-    val defaultLog = LoggerFactory.getLogger(VertxFutureScope::class.java)
+    val defaultLog = LoggerFactory.getLogger(VxFutureScope::class.java)
   }
 }

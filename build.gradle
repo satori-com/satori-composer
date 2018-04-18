@@ -190,19 +190,25 @@ subprojects {
 }
 
 def publishingProjects = [
-  ':composer',
-  ':mods',
-  ':mods-suite',
-  ':libs-async-api',
-  ':libs-async-core',
-  ':libs-async-kotlin',
-  ':libs-gtfs',
-  ':libs-composition-drawer',
-  ':libs-gradle-utils',
-  ':libs-gradle-transform',
-  ':libs-gradle-github',
-  ':libs-gradle-docker',
-  ':libs-gradle-codegen'
+  ":composer",
+  ":mods",
+  ":mods-suite",
+  ":libs-async-api",
+  ":libs-async-core",
+  ":libs-async-kotlin",
+  ":libs-common-kotlin",
+  ":libs-vertx-kotlin",
+  ":libs-gtfs",
+  ":libs-composition-drawer",
+  ":libs-gradle-utils",
+  ":libs-gradle-transform",
+  ":libs-gradle-github",
+  ":libs-gradle-docker",
+  ":libs-gradle-codegen",
+  ":codegen-utils",
+  ":codegen-codemodel-dsl",
+  ":codegen-mustache-builder",
+  ":codegen-yaml-file-merger"
 ].collect { project(it) }
 
 configure(publishingProjects) {

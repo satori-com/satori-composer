@@ -1,7 +1,6 @@
 package com.satori.composer.stats.http;
 
 import com.satori.composer.config.*;
-import com.satori.composer.runtime.*;
 import com.satori.composer.stats.*;
 import com.satori.composer.vertx.*;
 import com.satori.libs.async.api.*;

@@ -9,7 +9,7 @@ import org.junit.*
 import org.junit.Assert.*
 import kotlin.coroutines.experimental.*
 
-open class TestScope(val context: TestContext, vertx: Vertx) : VertxFutureScope(vertx) {
+open class TestScope(val context: TestContext, vertx: Vertx) : VxFutureScope(vertx) {
   
   fun fail() {
     context.fail()
