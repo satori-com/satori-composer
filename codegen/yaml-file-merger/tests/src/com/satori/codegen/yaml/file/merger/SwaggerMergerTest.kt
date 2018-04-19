@@ -1,6 +1,6 @@
 package com.satori.codegen.yaml.file.merger
 
-import com.satori.codegen.utils.*
+import com.satori.libs.common.kotlin.*
 import org.junit.*
 import org.junit.rules.*
 import java.nio.file.*

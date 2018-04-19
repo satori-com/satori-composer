@@ -3,7 +3,7 @@ package com.satori.codegen.yaml.file.merger
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.node.*
 import com.fasterxml.jackson.dataformat.yaml.*
-import com.satori.codegen.utils.*
+import com.satori.libs.common.kotlin.*
 import com.satori.libs.common.kotlin.json.*
 import java.io.*
 import java.net.*
