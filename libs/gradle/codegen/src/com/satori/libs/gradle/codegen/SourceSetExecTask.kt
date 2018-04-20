@@ -17,6 +17,7 @@ open class SourceSetExecTask : JavaExec() {
   }
   
   fun forSourceSet(forSourceSet: SourceSet) {
+    dependsOn(project.tasks.getByName(forSourceSet.classesTaskName))
     classpath = forSourceSet.runtimeClasspath
   }
   
