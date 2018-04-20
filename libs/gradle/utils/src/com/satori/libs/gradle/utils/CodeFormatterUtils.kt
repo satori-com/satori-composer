@@ -1,3 +1,5 @@
+package com.satori.libs.gradle.utils
+
 class CodeFormatterUtils {
   companion object {
     @JvmStatic

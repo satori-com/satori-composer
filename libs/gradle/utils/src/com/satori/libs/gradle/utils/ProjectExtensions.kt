@@ -9,4 +9,3 @@ inline fun <reified T> Project.addExtension(name: String, instance: T) {
 inline fun <reified T: Plugin<*>> Project.getPlugin(): T {
   return plugins.getPlugin(T::class.java)
 }
-

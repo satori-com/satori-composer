@@ -1,0 +1,3 @@
+moduleName=satori-gradle-utils
+moduleVersion=1.0
+extensionClasses=com.satori.libs.gradle.utils.CodeFormatterExtensions
