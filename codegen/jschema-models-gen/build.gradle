@@ -1,0 +1,47 @@
+apply from: rootProject.file('metainfo.gradle')
+
+task generateTemplates(type: DependencyExec) {
+  group 'codegen'
+  generateCode.dependsOn it
+
+  def out = file("gen")
+  def templates = fileTree("templates").include("*.mustache")
+
+  inputs.file(templates)
+  outputs.dir(out)
+
+  sourceSets.main.java.srcDir out
+  idea.module.generatedSourceDirs += out
+
+  dependency "com.satori:satori-codegen-mustache-builder:$scaffoldingVersion"
+  main = "com.satori.codegen.mustache.builder.App"
+
+  args "--templates", templates.files.join(File.pathSeparator)
+  args "--pckg", pckg
+  args "--out", out
+
+  doFirst {
+    delete out
+    println "generating templates ...."
+  }
+
+  clean.doFirst {
+    delete out
+  }
+}
+
+// main dependencies
+dependencies {
+  compile project(":libs-common-kotlin")
+  compile project(":codegen-utils")
+
+  compile "com.fasterxml.jackson.module:jackson-module-jsonSchema:$jacksonVersion"
+  compile "com.github.javaparser:javaparser-core:$javaparserVersion"
+}
+
+// test dependencies
+dependencies {
+  testCompile project(":libs-testlib")
+  testCompile "ch.qos.logback:logback-classic:$logbackVersion"
+  testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
+}

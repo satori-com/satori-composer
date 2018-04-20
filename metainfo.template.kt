@@ -22,7 +22,8 @@ object ${model.className} {
 
   override fun toString(): String {
     val sb = StringBuilder()
-
+    sb.append(group)
+    sb.append(":")
     sb.append(project)
     sb.append(":")
     sb.append(version)

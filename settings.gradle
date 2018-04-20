@@ -33,6 +33,9 @@ project(':codegen-jpoet-dsl-example').projectDir = file('codegen/jpoet-dsl-examp
 include ':codegen-mustache-builder'
 project(':codegen-mustache-builder').projectDir = file('codegen/mustache-builder')
 
+include ':codegen-jschema-models-gen'
+project(':codegen-jschema-models-gen').projectDir = file('codegen/jschema-models-gen')
+
 // libs
 
 include ':libs-async-api'

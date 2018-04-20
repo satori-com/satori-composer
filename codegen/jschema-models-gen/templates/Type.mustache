@@ -1,0 +1,12 @@
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public {{#isStatic?}}static{{/isStatic?}} class {{className}} {
+  {{#properties*}}
+  @JsonProperty("{{schemaName}}")
+  public {{type}} {{varName}};
+  {{/properties*}}
+
+  {{#types*}}
+  {{>Type}}
+  {{/types*}}
+}
