@@ -15,6 +15,7 @@
 - [Building and Running](https://www.satori.com/docs/opensource/composer#building-and-running)
 - [Async support library](docs/async/readme.md)
 - [Composition diagram drawer](libs/composition-drawer/readme.md)
+- [Composer gradle plugin](gradle-composer-plugin/readme.md)
 - Examples: <% examples.forEach{ %> 
   - [${it.description}](${rootProject.projectDir.toPath().relativize(it.projectDir.toPath()).toString().replace("\\", "/")})<% } %>
 ### Common gradle plugins

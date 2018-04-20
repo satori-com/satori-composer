@@ -1,5 +1,6 @@
 package com.satori.libs.gradle.codegen
 
+import com.satori.codegen.utils.*
 import com.satori.libs.gradle.utils.*
 import groovy.lang.*
 import org.gradle.api.*
@@ -13,6 +14,7 @@ open class CodeGenPluginConvention(val project: Project) {
   val ProjectExec = ProjectExecTask::class.java
   val SourceSetExec = SourceSetExecTask::class.java
   val DependencyExec = DependencyExecTask::class.java
+  val codeFormatter = CodeFormatter
   
   fun projectExec(name: String, closure: Closure<*>) {
     projectExec(name, ConfigureUtil.configureUsing(closure))

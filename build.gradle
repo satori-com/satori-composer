@@ -47,6 +47,7 @@ ext {
   pckg = group
   pckgDir = pckg.replace('.', '/')
   examples = container(Object)
+  publishingProjects = container(Project)
 }
 
 task generateCode {
@@ -189,7 +190,8 @@ subprojects {
   }
 }
 
-def publishingProjects = [
+publishingProjects += [
+  ":gradle-composer-plugin",
   ":composer",
   ":mods",
   ":mods-suite",

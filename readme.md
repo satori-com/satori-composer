@@ -1,6 +1,6 @@
 ## Satori Composer (preview)
 [![Build Status](https://travis-ci.org/satori-com/satori-composer.svg?branch=dev)](https://travis-ci.org/satori-com/satori-composer)
-[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-composer.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-composer/0.5.64-SNAPSHOT/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-composer.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-composer/0.5.67-SNAPSHOT/)
 
 #### Example
 ![diagram](mods-examples/big-blue-bus/docs/files/diagram.png)
@@ -72,6 +72,7 @@
 - [Building and Running](https://www.satori.com/docs/opensource/composer#building-and-running)
 - [Async support library](docs/async/readme.md)
 - [Composition diagram drawer](libs/composition-drawer/readme.md)
+- [Composer gradle plugin](gradle-composer-plugin/readme.md)
 - Examples:  
   - [barrier](mods-examples/barrier) 
   - [barrier queue](mods-examples/barrier-queue) 
@@ -99,7 +100,7 @@
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-composer</artifactId>
-    <version>0.5.64-SNAPSHOT</version>
+    <version>0.5.67-SNAPSHOT</version>
 </dependency>
 ```
 

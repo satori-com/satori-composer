@@ -1,0 +1,42 @@
+apply from: rootProject.file('metainfo.gradle')
+apply from: rootProject.file('readme.gradle')
+
+task generateComposerPluginConvention(type: TransformTask){
+  description "generate meta information class"
+
+  generateCode.dependsOn it
+
+  def outputDir = file("gen")
+  def className = "ComposerPluginConvention"
+  def classFile = new File(outputDir, "$pckgDir/${className}.kt")
+
+  template file("${className}.template.kt")
+  output = classFile
+  model.className = className
+
+  inputs.file(rootProject.file("gradle.properties"))
+  inputs.file(template)
+  outputs.file(output)
+
+  project.sourceSets.main.java.srcDirs += outputDir
+
+  clean.doFirst {
+    delete(outputDir)
+  }
+}
+
+// main dependencies
+dependencies {
+  compile project(":libs-gradle-utils")
+
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
+
+  compile gradleApi()
+}
+
+// test dependencies
+dependencies {
+  testCompile project(':libs-testlib')
+  testCompile gradleTestKit()
+}
