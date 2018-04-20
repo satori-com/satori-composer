@@ -13,7 +13,7 @@ class ComposerPluginTests : Assert() {
     
     assertEquals(
       "com.satori:satori-composer:${MetaInfo.version}",
-      InvokerHelper.invokeMethod(project, "composer", null)
+      InvokerHelper.invokeMethod(project, "satoriComposer", null)
     )
   }
 }

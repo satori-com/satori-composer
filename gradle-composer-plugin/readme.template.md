@@ -22,7 +22,7 @@ apply plugin: "com.satori.composer"
 ### project extensions
 
 <% rootProject.publishingProjects.forEach { p->%>
-- `${codeFormatter.methodName(p.name)}()` - returns `"${p.group}:satori-${p.name}:${p.version}"`
+- `satori${codeFormatter.pascal(p.name)}()` - returns `"${p.group}:satori-${p.name}:${p.version}"`
 <% } %>
   
 <% if(!project.version.endsWith("-SNAPSHOT")) {%>

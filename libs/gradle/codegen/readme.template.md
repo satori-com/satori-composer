@@ -110,6 +110,12 @@ task generateGraphqlClasses {
 }
 ```
 
+### Extension: codeFormatter
+provides various code formatting methods, see [ICodeFormatter](codegen/utils/src/com/satori/codegen/utils/ICodeFormatter.kt)
+#### example
+```gradle
+codeFormatter.camel(project.name)
+```
 
 <% if(!project.version.endsWith("-SNAPSHOT")) {%>
 ### Maven (releases)
