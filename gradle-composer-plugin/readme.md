@@ -1,4 +1,4 @@
-[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-gradle-composer-plugin.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-gradle-composer-plugin/0.5.68-SNAPSHOT/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-gradle-composer-plugin.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-gradle-composer-plugin/0.5.69-SNAPSHOT/)
 
 ## Comoser Gradle plugin 
 
@@ -13,7 +13,7 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
   }
   dependencies {
-    classpath "com.satori:satori-gradle-composer-plugin:0.5.68-SNAPSHOT"
+    classpath "com.satori:satori-gradle-composer-plugin:0.5.69-SNAPSHOT"
   }
 }
 apply plugin: "com.satori.composer"
@@ -22,45 +22,47 @@ apply plugin: "com.satori.composer"
 ### project extensions
 
 
-- `satoriGradleComposerPlugin()` - returns `"com.satori:satori-gradle-composer-plugin:0.5.68-SNAPSHOT"`
+- `satoriGradleComposerPlugin()` - returns `"com.satori:satori-gradle-composer-plugin:0.5.69-SNAPSHOT"`
 
-- `satoriComposer()` - returns `"com.satori:satori-composer:0.5.68-SNAPSHOT"`
+- `satoriComposer()` - returns `"com.satori:satori-composer:0.5.69-SNAPSHOT"`
 
-- `satoriMods()` - returns `"com.satori:satori-mods:0.5.68-SNAPSHOT"`
+- `satoriMods()` - returns `"com.satori:satori-mods:0.5.69-SNAPSHOT"`
 
-- `satoriModsSuite()` - returns `"com.satori:satori-mods-suite:0.5.68-SNAPSHOT"`
+- `satoriModsSuite()` - returns `"com.satori:satori-mods-suite:0.5.69-SNAPSHOT"`
 
-- `satoriLibsAsyncApi()` - returns `"com.satori:satori-libs-async-api:0.5.68-SNAPSHOT"`
+- `satoriLibsAsyncApi()` - returns `"com.satori:satori-libs-async-api:0.5.69-SNAPSHOT"`
 
-- `satoriLibsAsyncCore()` - returns `"com.satori:satori-libs-async-core:0.5.68-SNAPSHOT"`
+- `satoriLibsAsyncCore()` - returns `"com.satori:satori-libs-async-core:0.5.69-SNAPSHOT"`
 
-- `satoriLibsAsyncKotlin()` - returns `"com.satori:satori-libs-async-kotlin:0.5.68-SNAPSHOT"`
+- `satoriLibsAsyncKotlin()` - returns `"com.satori:satori-libs-async-kotlin:0.5.69-SNAPSHOT"`
 
-- `satoriLibsCommonKotlin()` - returns `"com.satori:satori-libs-common-kotlin:0.5.68-SNAPSHOT"`
+- `satoriLibsCommonKotlin()` - returns `"com.satori:satori-libs-common-kotlin:0.5.69-SNAPSHOT"`
 
-- `satoriLibsVertxKotlin()` - returns `"com.satori:satori-libs-vertx-kotlin:0.5.68-SNAPSHOT"`
+- `satoriLibsVertxKotlin()` - returns `"com.satori:satori-libs-vertx-kotlin:0.5.69-SNAPSHOT"`
 
-- `satoriLibsGtfs()` - returns `"com.satori:satori-libs-gtfs:0.5.68-SNAPSHOT"`
+- `satoriLibsGtfs()` - returns `"com.satori:satori-libs-gtfs:0.5.69-SNAPSHOT"`
 
-- `satoriLibsCompositionDrawer()` - returns `"com.satori:satori-libs-composition-drawer:0.5.68-SNAPSHOT"`
+- `satoriLibsCompositionDrawer()` - returns `"com.satori:satori-libs-composition-drawer:0.5.69-SNAPSHOT"`
 
-- `satoriLibsGradleUtils()` - returns `"com.satori:satori-libs-gradle-utils:0.5.68-SNAPSHOT"`
+- `satoriLibsTestlib()` - returns `"com.satori:satori-libs-testlib:0.5.69-SNAPSHOT"`
 
-- `satoriLibsGradleTransform()` - returns `"com.satori:satori-libs-gradle-transform:0.5.68-SNAPSHOT"`
+- `satoriLibsGradleUtils()` - returns `"com.satori:satori-libs-gradle-utils:0.5.69-SNAPSHOT"`
 
-- `satoriLibsGradleGithub()` - returns `"com.satori:satori-libs-gradle-github:0.5.68-SNAPSHOT"`
+- `satoriLibsGradleTransform()` - returns `"com.satori:satori-libs-gradle-transform:0.5.69-SNAPSHOT"`
 
-- `satoriLibsGradleDocker()` - returns `"com.satori:satori-libs-gradle-docker:0.5.68-SNAPSHOT"`
+- `satoriLibsGradleGithub()` - returns `"com.satori:satori-libs-gradle-github:0.5.69-SNAPSHOT"`
 
-- `satoriLibsGradleCodegen()` - returns `"com.satori:satori-libs-gradle-codegen:0.5.68-SNAPSHOT"`
+- `satoriLibsGradleDocker()` - returns `"com.satori:satori-libs-gradle-docker:0.5.69-SNAPSHOT"`
 
-- `satoriCodegenUtils()` - returns `"com.satori:satori-codegen-utils:0.5.68-SNAPSHOT"`
+- `satoriLibsGradleCodegen()` - returns `"com.satori:satori-libs-gradle-codegen:0.5.69-SNAPSHOT"`
 
-- `satoriCodegenCodemodelDsl()` - returns `"com.satori:satori-codegen-codemodel-dsl:0.5.68-SNAPSHOT"`
+- `satoriCodegenUtils()` - returns `"com.satori:satori-codegen-utils:0.5.69-SNAPSHOT"`
 
-- `satoriCodegenMustacheBuilder()` - returns `"com.satori:satori-codegen-mustache-builder:0.5.68-SNAPSHOT"`
+- `satoriCodegenCodemodelDsl()` - returns `"com.satori:satori-codegen-codemodel-dsl:0.5.69-SNAPSHOT"`
 
-- `satoriCodegenYamlFileMerger()` - returns `"com.satori:satori-codegen-yaml-file-merger:0.5.68-SNAPSHOT"`
+- `satoriCodegenMustacheBuilder()` - returns `"com.satori:satori-codegen-mustache-builder:0.5.69-SNAPSHOT"`
+
+- `satoriCodegenYamlFileMerger()` - returns `"com.satori:satori-codegen-yaml-file-merger:0.5.69-SNAPSHOT"`
 
   
 
@@ -74,6 +76,6 @@ apply plugin: "com.satori.composer"
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-gradle-composer-plugin</artifactId>
-    <version>0.5.68-SNAPSHOT</version>
+    <version>0.5.69-SNAPSHOT</version>
 </dependency>
 ```

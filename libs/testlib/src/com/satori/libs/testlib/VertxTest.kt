@@ -1,6 +1,7 @@
 package com.satori.libs.testlib
 
 import io.vertx.core.*
+import io.vertx.core.dns.*
 import io.vertx.core.impl.*
 import io.vertx.ext.unit.junit.*
 import org.junit.*
@@ -23,6 +24,14 @@ open class VertxTest : Assert() {
   
     val vertx = Vertx.vertx(VertxOptions().apply {
       eventLoopPoolSize = 1
+      addressResolverOptions = AddressResolverOptions().apply {
+        /*
+          sometimes JDNI returns dns servers for inactive interfaces,
+          those historical dns servers may be invalid and it may cause
+          failures to resolve name
+        */
+        maxQueries = 16
+      }
     })
     vertx.exceptionHandler { ex ->
       println("error: $ex")
