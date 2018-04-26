@@ -14,13 +14,13 @@ classes are generated based on [gtfs-realtime.proto](https://developers.google.c
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-gtfs</artifactId>
-    <version>0.5.69-SNAPSHOT</version>
+    <version>0.5.71-SNAPSHOT</version>
 </dependency>
 ```
 
 
 ### Download
-[satori-libs-gtfs.v0.5.69-SNAPSHOT.zip](https://github.com/satori-com/satori-composer/releases/download/v0.5.69-SNAPSHOT/satori-libs-gtfs.v0.5.69-SNAPSHOT.zip)<br/>
+[satori-libs-gtfs.v0.5.71-SNAPSHOT.zip](https://github.com/satori-com/satori-composer/releases/download/v0.5.71-SNAPSHOT/satori-libs-gtfs.v0.5.71-SNAPSHOT.zip)<br/>
 [or see latest releases](https://github.com/satori-com/satori-composer/releases/latest)
 
 ### Examples

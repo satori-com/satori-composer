@@ -53,6 +53,12 @@ public abstract class RtmChannelSubscriber extends RtmChannel implements IRtmSub
   }
   
   @Override
+  protected void leaveConnectedState(IRtmState<Void> state) {
+    subscriber = null;
+    super.leaveConnectedState(state);
+  }
+  
+  @Override
   public String channel() {
     return channel;
   }
