@@ -1,4 +1,4 @@
-[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-codegen.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-codegen/0.5.71-SNAPSHOT/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-codegen.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-codegen/0.5.72-SNAPSHOT/)
 
 ## 'codegen' gradle plugin 
 
@@ -13,7 +13,7 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
   }
   dependencies {
-    classpath "com.satori:satori-libs-gradle-codegen:0.5.71-SNAPSHOT"
+    classpath "com.satori:satori-libs-gradle-codegen:0.5.72-SNAPSHOT"
   }
 }
 apply plugin: "com.satori.codegen"
@@ -128,6 +128,6 @@ codeFormatter.camel(project.name)
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-gradle-codegen</artifactId>
-    <version>0.5.71-SNAPSHOT</version>
+    <version>0.5.72-SNAPSHOT</version>
 </dependency>
 ```
