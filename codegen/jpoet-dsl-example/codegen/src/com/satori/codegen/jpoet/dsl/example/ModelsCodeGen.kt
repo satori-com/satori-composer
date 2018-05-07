@@ -54,7 +54,7 @@ class ModelsCodeGen(val cfg: ModelsCodeGenConfig) {
     
     for ((tname, tdef) in schema.types()) {
       if (ignore.contains(tname)) continue
-      val className = "${cfg.classPrefix}${tname.pascal()}"
+      val className = "${cfg.classPrefix}${tname.pascalCase()}"
       val filePath = path(pckg, "$className.java")
       
       typeMap[tname] = ClassName.get(pckg, className)
@@ -84,7 +84,7 @@ class ModelsCodeGen(val cfg: ModelsCodeGenConfig) {
     
     val pckg = "${cfg.pckg}.apis"
     
-    val className = "I${cfg.classPrefix}${tdef.name.pascal()}Fetcher"
+    val className = "I${cfg.classPrefix}${tdef.name.pascalCase()}Fetcher"
     val filePath = path(pckg, "$className.java")
     
     FILE(filePath) {

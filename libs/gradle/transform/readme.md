@@ -1,4 +1,4 @@
-[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-transform.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-transform/0.5.72-SNAPSHOT/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-transform.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-transform/0.5.73-SNAPSHOT/)
 ## Gradle plugin 'com.satori.transform' 
 
 gradle task wrappers around groovy [GStringTemplateEngine](http://docs.groovy-lang.org/next/html/documentation/template-engines.html#_gstringtemplateengine)
@@ -12,7 +12,7 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
   }
   dependencies {
-    classpath "com.satori:satori-libs-gradle-docker:0.5.72-SNAPSHOT"
+    classpath "com.satori:satori-libs-gradle-docker:0.5.73-SNAPSHOT"
   }
 }
 apply plugin: "com.satori.docker"
@@ -59,6 +59,6 @@ task generateReadme {
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-gradle-transform</artifactId>
-    <version>0.5.72-SNAPSHOT</version>
+    <version>0.5.73-SNAPSHOT</version>
 </dependency>
 ```

@@ -5,9 +5,21 @@ import com.satori.codegen.utils.*
 class CodeFormatterExtensions {
   companion object {
     @JvmStatic
-    fun toCamel(self: String?) = self?.camel()
+    fun camelCase(self: String?) = self?.camelCase()
   
     @JvmStatic
-    fun toPascal(self: String?) = self?.pascal()
+    fun pascalCase(self: String?) = self?.pascalCase()
+  
+    @JvmStatic
+    fun snakeCase(self: String?) = self?.snakeCase()
+  
+    @JvmStatic
+    fun allCapsCase(self: String?) = self?.snakeCase(true)
+  
+    @JvmStatic
+    fun kebabCase(self: String?) = self?.kebabCase()
+  
+    @JvmStatic
+    fun dotsCase(self: String?) = self?.dotsCase()
   }
 }

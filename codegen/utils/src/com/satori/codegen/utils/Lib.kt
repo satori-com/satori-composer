@@ -13,7 +13,7 @@ val javaKeywords = hashSetOf(
   "const", "float", "native", "super", "while"
 )
 
-fun String.pascal(): String = let { str ->
+fun String.pascalCase(): String = let { str ->
   var capitalize = true
   val builder = StringBuilder()
   for (i in 0 until str.length) {
@@ -41,7 +41,7 @@ fun String.pascal(): String = let { str ->
   return builder.toString()
 }
 
-fun String.camel(): String = let { str ->
+fun String.camelCase(): String = let { str ->
   var capitalize = true
   val builder = StringBuilder()
   for (i in 0 until str.length) {
@@ -71,24 +71,36 @@ fun String.camel(): String = let { str ->
   return builder.toString()
 }
 
-fun String.underscore(uppercase: Boolean = false): String {
-  var underScoreNeeded = false
+fun String.snakeCase(uppercase: Boolean = false): String {
+  return sepCase("_", uppercase)
+}
+
+fun String.kebabCase(uppercase: Boolean = false): String {
+  return sepCase("-", uppercase)
+}
+
+fun String.dotsCase(uppercase: Boolean = false): String {
+  return sepCase(".", uppercase)
+}
+
+fun String.sepCase(sep: String, uppercase: Boolean = false): String {
+  var sepNeeded = false
   val builder = StringBuilder()
   forEach { ch ->
     when (Character.getType(ch).toByte()) {
       Character.DECIMAL_DIGIT_NUMBER -> {
         if (!builder.isEmpty()) {
-          if (underScoreNeeded) {
-            builder.append("_")
-            underScoreNeeded = false
+          if (sepNeeded) {
+            builder.append(sep)
+            sepNeeded = false
           }
           builder.append(ch)
         }
       }
       Character.LOWERCASE_LETTER -> {
-        if (underScoreNeeded) {
-          builder.append("_")
-          underScoreNeeded = false
+        if (sepNeeded) {
+          builder.append(sep)
+          sepNeeded = false
         }
         builder.append(
           if (uppercase) ch.toUpperCase() else ch
@@ -96,16 +108,16 @@ fun String.underscore(uppercase: Boolean = false): String {
       }
       Character.UPPERCASE_LETTER -> {
         if (!builder.isEmpty()) {
-          builder.append("_")
+          builder.append(sep)
         }
-        underScoreNeeded = false
+        sepNeeded = false
         builder.append(
           if (!uppercase) ch.toLowerCase() else ch
         )
       }
       else -> {
         if (!builder.isEmpty()) {
-          underScoreNeeded = true
+          sepNeeded = true
         }
       }
     }
