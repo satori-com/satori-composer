@@ -8,7 +8,7 @@ classes are generated based on [gtfs-realtime.proto](https://developers.google.c
 ```xml
 <dependency>
     <groupId>${project.group}</groupId>
-    <artifactId>satori-composer</artifactId>
+    <artifactId>satori-${project.name}</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```

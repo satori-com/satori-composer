@@ -24,7 +24,9 @@
 - [github](libs/gradle/github)
 - [codegen](libs/gradle/codegen)
 ### Other Common Libraries
-- [Gtfs Library For Real-Time](https://github.com/satori-com/satori-composer/tree/dev/libs/gtfs)
+- [Gtfs Library For Real-Time](libs/gtfs)
+- [GradlePlugin annotation processor](libs/gradle/plugin-processor)
+
 
 <% if(!project.version.endsWith("-SNAPSHOT")) {%>
 ### Maven (releases)
