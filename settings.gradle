@@ -78,6 +78,12 @@ project(':libs-gradle-docker').projectDir = file('libs/gradle/docker')
 include ':libs-gradle-codegen'
 project(':libs-gradle-codegen').projectDir = file('libs/gradle/codegen')
 
+include ':libs-gradle-plugin-annotations'
+project(':libs-gradle-plugin-annotations').projectDir = file('libs/gradle/plugin-annotations')
+
+include ':libs-gradle-plugin-processor'
+project(':libs-gradle-plugin-processor').projectDir = file('libs/gradle/plugin-processor')
+
 // examples
 
 include ':mods-examples-suite'

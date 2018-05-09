@@ -1,8 +1,10 @@
 package com.satori.libs.gradle.github
 
+import com.satori.libs.gradle.plugin.annotations.*
 import com.satori.libs.gradle.utils.*
 import org.gradle.api.*
 
+@GradlePlugin("com.satori.github")
 open class GitHubPlugin : Plugin<Project> {
   
   override fun apply(project: Project) {

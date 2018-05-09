@@ -1,0 +1,38 @@
+import org.jetbrains.kotlin.gradle.internal.*
+import javax.tools.*
+
+apply plugin: "kotlin-kapt"
+
+kapt {
+  generateStubs = true
+  correctErrorTypes = true
+}
+
+afterEvaluate {
+  tasks.withType(KaptTask)*.group("codegen")
+  tasks.withType(KaptGenerateStubsTask)*.group("codegen")
+}
+
+def autoServiceProcessor = "com.google.auto.service:auto-service:1.0-rc4"
+
+// main dependencies
+dependencies {
+  compile project(":codegen-utils")
+  compile project(":libs-gradle-plugin-annotations")
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
+  compile gradleApi()
+  compileOnly autoServiceProcessor
+}
+
+// test dependencies
+dependencies {
+  testCompile project(':libs-testlib')
+  testCompile "com.google.testing.compile:compile-testing:0.15"
+  compileOnly files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs())
+}
+
+// kapt dependencies
+dependencies {
+  kapt autoServiceProcessor
+}

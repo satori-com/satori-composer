@@ -1,6 +1,17 @@
 apply from: rootProject.file('metainfo.gradle')
 apply from: rootProject.file('readme.gradle')
 
+apply plugin: "kotlin-kapt"
+kapt {
+  generateStubs = true
+  correctErrorTypes = true
+}
+
+// kapt dependencies
+dependencies {
+  kapt project(":libs-gradle-plugin-processor")
+}
+
 task generateComposerPluginConvention(type: TransformTask){
   description "generate meta information class"
 

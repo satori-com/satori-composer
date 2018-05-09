@@ -1,6 +1,17 @@
 apply from: rootProject.file('metainfo.gradle')
 apply from: rootProject.file('readme.gradle')
 
+apply plugin: "kotlin-kapt"
+kapt {
+  generateStubs = true
+  correctErrorTypes = true
+}
+
+// kapt dependencies
+dependencies {
+  kapt project(":libs-gradle-plugin-processor")
+}
+
 // main dependencies
 dependencies {
   compile project(":composer")
@@ -18,6 +29,8 @@ dependencies {
   compile "org.codehaus.groovy:groovy-all:$groovyVersion"
 
   compile gradleApi()
+
+  compileOnly project(":libs-gradle-plugin-annotations")
 }
 
 // test dependencies

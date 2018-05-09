@@ -1,5 +1,12 @@
+apply plugin: "kotlin-kapt"
 apply from: rootProject.file('readme.gradle')
 //apply plugin: 'java-gradle-plugin'
+
+kapt {
+  generateStubs = true
+  correctErrorTypes = true
+}
+
 
 
 /*gradlePlugin {
@@ -24,6 +31,7 @@ apply from: rootProject.file('readme.gradle')
   }
 }*/
 
+
 // main dependencies
 dependencies {
   compile project(":libs-gradle-utils")
@@ -31,6 +39,8 @@ dependencies {
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
   compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
   compile gradleApi()
+
+  compileOnly project(":libs-gradle-plugin-annotations")
 }
 
 // test dependencies
@@ -39,4 +49,9 @@ dependencies {
   testCompile gradleTestKit()
   //testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
   //testRuntime files(createClasspathManifest)
+}
+
+// kapt dependencies
+dependencies {
+  kapt project(":libs-gradle-plugin-processor")
 }

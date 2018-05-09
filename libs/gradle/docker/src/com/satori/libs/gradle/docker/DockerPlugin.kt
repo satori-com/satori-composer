@@ -1,8 +1,10 @@
 package com.satori.libs.gradle.docker
 
+import com.satori.libs.gradle.plugin.annotations.*
 import com.satori.libs.gradle.utils.*
 import org.gradle.api.*
 
+@GradlePlugin("com.satori.docker")
 open class DockerPlugin() : Plugin<Project> {
   
   override fun apply(project: Project) {

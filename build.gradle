@@ -208,6 +208,8 @@ publishingProjects += [
   ":libs-gradle-github",
   ":libs-gradle-docker",
   ":libs-gradle-codegen",
+  ":libs-gradle-plugin-annotations",
+  ":libs-gradle-plugin-processor",
   ":codegen-utils",
   ":codegen-codemodel-dsl",
   ":codegen-mustache-builder",
