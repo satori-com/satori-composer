@@ -6,6 +6,7 @@ import com.satori.libs.async.kotlin.*
 import io.vertx.core.*
 import io.vertx.core.buffer.*
 import org.slf4j.*
+import kotlin.coroutines.experimental.*
 
 fun vertx(block: Vertx.() -> Unit): IAsyncFuture<Unit> {
   val future = AsyncFuture<Unit>()
@@ -38,3 +39,27 @@ fun <T> Vertx.future(block: suspend VxFutureScope.() -> T): IAsyncFuture<T> = fu
 fun <T> Vertx.future(log: Logger, block: suspend VxFutureScope.() -> T): IAsyncFuture<T> = future(
   VxFutureScope(this, log), block
 )
+
+inline fun <reified T> vxFuture(crossinline block: (VxAsyncHandler<T>) -> Unit): IAsyncFuture<T> {
+  val future = AsyncFuture<T>()
+  block(VxAsyncHandler { ar ->
+    if (!ar.succeeded()) {
+      future.fail(ar.cause())
+    } else {
+      future.succeed(ar.result())
+    }
+  })
+  return future
+}
+
+suspend inline fun <reified T> vxAwait(crossinline block: (VxAsyncHandler<T>) -> Unit): T {
+  return suspendCoroutine { cont ->
+    block(VxAsyncHandler { ar ->
+      if (!ar.succeeded()) {
+        cont.resumeWithException(ar.cause())
+      } else {
+        cont.resume(ar.result())
+      }
+    })
+  }
+}

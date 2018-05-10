@@ -23,15 +23,19 @@ class TemplateVisitor(val model: SchemaNode) : ITemplateVisitor {
     return ErrorTemplateVisitor
   }
   
-  override fun opIf(path: String): ITemplateVisitor {
-    model.declareChildBoolean(path)
+  override fun opIf(varName: String): ITemplateVisitor {
+    if(varName != "last"){
+      model.declareChildBoolean(varName)
+    }
     return new(model).also { v ->
-      ops.add(OpNode.If(path, v.ops))
+      ops.add(OpNode.If(varName, v.ops))
     }
   }
   
   override fun opIfNot(varName: String): ITemplateVisitor {
-    model.declareChildBoolean(varName)
+    if(varName != "last"){
+      model.declareChildBoolean(varName)
+    }
     return new(model).also { v ->
       ops.add(OpNode.IfNot(varName, v.ops))
     }

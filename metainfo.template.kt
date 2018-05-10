@@ -3,10 +3,11 @@
 package ${project.pckg}
 
 object ${model.className} {
-  val version = "${project.version}"
-  val project = "${project.archivesBaseName}"
-  val group = "${project.group}"
-  val pckg = "${project.pckg}"
+  const val version = "${project.version}"
+  const val project = "${project.archivesBaseName}"
+  const val group = "${project.group}"
+  const val pckg = "${project.pckg}"
+  const val alias = "${codeFormatter.packageName(project.projectDir.name)}"
   <% if(model.sha != null) { %>
   val sha:String? = "${model.sha}"
   <% } else { %>

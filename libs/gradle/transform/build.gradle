@@ -1,12 +1,17 @@
-apply plugin: "kotlin-kapt"
+import org.jetbrains.kotlin.gradle.internal.*
 apply from: rootProject.file('readme.gradle')
+apply from: rootProject.file('metainfo.gradle')
+apply plugin: "kotlin-kapt"
 //apply plugin: 'java-gradle-plugin'
 
 kapt {
   generateStubs = true
   correctErrorTypes = true
 }
-
+afterEvaluate {
+  tasks.withType(KaptTask)*.group("codegen")
+  tasks.withType(KaptGenerateStubsTask)*.group("codegen")
+}
 
 
 /*gradlePlugin {

@@ -33,7 +33,7 @@ class CodeGenPluginTests : Assert() {
     )
   
     assertSame(
-      project.convention.getPlugin("codegen"),
+      project.convention.getPlugin(CodeGenPlugin.name),
       project.convention.getPlugin<CodeGenPluginConvention>()
     )
     

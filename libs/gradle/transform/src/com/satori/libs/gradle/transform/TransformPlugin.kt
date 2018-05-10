@@ -9,7 +9,8 @@ open class TransformPlugin : Plugin<Project> {
     val conv = TransformPluginConvention(project)
     project.convention.plugins[name] = conv
   }
+  
   companion object {
-    const val name = "com.satori.transform"
+    const val name = "${MetaInfo.group}.${MetaInfo.alias}"
   }
 }
