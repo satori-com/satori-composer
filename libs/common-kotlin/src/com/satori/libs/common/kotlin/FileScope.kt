@@ -7,7 +7,7 @@ class FileScope(val path: Path) {
   
   inline fun<reified T> write(block: (OutputStream) -> T):T {
     val options = arrayOf<OpenOption>(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
-    path.parent.toFile().mkdirs()
+    path.parent?.toFile()?.mkdirs()
     Files.newOutputStream(path, *options).use {
       return block(it)
     }
