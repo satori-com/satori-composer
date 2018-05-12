@@ -58,7 +58,7 @@ class SchemaNode : BaseSchemaNode {
   }
   
   fun declareChild(name: String, type: Type): SchemaNode {
-    if (name.isEmpty() || !name.all { it.isLetterOrDigit() }) {
+    if (name.isEmpty() || !name.all { it.isLetterOrDigit() || it == '-' || it == '_' }) {
       throw Exception("invalid name: '$name'")
     }
     if (this.type == Type.BOOLEAN || this.type == Type.PARTIAL) {

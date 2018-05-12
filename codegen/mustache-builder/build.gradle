@@ -10,6 +10,7 @@ dependencies {
 // test dependencies
 dependencies {
   testCompile project(':libs-testlib')
+  testCompile "com.github.javaparser:javaparser-core:$javaparserVersion"
   testCompile "ch.qos.logback:logback-classic:$logbackVersion"
   testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
 }

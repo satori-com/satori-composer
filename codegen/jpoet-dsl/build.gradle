@@ -3,8 +3,8 @@ dependencies {
   compile project(":codegen-utils")
   compile project(":libs-common-kotlin")
 
-  compile 'com.squareup:javapoet:1.9.+'
-  compile 'com.github.javaparser:javaparser-core:3.5.+'
+  compile "com.squareup:javapoet:1.9.+"
+  compile "com.github.javaparser:javaparser-core:$javaparserVersion"
 }
 
 // test dependencies

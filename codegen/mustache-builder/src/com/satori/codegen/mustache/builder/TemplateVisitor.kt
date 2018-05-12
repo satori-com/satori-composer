@@ -1,6 +1,7 @@
 package com.satori.codegen.mustache.builder
 
 import com.github.mustachejava.*
+import com.satori.codegen.utils.*
 
 class TemplateVisitor(val model: SchemaNode) : ITemplateVisitor {
   
@@ -15,7 +16,7 @@ class TemplateVisitor(val model: SchemaNode) : ITemplateVisitor {
   }
   
   override fun opVarValue(varName: String): ITemplateVisitor {
-    ops.add(OpNode.WriteVarValue(varName))
+    ops.add(OpNode.WriteVarValue(CodeFormatter.varName(varName)))
     
     if (varName == "this") return ErrorTemplateVisitor
     
@@ -28,7 +29,7 @@ class TemplateVisitor(val model: SchemaNode) : ITemplateVisitor {
       model.declareChildBoolean(varName)
     }
     return new(model).also { v ->
-      ops.add(OpNode.If(varName, v.ops))
+      ops.add(OpNode.If(CodeFormatter.varName(varName), v.ops))
     }
   }
   
@@ -37,39 +38,39 @@ class TemplateVisitor(val model: SchemaNode) : ITemplateVisitor {
       model.declareChildBoolean(varName)
     }
     return new(model).also { v ->
-      ops.add(OpNode.IfNot(varName, v.ops))
+      ops.add(OpNode.IfNot(CodeFormatter.varName(varName), v.ops))
     }
   }
   
   override fun opIfEmpty(varName: String): ITemplateVisitor {
     model.declareChildArray(varName)
     return new(model).also { v ->
-      ops.add(OpNode.IfEmpty(varName, v.ops))
+      ops.add(OpNode.IfEmpty(CodeFormatter.varName(varName), v.ops))
     }
   }
   
   override fun opIfNull(varName: String): ITemplateVisitor {
     model.declareChildObject(varName)
     return new(model).also { v ->
-      ops.add(OpNode.IfNull(varName, v.ops))
+      ops.add(OpNode.IfNull(CodeFormatter.varName(varName), v.ops))
     }
   }
   
   override fun opIfNotNull(varName: String): ITemplateVisitor {
     return new(model.declareChildObject(varName)).also { v ->
-      ops.add(OpNode.IfNotNull(varName, v.ops))
+      ops.add(OpNode.IfNotNull(CodeFormatter.varName(varName), v.ops))
     }
   }
   
   override fun opFor(varName: String): ITemplateVisitor {
     return new(model.declareChildArray(varName)).also { v ->
-      ops.add(OpNode.For(varName, v.ops))
+      ops.add(OpNode.For(CodeFormatter.varName(varName), v.ops))
     }
   }
   
   override fun opPartial(varName: String): ITemplateVisitor? {
     model.declareChildPartial(varName)
-    ops.add(OpNode.Partial(varName))
+    ops.add(OpNode.Partial(CodeFormatter.varName(varName)))
     return ErrorTemplateVisitor
   }
   
