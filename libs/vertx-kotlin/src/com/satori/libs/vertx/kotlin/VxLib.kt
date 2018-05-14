@@ -4,9 +4,11 @@ import com.satori.libs.async.api.*
 import com.satori.libs.async.core.*
 import com.satori.libs.async.kotlin.*
 import io.vertx.core.*
-import io.vertx.core.buffer.*
 import org.slf4j.*
 import kotlin.coroutines.experimental.*
+
+fun VxBuffer.inputStream() = VxBufferInputStream(this)
+fun VxBuffer.outputStream() = VxBufferOutputStream(this)
 
 fun vertx(block: Vertx.() -> Unit): IAsyncFuture<Unit> {
   val future = AsyncFuture<Unit>()

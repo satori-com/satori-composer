@@ -1,4 +1,4 @@
-[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-plugin-processor.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-plugin-processor/0.5.79-SNAPSHOT/)
+[![Maven](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.satori/satori-libs-gradle-plugin-processor.svg)](https://oss.sonatype.org/content/repositories/snapshots/com/satori/satori-libs-gradle-plugin-processor/0.5.80-SNAPSHOT/)
 ## GradlePlugin annotation processor 
 
 generates `META-INF/gradle-plugins/<pulgin-name>.properties` files for classes annotated with `GradlePlugin`  
@@ -35,8 +35,8 @@ kapt {
 }
 
 dependencies {
-  compileOnly "com.satori:satori-libs-gradle-plugin-annotations:0.5.79-SNAPSHOT"
-  kapt "com.satori:satori-libs-gradle-plugin-processor:0.5.79-SNAPSHOT"
+  compileOnly "com.satori:satori-libs-gradle-plugin-annotations:0.5.80-SNAPSHOT"
+  kapt "com.satori:satori-libs-gradle-plugin-processor:0.5.80-SNAPSHOT"
 }
 ```
 
@@ -51,6 +51,6 @@ dependencies {
 <dependency>
     <groupId>com.satori</groupId>
     <artifactId>satori-libs-gradle-plugin-processor</artifactId>
-    <version>0.5.79-SNAPSHOT</version>
+    <version>0.5.80-SNAPSHOT</version>
 </dependency>
 ```
