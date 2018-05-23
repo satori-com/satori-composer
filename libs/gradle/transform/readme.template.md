@@ -12,10 +12,10 @@ buildscript{
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
   }
   dependencies {
-    classpath "com.satori:satori-libs-gradle-docker:${project.version}"
+    classpath "com.satori:satori-libs-gradle-transform:${project.version}"
   }
 }
-apply plugin: "com.satori.docker"
+apply plugin: "com.satori.transform"
 ```
 
 #### TransformTask example
