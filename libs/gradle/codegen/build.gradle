@@ -32,6 +32,7 @@ dependencies {
   compile gradleApi()
 
   compileOnly project(":libs-gradle-plugin-annotations")
+  runtime project(":libs-gradle-plugin-annotations")
 }
 
 // test dependencies
