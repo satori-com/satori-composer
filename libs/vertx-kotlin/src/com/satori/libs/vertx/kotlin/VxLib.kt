@@ -10,14 +10,10 @@ import kotlin.coroutines.experimental.*
 fun VxBuffer.inputStream() = VxBufferInputStream(this)
 fun VxBuffer.outputStream() = VxBufferOutputStream(this)
 
-fun vertx(block: Vertx.() -> Unit): IAsyncFuture<Unit> {
+fun vertx(opts: VertxOptions, block: Vertx.() -> Unit): IAsyncFuture<Unit> {
   val future = AsyncFuture<Unit>()
   
-  val vxOpts = VertxOptions().apply {
-    eventLoopPoolSize = 1
-  }
-  
-  val vertx = Vertx.vertx(vxOpts)
+  val vertx = Vertx.vertx(opts)
   val log = LoggerFactory.getLogger("vertx")
   
   vertx.exceptionHandler { exception ->
@@ -32,6 +28,13 @@ fun vertx(block: Vertx.() -> Unit): IAsyncFuture<Unit> {
   }
   
   return future
+}
+
+fun vertx(block: Vertx.() -> Unit): IAsyncFuture<Unit> {
+  val opts = VertxOptions().apply {
+    eventLoopPoolSize = 1
+  }
+  return vertx(opts, block)
 }
 
 fun <T> Vertx.future(block: suspend VxFutureScope.() -> T): IAsyncFuture<T> = future(
